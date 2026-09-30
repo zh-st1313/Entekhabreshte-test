@@ -1,0 +1,5 @@
+nasa	size=339x800	groups=[[32, 52], [66, 77], [232, 247], [263, 272]]
+ramila	size=369x800	groups=[[156, 351]]
+elina	size=330x800	groups=[[35, 54], [67, 77], [224, 263]]
+bardia	size=362x800	groups=[[43, 61], [71, 87], [240, 276]]
+mohammadreza	size=351x800	groups=[[38, 57], [71, 82], [237, 254], [269, 278]]
