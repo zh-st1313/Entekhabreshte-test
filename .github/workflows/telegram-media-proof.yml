@@ -11,71 +11,61 @@ permissions:
   contents: write
 
 jobs:
-  ocrdigits:
+  easyocr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-      - name: Install OCR
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-fas
-          python -m pip install --disable-pip-version-check pillow
-      - name: OCR isolated four-digit ranks
+      - name: Install EasyOCR
+        run: python -m pip install --disable-pip-version-check easyocr
+      - name: Read rank rows with Persian EasyOCR
         run: |
           python - <<'PY'
-          from PIL import Image, ImageOps, ImageFilter
-          import os, subprocess, re
+          import easyocr, os, json
+          from PIL import Image
           base="scratch/telegram-1404-batch2"
-          # source path, national x range, quota x range, actual y range, known quota rank
           specs={
-            "nasa":("46452/46449.jpg",(63,81),(258,276),(772,786),"1294"),
-            "ramila":("47151/47148.jpg",(69,91),(280,297),(783,796),"2001"),
-            "elina":("46180/46179.jpg",(63,81),(252,267),(749,761),"1058"),
-            "bardia":("46383/46383.jpg",(68,91),(262,280),(760,786),"1004"),
-            "mohammadreza":("47170/47169.jpg",(68,86),(266,282),(775,789),"1750"),
+            "nasa":("46452/46449.jpg","1294"),
+            "ramila":("47151/47148.jpg","2001"),
+            "elina":("46180/46179.jpg","1058"),
+            "bardia":("46383/46383.jpg","1004"),
+            "mohammadreza":("47170/47169.jpg","1750"),
           }
-          out="scratch/telegram-1404-rank-ocr-final"
+          out="scratch/telegram-1404-easyocr"
           os.makedirs(out,exist_ok=True)
+          reader=easyocr.Reader(['fa','en'],gpu=False,verbose=False)
           rows=[]
-          for name,(p,nx,qx,yr,known) in specs.items():
+          for name,(p,known) in specs.items():
               im=Image.open(os.path.join(base,p)).convert("RGB")
-              for kind,(xa,xb) in [("national",nx),("quota",qx)]:
-                  raw=im.crop((xa,yr[0],xb,yr[1]))
-                  # build red-ink binary mask
-                  mask=Image.new("L",raw.size,255)
-                  for y in range(raw.height):
-                      for x in range(raw.width):
-                          r,g,b=raw.getpixel((x,y))
-                          score=(r-g)+(r-b)
-                          if r>85 and score>18:
-                              mask.putpixel((x,y),0)
-                  # add white padding and scale nearest-neighbor
-                  pad=Image.new("L",(mask.width+12,mask.height+12),255)
-                  pad.paste(mask,(6,6))
-                  up=pad.resize((pad.width*30,pad.height*30),Image.Resampling.NEAREST)
-                  # slight close/thicken
-                  up=up.filter(ImageFilter.MinFilter(3))
-                  fn=os.path.join(out,f"{name}-{kind}.png")
-                  up.save(fn)
-                  outs=[]
-                  for lang in ["fas","fas+eng"]:
-                    for psm in [7,8,13]:
-                      cmd=["tesseract",fn,"stdout","-l",lang,"--psm",str(psm),
-                           "-c","tessedit_char_whitelist=0123456789۰۱۲۳۴۵۶۷۸۹"]
-                      rr=subprocess.run(cmd,capture_output=True,text=True)
-                      val=re.sub(r"[^0-9۰-۹]","",rr.stdout)
-                      outs.append(f"{lang}/p{psm}:{val}")
-                  rows.append(f"{name}\t{kind}\tknown={known if kind=='quota' else '-'}\t"+"\t".join(outs))
-          open(os.path.join(out,"results.tsv"),"w",encoding="utf-8").write("\n".join(rows)+"\n")
-          print("\n".join(rows))
+              w,h=im.size
+              # bottom 15%, where both national and quota ranks live
+              c=im.crop((0,int(h*.84),w,h))
+              fn=os.path.join(out,f"{name}-bottom.png")
+              c.save(fn)
+              for scale in [1,3,6]:
+                  if scale==1:
+                      use=fn
+                  else:
+                      q=c.resize((c.width*scale,c.height*scale),Image.Resampling.LANCZOS)
+                      use=os.path.join(out,f"{name}-bottom-x{scale}.png")
+                      q.save(use)
+                  res=reader.readtext(use,detail=1,paragraph=False,
+                                      allowlist="0123456789۰۱۲۳۴۵۶۷۸۹")
+                  rows.append({
+                    "name":name,"known_quota":known,"scale":scale,
+                    "results":[{"box":x[0],"text":x[1],"conf":x[2]} for x in res]
+                  })
+          with open(os.path.join(out,"results.json"),"w",encoding="utf-8") as f:
+              json.dump(rows,f,ensure_ascii=False,indent=2)
+          for r in rows:
+              print(r["name"],r["scale"],[(x["text"],round(x["conf"],3)) for x in r["results"]])
           PY
-      - name: Commit OCR results
+      - name: Commit OCR audit only
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-rank-ocr-final
+          git add scratch/telegram-1404-easyocr/results.json
           git diff --cached --quiet && exit 0
-          git commit -m "extract: verify isolated 1404 rank digits"
+          git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
