@@ -18,55 +18,78 @@ jobs:
         with:
           ref: extract-sibtorsh-results
 
-      - name: Fetch 1404 Telegram albums
+      - name: Fetch 1404 Telegram albums robustly
         run: |
           python - <<'PY'
-          import os, re, urllib.request, html
+          import os,re,urllib.request,html
           headers={"User-Agent":"Mozilla/5.0"}
-          targets=[46452,48675,47151,52111,46180,52110,46383,52089,47170,52076]
-          out="scratch/telegram-1404-batch1"
+          targets=[46452,47151,46180,46383,47170,48675,52111,52110,52089,52076]
+          out="scratch/telegram-1404-batch2"
           os.makedirs(out,exist_ok=True)
           rows=[]
 
           for target in targets:
-              url=f"https://t.me/s/SiiibTorsh?before={target+1}"
-              with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r:
-                  body=r.read().decode("utf-8","replace")
+              bodies=[]
+              for url in [
+                  f"https://t.me/s/SiiibTorsh?before={target+2}",
+                  f"https://t.me/s/SiiibTorsh?after={target-2}",
+              ]:
+                  try:
+                      with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r:
+                          bodies.append(r.read().decode("utf-8","replace"))
+                  except Exception as e:
+                      rows.append(f"{target}\tPAGE_ERROR\t{type(e).__name__}")
+              body="\n".join(bodies)
 
-              # Locate the outer Telegram message block whose data-post id is the target caption id.
-              marker=f'data-post="SiiibTorsh/{target}"'
-              i=body.find(marker)
-              if i < 0:
-                  # Alias used by Telegram media links/channel history.
-                  marker=f'data-post="siiibtorsh_official/{target}"'
-                  i=body.lower().find(marker.lower())
-              if i < 0:
-                  rows.append(f"{target}\tBLOCK_NOT_FOUND")
+              # Locate target either as grouped-media href or as data-post.
+              needles=[
+                  f"/{target}?single",
+                  f'data-post="SiiibTorsh/{target}"',
+                  f'data-post="siiibtorsh_official/{target}"'
+              ]
+              positions=[body.lower().find(n.lower()) for n in needles]
+              positions=[p for p in positions if p>=0]
+              if not positions:
+                  rows.append(f"{target}\tTARGET_NOT_FOUND")
                   continue
+              i=min(positions)
 
-              # Expand around marker to one message wrapper.
+              # The whole album lives inside nearest message_wrap.
               start=body.rfind('<div class="tgme_widget_message_wrap',0,i)
-              if start < 0: start=max(0,i-20000)
+              if start<0: start=max(0,i-30000)
               nxt=body.find('<div class="tgme_widget_message_wrap',i+1)
-              end=nxt if nxt>=0 else min(len(body),i+120000)
+              end=nxt if nxt>=0 else min(len(body),i+150000)
               chunk=body[start:end]
 
-              # Extract photo anchors from this one grouped message.
-              pat=re.compile(r'<a[^>]+background-image:url\(\'(https?://[^\']+)\'\)[^>]+href="https://t\.me/[^/]+/(\d+)\?single"[^>]*>',re.I)
-              found=pat.findall(chunk)
-              if not found:
-                  rows.append(f"{target}\tNO_PHOTOS")
-                  continue
+              td=os.path.join(out,str(target)); os.makedirs(td,exist_ok=True)
+              # Save diagnostic text snippet for this target.
+              open(os.path.join(td,"snippet.html.txt"),"w",encoding="utf-8").write(chunk)
 
-              td=os.path.join(out,str(target))
-              os.makedirs(td,exist_ok=True)
-              for media_url,mid in found:
-                  media_url=html.unescape(media_url)
+              # Every Telegram photo preview in this album.
+              pat=re.compile(r'background-image:url\(\'(https?://[^\']+?\.(?:jpg|jpeg|png|webp)(?:\?[^\']*)?)\'\)',re.I)
+              urls=[]
+              for u in pat.findall(chunk):
+                  u=html.unescape(u)
+                  if "telegram.org/img/emoji" in u: continue
+                  if u not in urls: urls.append(u)
+
+              # Preserve media message ids when possible.
+              anchor_pat=re.compile(r'background-image:url\(\'(https?://[^\']+)\'\)[^>]*href="https://t\.me/[^/]+/(\d+)\?single"',re.I)
+              url_to_mid={html.unescape(u):mid for u,mid in anchor_pat.findall(chunk)}
+
+              if not urls:
+                  rows.append(f"{target}\tNO_IMAGES_IN_BLOCK")
+                  continue
+              for idx,u in enumerate(urls,1):
+                  mid=url_to_mid.get(u,str(idx))
                   path=os.path.join(td,f"{mid}.jpg")
-                  with urllib.request.urlopen(urllib.request.Request(media_url,headers=headers),timeout=30) as r:
-                      data=r.read()
-                  open(path,"wb").write(data)
-                  rows.append(f"{target}\t{mid}\t{len(data)}\t{media_url}")
+                  try:
+                      with urllib.request.urlopen(urllib.request.Request(u,headers=headers),timeout=30) as r:
+                          data=r.read()
+                      open(path,"wb").write(data)
+                      rows.append(f"{target}\t{mid}\t{len(data)}\t{u}")
+                  except Exception as e:
+                      rows.append(f"{target}\tDOWNLOAD_ERROR\t{type(e).__name__}\t{u}")
 
           open(os.path.join(out,"manifest.tsv"),"w",encoding="utf-8").write("\n".join(rows)+"\n")
           print("\n".join(rows))
@@ -76,7 +99,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-batch1
+          git add scratch/telegram-1404-batch2
           git diff --cached --quiet && exit 0
-          git commit -m "extract: fetch 1404 Telegram sample albums"
+          git commit -m "extract: fetch robust 1404 Telegram albums"
           git push origin HEAD:extract-sibtorsh-results
