@@ -1,0 +1,95 @@
+name: Telegram media proof
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/telegram-media-proof.yml
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - name: Fetch public Telegram post media
+        run: |
+          python - <<'PY'
+          import html, os, re, urllib.request
+
+          channel = "SiiibTorsh"
+          target_ids = {46450, 46451, 46452}
+          pages = [
+              "https://t.me/s/SiiibTorsh?before=46453",
+              "https://t.me/s/SiiibTorsh?after=46448",
+          ]
+
+          ua = {"User-Agent": "Mozilla/5.0"}
+          bodies = []
+          for url in pages:
+              req = urllib.request.Request(url, headers=ua)
+              with urllib.request.urlopen(req, timeout=30) as r:
+                  bodies.append(r.read().decode("utf-8", "replace"))
+
+          body = "\n".join(bodies)
+          out = "scratch/telegram-media-test"
+          os.makedirs(out, exist_ok=True)
+
+          # Split Telegram preview HTML by message wrappers and keep only target message IDs.
+          chunks = re.split(r'(?=<div class="tgme_widget_message[^"]*"[^>]*data-post=")', body)
+          found = []
+          for chunk in chunks:
+              m = re.search(r'data-post="SiiibTorsh/(\d+)"', chunk, re.I)
+              if not m:
+                  continue
+              mid = int(m.group(1))
+              if mid not in target_ids:
+                  continue
+
+              urls = []
+              # Telegram photo previews are normally stored in background-image:url(...)
+              for u in re.findall(r'background-image:url\(&#39;(https?://[^&]+)&#39;\)', chunk):
+                  urls.append(html.unescape(u))
+              for u in re.findall(r'background-image:url\([\'"]?(https?://[^\'")]+)', chunk):
+                  urls.append(html.unescape(u))
+              # De-duplicate while preserving order.
+              dedup = []
+              for u in urls:
+                  if u not in dedup:
+                      dedup.append(u)
+
+              for i, u in enumerate(dedup, 1):
+                  ext = ".jpg"
+                  path = os.path.join(out, f"{mid}_{i}{ext}")
+                  req = urllib.request.Request(u, headers=ua)
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          data = r.read()
+                      if len(data) > 1000:
+                          open(path, "wb").write(data)
+                          found.append((mid, path, len(data), u))
+                  except Exception as e:
+                      found.append((mid, "ERROR", 0, f"{u} :: {e}"))
+
+          with open(os.path.join(out, "manifest.txt"), "w", encoding="utf-8") as f:
+              for row in found:
+                  f.write("\t".join(map(str,row))+"\n")
+              if not found:
+                  f.write("NO_MEDIA_FOUND\n")
+          print(open(os.path.join(out, "manifest.txt"), encoding="utf-8").read())
+          PY
+
+      - name: Commit proof files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/telegram-media-test
+          git diff --cached --quiet && exit 0
+          git commit -m "test: fetch Telegram media for proof"
+          git push origin HEAD:extract-sibtorsh-results
