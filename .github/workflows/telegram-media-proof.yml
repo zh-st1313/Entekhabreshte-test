@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
       - name: Crop and upscale rank/admission fields
         run: |
           python - <<'PY'
