@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  single:
+  digits:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,59 +19,70 @@ jobs:
           ref: extract-sibtorsh-results
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Probe Telegram single-photo pages
+      - name: Extract bottom rank digits only
         run: |
           python - <<'PY'
-          import os,re,html,urllib.request,io
-          from PIL import Image
-          headers={"User-Agent":"Mozilla/5.0"}
-          mids=[46449,47148,46179,46383,47169]
-          out="scratch/telegram-1404-single-probe"
+          from PIL import Image, ImageEnhance, ImageOps
+          import os
+          base="scratch/telegram-1404-batch2"
+          specs={
+            "nasa":"46452/46449.jpg",
+            "ramila":"47151/47148.jpg",
+            "elina":"46180/46179.jpg",
+            "bardia":"46383/46383.jpg",
+            "mohammadreza":"47170/47169.jpg",
+          }
+          out="scratch/telegram-1404-bottom-digits"
           os.makedirs(out,exist_ok=True)
           lines=[]
-          for mid in mids:
-              urls_pages=[
-                f"https://t.me/siiibtorsh_official/{mid}?single",
-                f"https://t.me/SiiibTorsh/{mid}?single",
-                f"https://t.me/s/SiiibTorsh?before={mid+1}",
-              ]
-              seen=set()
-              for pi,page in enumerate(urls_pages):
-                  try:
-                      with urllib.request.urlopen(urllib.request.Request(page,headers=headers),timeout=30) as r:
-                          body=r.read().decode("utf-8","replace")
-                  except Exception as e:
-                      lines.append(f"{mid}\tpage{pi}\tERR\t{e}")
-                      continue
-                  candidates=re.findall(r'https?://[^"\'<> )]+(?:\.jpg|\.jpeg|\.png|\.webp)[^"\'<> )]*',html.unescape(body),re.I)
-                  for u in candidates:
-                      if u in seen: continue
-                      seen.add(u)
-                      try:
-                          with urllib.request.urlopen(urllib.request.Request(u,headers=headers),timeout=30) as r:
-                              data=r.read()
-                          try:
-                              im=Image.open(io.BytesIO(data))
-                              w,h=im.size
-                          except Exception:
-                              continue
-                          lines.append(f"{mid}\tpage{pi}\t{w}x{h}\t{len(data)}\t{u}")
-                          # Save largest plausible content images, not icons.
-                          if w>=300 and h>=300:
-                              fn=os.path.join(out,f"{mid}-p{pi}-{w}x{h}-{len(data)}.jpg")
-                              try:
-                                  Image.open(io.BytesIO(data)).convert("RGB").save(fn,quality=98)
-                              except: pass
-                      except Exception as e:
-                          pass
-          open(os.path.join(out,"manifest.tsv"),"w",encoding="utf-8").write("\n".join(lines)+"\n")
+          for name,p in specs.items():
+              im=Image.open(os.path.join(base,p)).convert("RGB")
+              w,h=im.size
+              y0=int(h*.925); y1=int(h*.995)
+              c=im.crop((0,y0,w,y1))
+              reds=[]
+              for y in range(c.height):
+                  for x in range(c.width):
+                      r,g,b=c.getpixel((x,y))
+                      if r>105 and r-g>15 and r-b>5:
+                          reds.append((x,y))
+              active=[0]*w
+              for x,y in reds: active[x]+=1
+              raw=[]; s=None
+              for x,v in enumerate([a>0 for a in active]+[False]):
+                  if v and s is None:s=x
+                  if not v and s is not None:
+                      if x-s>=1:raw.append([s,x-1])
+                      s=None
+              # Merge gaps <= 5 source pixels: same number; larger gaps separate rank from population.
+              merged=[]
+              for a,b in raw:
+                  if not merged or a-merged[-1][1]-1>5:
+                      merged.append([a,b])
+                  else: merged[-1][1]=b
+              groups=[]
+              for a,b in merged:
+                  pts=[(x,y) for x,y in reds if a<=x<=b]
+                  if len(pts)<5: continue
+                  ya=min(y for x,y in pts); yb=max(y for x,y in pts)
+                  groups.append([a,b,ya,yb,len(pts)])
+                  q=c.crop((max(0,a-3),max(0,ya-3),min(w,b+4),min(c.height,yb+4)))
+                  q=q.resize((q.width*40,q.height*40),Image.Resampling.NEAREST)
+                  q.save(os.path.join(out,f"{name}-{len(groups)-1:02d}-x{a}-{b}.png"))
+              # Also save full bottom strip upscale for human reading.
+              up=c.resize((c.width*8,c.height*8),Image.Resampling.LANCZOS)
+              up=ImageOps.autocontrast(up)
+              up=ImageEnhance.Sharpness(up).enhance(2)
+              up.save(os.path.join(out,f"{name}-strip.png"))
+              lines.append(f"{name}\t{groups}")
+          open(os.path.join(out,"manifest.txt"),"w",encoding="utf-8").write("\n".join(lines)+"\n")
           print("\n".join(lines))
           PY
-      - name: Commit probes
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-single-probe
+          git add scratch/telegram-1404-bottom-digits
           git diff --cached --quiet && exit 0
-          git commit -m "extract: probe full-size Telegram single photos"
+          git commit -m "extract: isolate bottom rank digits"
           git push origin HEAD:extract-sibtorsh-results
