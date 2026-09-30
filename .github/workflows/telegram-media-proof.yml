@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  crop:
+  isolate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +19,10 @@ jobs:
           ref: extract-sibtorsh-results
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Make rank-number macro crops
+      - name: Extract red numeric clusters
         run: |
           python - <<'PY'
-          from PIL import Image, ImageEnhance, ImageOps, ImageFilter
+          from PIL import Image, ImageEnhance, ImageOps
           import os
           base="scratch/telegram-1404-batch2"
           specs={
@@ -32,27 +32,56 @@ jobs:
             "bardia":"46383/46383.jpg",
             "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-rank-macro"
+          out="scratch/telegram-1404-red-clusters"
           os.makedirs(out,exist_ok=True)
+          manifest=[]
           for name,p in specs.items():
               im=Image.open(os.path.join(base,p)).convert("RGB")
               w,h=im.size
-              # Bottom rank-result band. Preserve all cells but make it huge.
-              band=im.crop((0,int(h*0.84),w,int(h*0.985)))
-              band=band.resize((band.width*16,band.height*16),Image.Resampling.LANCZOS)
-              band=ImageOps.autocontrast(band)
-              band=ImageEnhance.Sharpness(band).enhance(2.4)
-              band.save(os.path.join(out,f"{name}-band.png"))
-              bw,bh=band.size
-              # National-rank cell is on the left side; quota-rank cell on right side.
-              band.crop((0,0,int(bw*0.48),bh)).save(os.path.join(out,f"{name}-national-cell.png"))
-              band.crop((int(bw*0.52),0,bw,bh)).save(os.path.join(out,f"{name}-quota-cell.png"))
+              y0=int(h*0.84); y1=int(h*0.985)
+              crop=im.crop((0,y0,w,y1))
+              # horizontal projection of reddish pixels
+              active=[]
+              for x in range(w):
+                  cnt=0
+                  for y in range(crop.height):
+                      r,g,b=crop.getpixel((x,y))
+                      if r>100 and r-g>18 and r-b>8:
+                          cnt+=1
+                  active.append(cnt>=1)
+              runs=[]
+              s=None
+              for x,v in enumerate(active+[False]):
+                  if v and s is None: s=x
+                  if not v and s is not None:
+                      if x-s>=2: runs.append([s,x-1])
+                      s=None
+              # Merge nearby digit runs into numeric/text groups (small Persian digit gaps).
+              merged=[]
+              for a,b in runs:
+                  if not merged or a-merged[-1][1] > 7:
+                      merged.append([a,b])
+                  else:
+                      merged[-1][1]=b
+              # Only useful groups wider than a few pixels.
+              groups=[g for g in merged if g[1]-g[0]+1>=5]
+              manifest.append(f"{name}\tsize={w}x{h}\tgroups={groups}")
+              for idx,(a,b) in enumerate(groups):
+                  pad=4
+                  box=(max(0,a-pad),0,min(w,b+pad+1),crop.height)
+                  c=crop.crop(box)
+                  c=c.resize((c.width*24,c.height*24),Image.Resampling.LANCZOS)
+                  c=ImageOps.autocontrast(c)
+                  c=ImageEnhance.Sharpness(c).enhance(2.0)
+                  c.save(os.path.join(out,f"{name}-{idx:02d}-x{a}-{b}.png"))
+          open(os.path.join(out,"manifest.txt"),"w",encoding="utf-8").write("\n".join(manifest)+"\n")
+          print("\n".join(manifest))
           PY
-      - name: Commit macros
+      - name: Commit clusters
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-rank-macro
+          git add scratch/telegram-1404-red-clusters
           git diff --cached --quiet && exit 0
-          git commit -m "extract: add macro crops for national-rank reading"
+          git commit -m "extract: isolate red rank-number clusters"
           git push origin HEAD:extract-sibtorsh-results
