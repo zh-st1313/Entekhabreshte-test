@@ -11,19 +11,22 @@ permissions:
   contents: write
 
 jobs:
-  isolate:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-      - name: Install Pillow
-        run: python -m pip install --disable-pip-version-check pillow
-      - name: Isolate red rank figures
+      - name: Install Persian OCR once
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-fas
+          python -m pip install --disable-pip-version-check pillow
+      - name: OCR rank summary only
         run: |
           python - <<'PY'
-          from PIL import Image, ImageOps
-          import os
+          from PIL import Image, ImageEnhance, ImageOps
+          import os, subprocess
           base="scratch/telegram-1404-batch2"
           specs={
             "nasa":"46452/46449.jpg",
@@ -32,34 +35,28 @@ jobs:
             "bardia":"46383/46383.jpg",
             "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-red-ranks"
+          out="scratch/telegram-1404-ocr-check"
           os.makedirs(out,exist_ok=True)
           for name,p in specs.items():
-              im=Image.open(os.path.join(base,p)).convert("RGB")
+              im=Image.open(os.path.join(base,p)).convert("L")
               w,h=im.size
-              # Rank figures are in the lowest quarter.
-              c=im.crop((0,int(h*0.78),w,int(h*0.985)))
-              # Red/magenta ink mask; keep broad threshold due JPEG compression.
-              src=c.load()
-              mask=Image.new("L",c.size,255)
-              dst=mask.load()
-              for y in range(c.height):
-                  for x in range(c.width):
-                      r,g,b=src[x,y]
-                      red = (r > 95 and r > g*1.12 and r > b*1.05 and (r-g)>12)
-                      dst[x,y]=0 if red else 255
-              # Thicken isolated strokes slightly and upscale with nearest-neighbor.
-              mask=mask.resize((mask.width*12,mask.height*12),Image.Resampling.NEAREST)
-              mask.save(os.path.join(out,f"{name}-redmask.png"))
-              mw,mh=mask.size
-              mask.crop((0,0,int(mw*0.58),mh)).save(os.path.join(out,f"{name}-redmask-left.png"))
-              mask.crop((int(mw*0.42),0,mw,mh)).save(os.path.join(out,f"{name}-redmask-right.png"))
+              # Only the final rank section, to reduce OCR hallucination/noise.
+              c=im.crop((0,int(h*0.72),w,int(h*0.99)))
+              c=ImageOps.autocontrast(c)
+              c=c.resize((c.width*5,c.height*5),Image.Resampling.LANCZOS)
+              c=ImageEnhance.Sharpness(c).enhance(1.5)
+              png=os.path.join(out,f"{name}.png")
+              c.save(png)
+              cmd=["tesseract",png,"stdout","-l","fas+eng","--psm","6"]
+              p2=subprocess.run(cmd,capture_output=True,text=True)
+              open(os.path.join(out,f"{name}.txt"),"w",encoding="utf-8").write(p2.stdout)
+              print("\n====",name,"====\n",p2.stdout)
           PY
-      - name: Commit isolated figures
+      - name: Commit OCR check
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-red-ranks
+          git add scratch/telegram-1404-ocr-check
           git diff --cached --quiet && exit 0
-          git commit -m "extract: isolate 1404 red rank figures"
+          git commit -m "extract: add one-off OCR verification for 1404 ranks"
           git push origin HEAD:extract-sibtorsh-results
