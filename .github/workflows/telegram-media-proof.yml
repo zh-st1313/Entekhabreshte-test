@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  crop:
+  isolate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +19,10 @@ jobs:
           ref: extract-sibtorsh-results
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Make tight rank crops
+      - name: Isolate red rank figures
         run: |
           python - <<'PY'
-          from PIL import Image, ImageEnhance, ImageOps
+          from PIL import Image, ImageOps
           import os
           base="scratch/telegram-1404-batch2"
           specs={
@@ -32,29 +32,34 @@ jobs:
             "bardia":"46383/46383.jpg",
             "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-rank-tight"
+          out="scratch/telegram-1404-red-ranks"
           os.makedirs(out,exist_ok=True)
           for name,p in specs.items():
               im=Image.open(os.path.join(base,p)).convert("RGB")
               w,h=im.size
-              # Target the rank summary near the bottom of the tall card.
-              for tag,y0 in [("bottom",0.76),("verybottom",0.84)]:
-                  c=im.crop((0,int(h*y0),w,h))
-                  c=c.resize((c.width*8,c.height*8),Image.Resampling.LANCZOS)
-                  c=ImageOps.autocontrast(c)
-                  c=ImageEnhance.Sharpness(c).enhance(2.0)
-                  c=ImageEnhance.Contrast(c).enhance(1.25)
-                  c.save(os.path.join(out,f"{name}-{tag}.jpg"),quality=98)
-                  # split to preserve effective readable scale
-                  cw,ch=c.size
-                  c.crop((0,0,int(cw*0.62),ch)).save(os.path.join(out,f"{name}-{tag}-left.jpg"),quality=98)
-                  c.crop((int(cw*0.38),0,cw,ch)).save(os.path.join(out,f"{name}-{tag}-right.jpg"),quality=98)
+              # Rank figures are in the lowest quarter.
+              c=im.crop((0,int(h*0.78),w,int(h*0.985)))
+              # Red/magenta ink mask; keep broad threshold due JPEG compression.
+              src=c.load()
+              mask=Image.new("L",c.size,255)
+              dst=mask.load()
+              for y in range(c.height):
+                  for x in range(c.width):
+                      r,g,b=src[x,y]
+                      red = (r > 95 and r > g*1.12 and r > b*1.05 and (r-g)>12)
+                      dst[x,y]=0 if red else 255
+              # Thicken isolated strokes slightly and upscale with nearest-neighbor.
+              mask=mask.resize((mask.width*12,mask.height*12),Image.Resampling.NEAREST)
+              mask.save(os.path.join(out,f"{name}-redmask.png"))
+              mw,mh=mask.size
+              mask.crop((0,0,int(mw*0.58),mh)).save(os.path.join(out,f"{name}-redmask-left.png"))
+              mask.crop((int(mw*0.42),0,mw,mh)).save(os.path.join(out,f"{name}-redmask-right.png"))
           PY
-      - name: Commit crops
+      - name: Commit isolated figures
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-rank-tight
+          git add scratch/telegram-1404-red-ranks
           git diff --cached --quiet && exit 0
-          git commit -m "extract: add tight rank crops for 1404 verification"
+          git commit -m "extract: isolate 1404 red rank figures"
           git push origin HEAD:extract-sibtorsh-results
