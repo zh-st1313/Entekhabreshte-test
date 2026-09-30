@@ -11,22 +11,19 @@ permissions:
   contents: write
 
 jobs:
-  verify:
+  crop:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-      - name: Install Persian OCR once
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq tesseract-ocr tesseract-ocr-fas
-          python -m pip install --disable-pip-version-check pillow
-      - name: OCR rank summary only
+      - name: Install Pillow
+        run: python -m pip install --disable-pip-version-check pillow
+      - name: Make rank-number macro crops
         run: |
           python - <<'PY'
-          from PIL import Image, ImageEnhance, ImageOps
-          import os, subprocess
+          from PIL import Image, ImageEnhance, ImageOps, ImageFilter
+          import os
           base="scratch/telegram-1404-batch2"
           specs={
             "nasa":"46452/46449.jpg",
@@ -35,28 +32,27 @@ jobs:
             "bardia":"46383/46383.jpg",
             "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-ocr-check"
+          out="scratch/telegram-1404-rank-macro"
           os.makedirs(out,exist_ok=True)
           for name,p in specs.items():
-              im=Image.open(os.path.join(base,p)).convert("L")
+              im=Image.open(os.path.join(base,p)).convert("RGB")
               w,h=im.size
-              # Only the final rank section, to reduce OCR hallucination/noise.
-              c=im.crop((0,int(h*0.72),w,int(h*0.99)))
-              c=ImageOps.autocontrast(c)
-              c=c.resize((c.width*5,c.height*5),Image.Resampling.LANCZOS)
-              c=ImageEnhance.Sharpness(c).enhance(1.5)
-              png=os.path.join(out,f"{name}.png")
-              c.save(png)
-              cmd=["tesseract",png,"stdout","-l","fas+eng","--psm","6"]
-              p2=subprocess.run(cmd,capture_output=True,text=True)
-              open(os.path.join(out,f"{name}.txt"),"w",encoding="utf-8").write(p2.stdout)
-              print("\n====",name,"====\n",p2.stdout)
+              # Bottom rank-result band. Preserve all cells but make it huge.
+              band=im.crop((0,int(h*0.84),w,int(h*0.985)))
+              band=band.resize((band.width*16,band.height*16),Image.Resampling.LANCZOS)
+              band=ImageOps.autocontrast(band)
+              band=ImageEnhance.Sharpness(band).enhance(2.4)
+              band.save(os.path.join(out,f"{name}-band.png"))
+              bw,bh=band.size
+              # National-rank cell is on the left side; quota-rank cell on right side.
+              band.crop((0,0,int(bw*0.48),bh)).save(os.path.join(out,f"{name}-national-cell.png"))
+              band.crop((int(bw*0.52),0,bw,bh)).save(os.path.join(out,f"{name}-quota-cell.png"))
           PY
-      - name: Commit OCR check
+      - name: Commit macros
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-ocr-check
+          git add scratch/telegram-1404-rank-macro
           git diff --cached --quiet && exit 0
-          git commit -m "extract: add one-off OCR verification for 1404 ranks"
+          git commit -m "extract: add macro crops for national-rank reading"
           git push origin HEAD:extract-sibtorsh-results
