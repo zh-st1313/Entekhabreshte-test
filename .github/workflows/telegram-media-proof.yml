@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 jobs:
-  isolate:
+  digits:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +19,10 @@ jobs:
           ref: extract-sibtorsh-results
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Extract red numeric clusters
+      - name: Extract exact red digit groups
         run: |
           python - <<'PY'
-          from PIL import Image, ImageEnhance, ImageOps
+          from PIL import Image
           import os
           base="scratch/telegram-1404-batch2"
           specs={
@@ -32,56 +32,60 @@ jobs:
             "bardia":"46383/46383.jpg",
             "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-red-clusters"
+          out="scratch/telegram-1404-digit-groups"
           os.makedirs(out,exist_ok=True)
-          manifest=[]
+          lines=[]
           for name,p in specs.items():
               im=Image.open(os.path.join(base,p)).convert("RGB")
               w,h=im.size
-              y0=int(h*0.84); y1=int(h*0.985)
-              crop=im.crop((0,y0,w,y1))
-              # horizontal projection of reddish pixels
-              active=[]
-              for x in range(w):
-                  cnt=0
-                  for y in range(crop.height):
-                      r,g,b=crop.getpixel((x,y))
-                      if r>100 and r-g>18 and r-b>8:
-                          cnt+=1
-                  active.append(cnt>=1)
-              runs=[]
-              s=None
-              for x,v in enumerate(active+[False]):
+              y0=int(h*.82); y1=int(h*.99)
+              c=im.crop((0,y0,w,y1))
+              # collect red-ish coordinates
+              reds=[]
+              for y in range(c.height):
+                  for x in range(c.width):
+                      r,g,b=c.getpixel((x,y))
+                      if r>95 and r-g>14 and r-b>5:
+                          reds.append((x,y))
+              active=[0]*w
+              for x,y in reds: active[x]+=1
+              raw=[]; s=None
+              for x,v in enumerate([a>0 for a in active]+[False]):
                   if v and s is None: s=x
                   if not v and s is not None:
-                      if x-s>=2: runs.append([s,x-1])
+                      if x-s>=1: raw.append([s,x-1])
                       s=None
-              # Merge nearby digit runs into numeric/text groups (small Persian digit gaps).
+              # merge only tiny intra-digit / intra-number gaps
               merged=[]
-              for a,b in runs:
-                  if not merged or a-merged[-1][1] > 7:
+              for a,b in raw:
+                  if not merged or a-merged[-1][1]-1>3:
                       merged.append([a,b])
                   else:
                       merged[-1][1]=b
-              # Only useful groups wider than a few pixels.
-              groups=[g for g in merged if g[1]-g[0]+1>=5]
-              manifest.append(f"{name}\tsize={w}x{h}\tgroups={groups}")
-              for idx,(a,b) in enumerate(groups):
-                  pad=4
-                  box=(max(0,a-pad),0,min(w,b+pad+1),crop.height)
-                  c=crop.crop(box)
-                  c=c.resize((c.width*24,c.height*24),Image.Resampling.LANCZOS)
-                  c=ImageOps.autocontrast(c)
-                  c=ImageEnhance.Sharpness(c).enhance(2.0)
-                  c.save(os.path.join(out,f"{name}-{idx:02d}-x{a}-{b}.png"))
-          open(os.path.join(out,"manifest.txt"),"w",encoding="utf-8").write("\n".join(manifest)+"\n")
-          print("\n".join(manifest))
+              # Save every plausible cluster; tight y bbox is based only on red pixels inside x cluster.
+              groups=[]
+              for idx,(a,b) in enumerate(merged):
+                  pts=[(x,y) for x,y in reds if a<=x<=b]
+                  if len(pts)<4: continue
+                  ys=[y for x,y in pts]
+                  ya,yb=min(ys),max(ys)
+                  # ignore huge red text bands; numeric rank glyphs are compact
+                  width=b-a+1; height=yb-ya+1
+                  groups.append([a,b,ya,yb,len(pts)])
+                  pad=2
+                  box=(max(0,a-pad),max(0,ya-pad),min(w,b+pad+1),min(c.height,yb+pad+1))
+                  q=c.crop(box)
+                  q=q.resize((q.width*30,q.height*30),Image.Resampling.NEAREST)
+                  q.save(os.path.join(out,f"{name}-{len(groups)-1:02d}-x{a}-{b}-y{ya}-{yb}.png"))
+              lines.append(f"{name}\t{groups}")
+          open(os.path.join(out,"manifest.txt"),"w",encoding="utf-8").write("\n".join(lines)+"\n")
+          print("\n".join(lines))
           PY
-      - name: Commit clusters
+      - name: Commit digit groups
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-red-clusters
+          git add scratch/telegram-1404-digit-groups
           git diff --cached --quiet && exit 0
-          git commit -m "extract: isolate red rank-number clusters"
+          git commit -m "extract: isolate exact rank digit groups"
           git push origin HEAD:extract-sibtorsh-results
