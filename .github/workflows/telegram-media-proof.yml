@@ -18,38 +18,65 @@ jobs:
         with:
           ref: extract-sibtorsh-results
 
-      - name: Fetch Telegram public media
+      - name: Fetch 1404 Telegram albums
         run: |
           python - <<'PY'
-          import os, re, urllib.request
-          url = "https://t.me/s/SiiibTorsh?before=46453"
+          import os, re, urllib.request, html
           headers={"User-Agent":"Mozilla/5.0"}
-          with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r:
-              body=r.read().decode("utf-8","replace")
-          out="scratch/telegram-media-test"
+          targets=[46452,48675,47151,52111,46180,52110,46383,52089,47170,52076]
+          out="scratch/telegram-1404-batch1"
           os.makedirs(out,exist_ok=True)
-
-          targets={"46450","46451","46452"}
           rows=[]
-          # Match each photo anchor and bind the CDN URL to the message id in href.
-          pat=re.compile(r'<a[^>]+background-image:url\(\'(https?://[^\']+)\'\)[^>]+href="https://t\.me/[^/]+/(\d+)\?single"[^>]*>',re.I)
-          for media_url,mid in pat.findall(body):
-              if mid not in targets:
+
+          for target in targets:
+              url=f"https://t.me/s/SiiibTorsh?before={target+1}"
+              with urllib.request.urlopen(urllib.request.Request(url,headers=headers),timeout=30) as r:
+                  body=r.read().decode("utf-8","replace")
+
+              # Locate the outer Telegram message block whose data-post id is the target caption id.
+              marker=f'data-post="SiiibTorsh/{target}"'
+              i=body.find(marker)
+              if i < 0:
+                  # Alias used by Telegram media links/channel history.
+                  marker=f'data-post="siiibtorsh_official/{target}"'
+                  i=body.lower().find(marker.lower())
+              if i < 0:
+                  rows.append(f"{target}\tBLOCK_NOT_FOUND")
                   continue
-              path=f"{out}/{mid}.jpg"
-              with urllib.request.urlopen(urllib.request.Request(media_url,headers=headers),timeout=30) as r:
-                  data=r.read()
-              open(path,"wb").write(data)
-              rows.append(f"{mid}\t{len(data)}\t{media_url}")
-          open(out+"/manifest.txt","w",encoding="utf-8").write("\n".join(rows)+("\n" if rows else "NO_MEDIA_FOUND\n"))
-          print(open(out+"/manifest.txt",encoding="utf-8").read())
+
+              # Expand around marker to one message wrapper.
+              start=body.rfind('<div class="tgme_widget_message_wrap',0,i)
+              if start < 0: start=max(0,i-20000)
+              nxt=body.find('<div class="tgme_widget_message_wrap',i+1)
+              end=nxt if nxt>=0 else min(len(body),i+120000)
+              chunk=body[start:end]
+
+              # Extract photo anchors from this one grouped message.
+              pat=re.compile(r'<a[^>]+background-image:url\(\'(https?://[^\']+)\'\)[^>]+href="https://t\.me/[^/]+/(\d+)\?single"[^>]*>',re.I)
+              found=pat.findall(chunk)
+              if not found:
+                  rows.append(f"{target}\tNO_PHOTOS")
+                  continue
+
+              td=os.path.join(out,str(target))
+              os.makedirs(td,exist_ok=True)
+              for media_url,mid in found:
+                  media_url=html.unescape(media_url)
+                  path=os.path.join(td,f"{mid}.jpg")
+                  with urllib.request.urlopen(urllib.request.Request(media_url,headers=headers),timeout=30) as r:
+                      data=r.read()
+                  open(path,"wb").write(data)
+                  rows.append(f"{target}\t{mid}\t{len(data)}\t{media_url}")
+
+          open(os.path.join(out,"manifest.tsv"),"w",encoding="utf-8").write("\n".join(rows)+"\n")
+          print("\n".join(rows))
           PY
 
-      - name: Commit media
+      - name: Commit batch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-media-test
+          git add scratch/telegram-1404-batch1
           git diff --cached --quiet && exit 0
-          git commit -m "test: fetch Telegram rank-card media"
+          git commit -m "extract: fetch 1404 Telegram sample albums"
           git push origin HEAD:extract-sibtorsh-results
