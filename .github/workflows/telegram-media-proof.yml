@@ -19,44 +19,42 @@ jobs:
           ref: extract-sibtorsh-results
       - name: Install Pillow
         run: python -m pip install --disable-pip-version-check pillow
-      - name: Crop and upscale rank/admission fields
+      - name: Make tight rank crops
         run: |
           python - <<'PY'
-          from PIL import Image, ImageEnhance, ImageFilter
+          from PIL import Image, ImageEnhance, ImageOps
           import os
           base="scratch/telegram-1404-batch2"
           specs={
-            "nasa":("46452/46449.jpg","48675/2.jpg"),
-            "ramila":("47151/47148.jpg","52111/2.jpg"),
-            "elina":("46180/46179.jpg","52110/2.jpg"),
-            "bardia":("46383/46383.jpg","52089/2.jpg"),
-            "mohammadreza":("47170/47169.jpg","52076/2.jpg"),
+            "nasa":"46452/46449.jpg",
+            "ramila":"47151/47148.jpg",
+            "elina":"46180/46179.jpg",
+            "bardia":"46383/46383.jpg",
+            "mohammadreza":"47170/47169.jpg",
           }
-          out="scratch/telegram-1404-crops"
+          out="scratch/telegram-1404-rank-tight"
           os.makedirs(out,exist_ok=True)
-          for name,(rankp,admp) in specs.items():
-            im=Image.open(os.path.join(base,rankp)).convert("RGB")
-            w,h=im.size
-            # Bottom 35% contains the rank summary / red rank figures.
-            crop=im.crop((0,int(h*0.58),w,h))
-            crop=crop.resize((crop.width*4,crop.height*4))
-            crop=ImageEnhance.Contrast(crop).enhance(1.25)
-            crop=ImageEnhance.Sharpness(crop).enhance(1.4)
-            crop.save(os.path.join(out,f"{name}-rank.jpg"),quality=95)
-
-            im=Image.open(os.path.join(base,admp)).convert("RGB")
-            w,h=im.size
-            # Lower half contains accepted major/university/course descriptor.
-            crop=im.crop((0,int(h*0.55),w,h))
-            crop=crop.resize((crop.width*3,crop.height*3))
-            crop=ImageEnhance.Contrast(crop).enhance(1.2)
-            crop.save(os.path.join(out,f"{name}-admission.jpg"),quality=95)
+          for name,p in specs.items():
+              im=Image.open(os.path.join(base,p)).convert("RGB")
+              w,h=im.size
+              # Target the rank summary near the bottom of the tall card.
+              for tag,y0 in [("bottom",0.76),("verybottom",0.84)]:
+                  c=im.crop((0,int(h*y0),w,h))
+                  c=c.resize((c.width*8,c.height*8),Image.Resampling.LANCZOS)
+                  c=ImageOps.autocontrast(c)
+                  c=ImageEnhance.Sharpness(c).enhance(2.0)
+                  c=ImageEnhance.Contrast(c).enhance(1.25)
+                  c.save(os.path.join(out,f"{name}-{tag}.jpg"),quality=98)
+                  # split to preserve effective readable scale
+                  cw,ch=c.size
+                  c.crop((0,0,int(cw*0.62),ch)).save(os.path.join(out,f"{name}-{tag}-left.jpg"),quality=98)
+                  c.crop((int(cw*0.38),0,cw,ch)).save(os.path.join(out,f"{name}-{tag}-right.jpg"),quality=98)
           PY
       - name: Commit crops
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/telegram-1404-crops
+          git add scratch/telegram-1404-rank-tight
           git diff --cached --quiet && exit 0
-          git commit -m "extract: crop 1404 rank and admission fields"
+          git commit -m "extract: add tight rank crops for 1404 verification"
           git push origin HEAD:extract-sibtorsh-results
