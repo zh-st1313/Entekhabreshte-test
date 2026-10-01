@@ -135,7 +135,8 @@ def main():
     json_caps=[x for x in fetched if x.get("is_json")]
     rows=sum(int(x.get("row_count") or 0) for x in json_caps)
     endpoints=sorted(set(x.get("original","") for x in fetched if "Get" in x.get("original","")))
-    live=live_public_probe()\n    summary={
+    live=live_public_probe()
+    summary={
       "cdx_capture_count":sum(len([x for x in v if x.get("timestamp")]) for v in by.values()),
       "fetched_count":len(fetched),
       "json_capture_count":len(json_caps),
