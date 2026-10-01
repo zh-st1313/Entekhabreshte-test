@@ -29,16 +29,16 @@ def cdx(pattern):
       "limit":"5000",
     }
     last=None
-    for i in range(3):
+    for i in range(2):
         try:
-            r=S.get(url,params=params,timeout=45)
+            r=S.get(url,params=params,timeout=18)
             r.raise_for_status()
             d=r.json()
             if not d: return []
             head=d[0]
             return [dict(zip(head,x)) for x in d[1:]]
         except Exception as e:
-            last=str(e); time.sleep(2*(i+1))
+            last=str(e); time.sleep(1*(i+1))
     return [{"pattern":pattern,"error":last}]
 
 def fetch_capture(c):
@@ -46,7 +46,7 @@ def fetch_capture(c):
     if not ts or not orig: return None
     replay=f"https://web.archive.org/web/{ts}id_/{orig}"
     try:
-        r=S.get(replay,timeout=35)
+        r=S.get(replay,timeout=15)
         item={**c,"replay_url":replay,"fetch_status":r.status_code,
               "content_type":r.headers.get("content-type",""),"bytes":len(r.content)}
         if r.status_code==200:
@@ -96,12 +96,12 @@ def main():
     for p in PATTERNS:
         caps=[x for x in by[p] if x.get("timestamp") and x.get("original")]
         # Endpoint JSON captures are likely sparse; keep up to 120 each.
-        selected=caps[:120]
+        selected=caps[:12]
         per_pattern[p]=len(selected)
         for c in selected:
             x=fetch_capture({**c,"pattern":p})
             if x: fetched.append(x)
-            time.sleep(.15)
+            time.sleep(.05)
 
     (OUT/"fetched.json").write_text(json.dumps(fetched,ensure_ascii=False,indent=2),encoding="utf-8")
     json_caps=[x for x in fetched if x.get("is_json")]
