@@ -59,12 +59,13 @@ jobs:
           while before>43200 and pages<650:
               recs=page(before); pages+=1
               if not recs: before-=20; continue
-              for i,t in recs: msgs[i]=t
-              mn=min(i for i,_ in recs)
+              for x in recs: msgs[x["id"]]=x
+              mn=min(x["id"] for x in recs)
               before=mn if mn<before else before-20
               if pages%50==0: print("P",pages,"before",before,"msgs",len(msgs),flush=True)
           ranks=[]; ads=[]
-          for mid,t in sorted(msgs.items()):
+          for mid,obj in sorted(msgs.items()):
+              t=obj["text"]
               if "۱۴۰۴" not in t: continue
               mname=re.search(r'😍\s*([^\n]+)',t)
               name=mname.group(1).strip() if mname else ""
@@ -78,14 +79,20 @@ jobs:
                   ma=re.search(r'⭐️\s*قبولی\s*([^\n]+)',t)
                   if ma:
                       mn=re.search(r'شماره\s*([۰-۹0-9]+)',t)
-                      ads.append(dict(id=mid,name=name,key=norm(name),admit=ma.group(1).strip(),seq=int(en(mn.group(1))) if mn else None))
+                      ads.append(dict(id=mid,name=name,key=norm(name),admit=ma.group(1).strip(),seq=int(en(mn.group(1))) if mn else None,rank_link=obj.get("rank_link") or ""))
           by={}
-          for r in ranks: by.setdefault(r["key"],[]).append(r)
+          rank_mid={}
+          for r in ranks:
+              by.setdefault(r["key"],[]).append(r)
+              rank_mid[r["id"]]=r
           keys=list(by)
           rows=[]
+          direct_link_pairs=0
           for a in ads:
               r=None; score=0
-              if a["key"] in by:
+              if a.get("rank_link") and a["rank_link"] in rank_mid:
+                  r=rank_mid[a["rank_link"]]; score=1.0; direct_link_pairs+=1
+              elif a["key"] in by:
                   r=min(by[a["key"]],key=lambda x:abs(a["id"]-x["id"])); score=1
               else:
                   bestk=None
@@ -101,14 +108,14 @@ jobs:
                   if score>=.84: r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
               rows.append(dict(name=a["name"],quota=r["quota"] if r else "",quota_rank=r["rank"] if r else "",
                                admission_raw=a["admit"],rank_msg=r["id"] if r else "",admission_msg=a["id"],
-                               sequence=a["seq"] or "",match_score=round(score,3) if r else ""))
+                               rank_link=a.get("rank_link") or "",sequence=a["seq"] or "",match_score=round(score,3) if r else ""))
           with open(O+"/staging_text.csv","w",encoding="utf-8-sig",newline="") as f:
-              fs=["name","quota","quota_rank","admission_raw","rank_msg","admission_msg","sequence","match_score"]
+              fs=["name","quota","quota_rank","admission_raw","rank_msg","rank_link","admission_msg","sequence","match_score"]
               w=csv.DictWriter(f,fieldnames=fs);w.writeheader();w.writerows(rows)
           seqs=sorted(set(int(x["sequence"]) for x in rows if x["sequence"]!=""))
           missing_seq=[i for i in range(min(seqs or [1]),max(seqs or [0])+1) if i not in set(seqs)]
           sm={"pages":pages,"messages":len(msgs),"rank_posts":len(ranks),"admission_posts":len(ads),"paired":sum(bool(x["quota_rank"]) for x in rows),
-              "numbered_admissions":sum(x["sequence"]!="" for x in rows),"seq_min":min(seqs or [None]),
+              "numbered_admissions":sum(x["sequence"]!="" for x in rows),"direct_link_pairs":direct_link_pairs,"rank_links_found":sum(bool(a.get("rank_link")) for a in ads),"seq_min":min(seqs or [None]),
               "seq_max":max(seqs or [None]),"missing_sequence_count":len(missing_seq),"missing_sequences":missing_seq}
           open(O+"/summary.json","w",encoding="utf-8").write(json.dumps(sm,ensure_ascii=False,indent=2))
           print(json.dumps(sm,ensure_ascii=False),flush=True)
