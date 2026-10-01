@@ -41,28 +41,31 @@ jobs:
                       row["_rownum"]=i
                       rows.append(row)
 
-          def get_photo(mid):
+          def get_photo(mid,name,admit):
               url=f"https://t.me/s/SiiibTorsh?before={int(mid)+1}"
               r=s.get(url,timeout=30)
               r.raise_for_status()
               soup=BeautifulSoup(r.text,"html.parser")
               target=None
               for wrap in soup.select("div.tgme_widget_message_wrap"):
-                  msg=wrap.select_one("div.tgme_widget_message")
-                  own_id=None
-                  if msg:
-                      mm=re.search(r'/(\\d+)$',msg.get("data-post",""))
-                      if mm:
-                          own_id=int(mm.group(1))
-                  if own_id is None:
-                      dl=wrap.select_one("a.tgme_widget_message_date")
-                      if dl:
-                          mm=re.search(r'/(\\d+)(?:\\?.*)?$',dl.get("href",""))
-                          if mm:
-                              own_id=int(mm.group(1))
-                  if own_id==int(mid):
+                  txtel=wrap.select_one("div.tgme_widget_message_text")
+                  if not txtel:
+                      continue
+                  txt=txtel.get_text(" ",strip=True)
+                  if "کارنامه نهایی انتخاب رشته" in txt and name.strip() in txt:
                       target=wrap
                       break
+              if target is None:
+                  # fallback: admission phrase + a distinctive part of the person's name
+                  token=name.strip().split()[-1] if name.strip() else ""
+                  for wrap in soup.select("div.tgme_widget_message_wrap"):
+                      txtel=wrap.select_one("div.tgme_widget_message_text")
+                      if not txtel:
+                          continue
+                      txt=txtel.get_text(" ",strip=True)
+                      if "کارنامه نهایی انتخاب رشته" in txt and token and token in txt:
+                          target=wrap
+                          break
               if target is None:
                   return None
               urls=[]
@@ -76,17 +79,23 @@ jobs:
                   try:
                       rr=s.get(u,timeout=30)
                       if rr.ok and len(rr.content)>1000:
-                          if best is None or len(rr.content)>len(best[1]):
-                              best=(u,rr.content)
+                          try:
+                              im=Image.open(io.BytesIO(rr.content))
+                              ratio=im.width/max(1,im.height)
+                          except Exception:
+                              ratio=0
+                          cand=(ratio,len(rr.content),u,rr.content)
+                          if best is None or cand[:2]>best[:2]:
+                              best=cand
                   except Exception:
                       pass
-              return best
+              return (best[2],best[3]) if best else None
 
           entries=[]
           manifest=[]
           for j,row in enumerate(rows,1):
               mid=row["admission_msg"]
-              got=get_photo(mid)
+              got=get_photo(mid,row["name"],row["admission_raw"])
               if not got:
                   manifest.append({"sheet_index":j,"rownum":row["_rownum"],"admission_msg":mid,"name":row["name"],"status":"no-image"})
                   continue
