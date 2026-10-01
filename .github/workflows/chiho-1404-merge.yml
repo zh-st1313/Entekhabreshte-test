@@ -1,0 +1,164 @@
+name: Merge Chiho ranks into 1404 admissions
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/chiho-1404-merge.yml
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - name: Build safe merged staging
+        run: |
+          python - <<'PY'
+          import json,csv,re,unicodedata,collections,os
+          from difflib import SequenceMatcher
+
+          def en(x):
+              return (x or "").translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩","01234567890123456789"))
+
+          def norm(x):
+              x=unicodedata.normalize("NFKC",x or "")
+              x=x.replace("ي","ی").replace("ك","ک").replace("ۀ","ه").replace("ة","ه")
+              x=re.sub(r'[\u200c\u200e\u200f\ufeff]',' ',x)
+              x=re.sub(r'\b(سید|سیده)\b',' ',x)
+              return re.sub(r'[^آ-یA-Za-z0-9]','',x).lower()
+
+          rank_data=json.load(open("scratch/chiho-1404-ranks-part1.json",encoding="utf-8"))
+          ranks=rank_data["rows"]
+
+          clean=[]
+          for r in ranks:
+              quota=en(r["quota"]).replace("منطقه یک","منطقه 1").replace("منطقه دو","منطقه 2").replace("منطقه سه","منطقه 3")
+              clean.append({
+                  "id":int(r["id"]),
+                  "name":r["name"].strip(),
+                  "key":norm(r["name"]),
+                  "rank":int(en(r["rank"])),
+                  "quota":quota
+              })
+
+          by_id={r["id"]:r for r in clean}
+          by_name=collections.defaultdict(list)
+          for r in clean:
+              by_name[r["key"]].append(r)
+
+          # Canonical rank for exact same name only if messages agree on rank/quota.
+          canonical={}
+          conflicts={}
+          for k,arr in by_name.items():
+              vals=collections.Counter((x["rank"],x["quota"]) for x in arr)
+              (rank,quota),cnt=vals.most_common(1)[0]
+              canonical[k]={"rank":rank,"quota":quota,"count":cnt,"total":len(arr),"sample_id":next(x["id"] for x in arr if x["rank"]==rank and x["quota"]==quota)}
+              if len(vals)>1:
+                  conflicts[k]=[{"rank":a,"quota":b,"count":c} for (a,b),c in vals.items()]
+
+          inp="scratch/siibtorsh-1404-text/staging_text.csv"
+          ads=[]
+          with open(inp,encoding="utf-8-sig",newline="") as f:
+              for row in csv.DictReader(f):
+                  ads.append(row)
+
+          keys=list(canonical)
+          out=[]
+          counts=collections.Counter()
+          for a in ads:
+              k=norm(a["name"])
+              r=None
+              method=""
+              score=""
+
+              # Strongest: the admission post itself links to the exact rank post.
+              rl=str(a.get("rank_link") or "").strip()
+              if rl.isdigit() and int(rl) in by_id:
+                  cand=by_id[int(rl)]
+                  # Guard against a bad/neighbor link: candidate names must be compatible.
+                  nk=cand["key"]
+                  sim=SequenceMatcher(None,k,nk).ratio()
+                  compatible=(k==nk or k.startswith(nk) or nk.startswith(k) or sim>=0.88)
+                  if compatible:
+                      r=cand
+                      method="direct_rank_link"
+                      score=f"{sim:.3f}"
+
+              # Exact name match, only if canonical rank exists.
+              if r is None and k in canonical:
+                  cc=canonical[k]
+                  r={"id":cc["sample_id"],"name":a["name"],"key":k,"rank":cc["rank"],"quota":cc["quota"]}
+                  method="exact_name"
+                  score="1.000"
+
+              # Conservative surname-tail variation. Require very high similarity and unique best candidate.
+              if r is None and k:
+                  scored=[]
+                  for rk in keys:
+                      if not rk: continue
+                      if k.startswith(rk) or rk.startswith(k):
+                          sim=max(SequenceMatcher(None,k,rk).ratio(),0.94)
+                      else:
+                          sim=SequenceMatcher(None,k,rk).ratio()
+                      if sim>=0.92:
+                          scored.append((sim,rk))
+                  scored.sort(reverse=True)
+                  if scored and (len(scored)==1 or scored[0][0]-scored[1][0]>=0.04):
+                      sim,rk=scored[0]
+                      cc=canonical[rk]
+                      r={"id":cc["sample_id"],"name":"", "key":rk,"rank":cc["rank"],"quota":cc["quota"]}
+                      method="high_conf_name"
+                      score=f"{sim:.3f}"
+
+              rec={
+                  "name":a["name"],
+                  "quota":r["quota"] if r else "",
+                  "quota_rank":r["rank"] if r else "",
+                  "admission_raw":a["admission_raw"],
+                  "rank_msg":r["id"] if r else "",
+                  "rank_link":a.get("rank_link",""),
+                  "admission_msg":a["admission_msg"],
+                  "sequence":a["sequence"],
+                  "match_method":method,
+                  "match_score":score
+              }
+              out.append(rec)
+              counts[method or "unmatched"]+=1
+
+          os.makedirs("scratch/siibtorsh-1404-safe",exist_ok=True)
+          fields=["name","quota","quota_rank","admission_raw","rank_msg","rank_link","admission_msg","sequence","match_method","match_score"]
+          with open("scratch/siibtorsh-1404-safe/paired.csv","w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(out)
+
+          summary={
+              "rank_messages":len(clean),
+              "unique_rank_names":len(canonical),
+              "rank_name_conflicts":len(conflicts),
+              "admissions":len(out),
+              "matched":sum(1 for x in out if x["quota_rank"]!=""),
+              "unmatched":sum(1 for x in out if x["quota_rank"]==""),
+              "methods":dict(counts)
+          }
+          with open("scratch/siibtorsh-1404-safe/summary.json","w",encoding="utf-8") as f:
+              json.dump(summary,f,ensure_ascii=False,indent=2)
+          with open("scratch/siibtorsh-1404-safe/conflicts.json","w",encoding="utf-8") as f:
+              json.dump(conflicts,f,ensure_ascii=False,indent=2)
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+
+      - name: Commit safe staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-safe
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: safely pair Chiho ranks with 1404 admissions"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
