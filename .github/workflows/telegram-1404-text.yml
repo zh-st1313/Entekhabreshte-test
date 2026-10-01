@@ -71,10 +71,21 @@ jobs:
                   rank_href=""
                   if te:
                       for a in te.select("a[href]"):
-                          at=re.sub(r"\s+"," ",a.get_text(" ",strip=True)).replace("‌"," ")
+                          at=re.sub(r"\\s+"," ",a.get_text(" ",strip=True)).replace("‌"," ")
                           if "کارنامه رتبه" in at:
                               rank_href=a.get("href","")
-                              mm=re.search(r'/(\d+)(?:\?single)?
+                              mm=re.search(r'/([0-9]+)(?:[?]single)?$',rank_href)
+                              if mm:
+                                  rank_link=int(mm.group(1))
+                              break
+
+                  out.append({
+                      "id":max(ids),
+                      "all_ids":sorted(set(ids)),
+                      "text":txt,
+                      "rank_link":rank_link,
+                      "rank_href":rank_href
+                  })
               return out
 
           msgs={}
