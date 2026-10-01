@@ -66,7 +66,7 @@ def crawl(ch,year_hint,group_hint,q,max_pages=80):
         added=0
         for wrap in soup.select(".tgme_widget_message_wrap"):
             row=parse(wrap,ch,q,year_hint,group_hint)
-            if row and row["post"] not in seen_posts:
+            if row and q in row.get("text","") and row["post"] not in seen_posts:
                 seen_posts.add(row["post"]); rows.append(row); added+=1
         more=soup.select_one("a.tme_messages_more")
         if not more or not more.get("href"):break
