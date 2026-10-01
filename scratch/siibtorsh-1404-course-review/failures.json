@@ -1,0 +1,56 @@
+[
+  {
+    "row": 49,
+    "name": "اردشیر ابوالصدق",
+    "msg": 48541,
+    "reason": "download_failed"
+  },
+  {
+    "row": 54,
+    "name": "سروش احمدی",
+    "msg": 48679,
+    "reason": "download_failed"
+  },
+  {
+    "row": 72,
+    "name": "لیدا بصیریان",
+    "msg": 49023,
+    "reason": "no_photo"
+  },
+  {
+    "row": 92,
+    "name": "آریوبرزن فیضی",
+    "msg": 49820,
+    "reason": "no_photo"
+  },
+  {
+    "row": 97,
+    "name": "فاطمه خاوری",
+    "msg": 50078,
+    "reason": "no_photo"
+  },
+  {
+    "row": 114,
+    "name": "ساینا ثابتی",
+    "msg": 50955,
+    "reason": "no_photo"
+  },
+  {
+    "row": 117,
+    "name": "نیما نیکو",
+    "msg": 51107,
+    "reason": "download_failed"
+  },
+  {
+    "row": 121,
+    "name": "حنانه قدیمی",
+    "msg": 51147,
+    "reason": "download_failed"
+  },
+  {
+    "row": 143,
+    "name": "بنیامین کرمی",
+    "msg": 51822,
+    "reason": "no_photo"
+  }
+]
