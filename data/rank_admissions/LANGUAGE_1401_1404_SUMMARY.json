@@ -1,50 +1,34 @@
 {
-  "source_page": "https://www.kanoon.ir/Public/SuperiorsRankBased?type=3",
-  "post_endpoint": "https://www.kanoon.ir/Public/SuperiorsRankBasedShowSuperiors",
-  "dept": 5,
   "group": "زبان",
-  "coverage_method": "Overlapping adaptive quota-rank sweep from 1 through 500000; step=max(100,floor(10% of target)); plus far-tail probes.",
   "years": {
     "1401": {
-      "raw_unique_rows": 633,
-      "normalized_language_rows": 632,
-      "merged_year_csv_rows": 1060,
-      "regions": {
-        "1": 110,
-        "2": 293,
-        "3": 230
-      }
+      "region_1": 110,
+      "region_2": 293,
+      "region_3": 230,
+      "raw_records": 633,
+      "normalized_records": 632
     },
     "1402": {
-      "raw_unique_rows": 90,
-      "normalized_language_rows": 90,
-      "merged_year_csv_rows": 146,
-      "regions": {
-        "1": 7,
-        "2": 44,
-        "3": 39
-      }
+      "region_1": 7,
+      "region_2": 44,
+      "region_3": 39,
+      "raw_records": 90,
+      "normalized_records": 90
     },
     "1403": {
-      "raw_unique_rows": 125,
-      "normalized_language_rows": 124,
-      "merged_year_csv_rows": 187,
-      "regions": {
-        "1": 19,
-        "2": 62,
-        "3": 44
-      }
+      "region_1": 19,
+      "region_2": 62,
+      "region_3": 44,
+      "raw_records": 125,
+      "normalized_records": 124
     },
     "1404": {
-      "raw_unique_rows": 98,
-      "normalized_language_rows": 98,
-      "merged_year_csv_rows": 149,
-      "regions": {
-        "1": 13,
-        "2": 46,
-        "3": 39
-      }
+      "region_1": 13,
+      "region_2": 46,
+      "region_3": 39,
+      "raw_records": 98,
+      "normalized_records": 98
     }
   },
-  "total_normalized_language_rows": 944
+  "total_normalized_records": 944
 }
