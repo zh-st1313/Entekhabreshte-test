@@ -42,6 +42,8 @@ jobs:
           raw += d["rows"]
           d=json.load(open("scratch/siibtorsh-1404-recovery/region-search-universe-v3.json",encoding="utf-8"))
           raw += d
+          d=json.load(open("scratch/siibtorsh-1404-recovery/major-search-universe.json",encoding="utf-8"))
+          raw += d
           p="scratch/siibtorsh-1404-recovery/batch01.json"
           if os.path.exists(p):
               for item in json.load(open(p,encoding="utf-8")):
