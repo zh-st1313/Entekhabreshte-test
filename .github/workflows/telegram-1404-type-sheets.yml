@@ -1,0 +1,155 @@
+name: Build 1404 matched admission sheets
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/telegram-1404-type-sheets.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sheets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - run: python -m pip install --quiet requests beautifulsoup4 pillow
+
+      - name: Fetch matched admission cards and build sheets
+        run: |
+          python - <<'PY'
+          import csv,os,re,html,io,json,time
+          import requests
+          from bs4 import BeautifulSoup
+          from PIL import Image,ImageDraw,ImageFont,ImageOps
+
+          OUT="scratch/siibtorsh-1404-type-sheets"
+          os.makedirs(OUT,exist_ok=True)
+          s=requests.Session()
+          s.headers["User-Agent"]="Mozilla/5.0"
+
+          rows=[]
+          with open("scratch/siibtorsh-1404-safe/paired.csv",encoding="utf-8-sig",newline="") as f:
+              for i,row in enumerate(csv.DictReader(f),1):
+                  if str(row.get("quota_rank","")).strip():
+                      row["_rownum"]=i
+                      rows.append(row)
+
+          def get_photo(mid):
+              url=f"https://t.me/s/SiiibTorsh?before={int(mid)+1}"
+              r=s.get(url,timeout=30)
+              r.raise_for_status()
+              soup=BeautifulSoup(r.text,"html.parser")
+              target=None
+              for wrap in soup.select("div.tgme_widget_message_wrap"):
+                  txt=wrap.select_one("div.tgme_widget_message_text")
+                  if not txt: continue
+                  if str(mid) in str(wrap):
+                      if "کارنامه نهایی انتخاب رشته" in txt.get_text(" ",strip=True):
+                          target=wrap; break
+              if target is None:
+                  # fallback by exact date-link/post ids in wrapper
+                  for wrap in soup.select("div.tgme_widget_message_wrap"):
+                      if re.search(rf'/{re.escape(str(mid))}(?:\?|")',str(wrap)):
+                          target=wrap; break
+              if target is None:
+                  return None
+              urls=[]
+              for a in target.select("a.tgme_widget_message_photo_wrap"):
+                  st=a.get("style","")
+                  m=re.search(r"background-image:url\('([^']+)'\)",st)
+                  if m:
+                      urls.append(html.unescape(m.group(1)))
+              best=None
+              for u in urls:
+                  try:
+                      rr=s.get(u,timeout=30)
+                      if rr.ok and len(rr.content)>1000:
+                          if best is None or len(rr.content)>len(best[1]):
+                              best=(u,rr.content)
+                  except Exception:
+                      pass
+              return best
+
+          entries=[]
+          manifest=[]
+          for j,row in enumerate(rows,1):
+              mid=row["admission_msg"]
+              got=get_photo(mid)
+              if not got:
+                  manifest.append({"sheet_index":j,"rownum":row["_rownum"],"admission_msg":mid,"name":row["name"],"status":"no-image"})
+                  continue
+              try:
+                  im=Image.open(io.BytesIO(got[1])).convert("RGB")
+                  w,h=im.size
+                  # Preserve nearly full card; trim just top portrait/banner if very tall.
+                  top=int(h*0.18) if h>900 else 0
+                  crop=im.crop((0,top,w,h))
+                  # Fit card into readable tile.
+                  maxw=1300
+                  if crop.width>maxw:
+                      nh=int(crop.height*maxw/crop.width)
+                      crop=crop.resize((maxw,nh))
+                  entries.append((row,crop))
+                  manifest.append({"sheet_index":j,"rownum":row["_rownum"],"admission_msg":mid,"name":row["name"],"status":"ok"})
+              except Exception as e:
+                  manifest.append({"sheet_index":j,"rownum":row["_rownum"],"admission_msg":mid,"name":row["name"],"status":"decode-error"})
+              if j%25==0:
+                  print("fetched",j,"/",len(rows),flush=True)
+
+          try:
+              font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
+              font2=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",28)
+          except Exception:
+              font=font2=ImageFont.load_default()
+
+          per=6
+          sheetmeta=[]
+          for start in range(0,len(entries),per):
+              chunk=entries[start:start+per]
+              tile_w=1380
+              tile_h=560
+              sh=Image.new("RGB",(tile_w,tile_h*len(chunk)),"white")
+              d=ImageDraw.Draw(sh)
+              meta=[]
+              for k,(row,im) in enumerate(chunk):
+                  y=k*tile_h
+                  label=f"ROW {row['_rownum']} | MSG {row['admission_msg']} | RANK {row['quota_rank']} {row['quota']}"
+                  d.text((10,y+8),label,fill="black",font=font2)
+                  # Put admission raw on next line using ASCII-ish row association only; Persian shaping isn't required for image reading.
+                  target_h=tile_h-55
+                  c=im.copy()
+                  c.thumbnail((tile_w-20,target_h))
+                  sh.paste(c,(10,y+48))
+                  meta.append({
+                      "rownum":row["_rownum"],
+                      "admission_msg":row["admission_msg"],
+                      "name":row["name"],
+                      "quota":row["quota"],
+                      "quota_rank":row["quota_rank"],
+                      "admission_raw":row["admission_raw"]
+                  })
+              fn=f"sheet-{start//per+1:03d}.jpg"
+              sh.save(os.path.join(OUT,fn),quality=88,optimize=True)
+              sheetmeta.append({"file":fn,"items":meta})
+
+          with open(os.path.join(OUT,"manifest.json"),"w",encoding="utf-8") as f:
+              json.dump({"matched_rows":len(rows),"downloaded":len(entries),"sheets":sheetmeta,"fetch_manifest":manifest},f,ensure_ascii=False,indent=2)
+          print(json.dumps({"matched_rows":len(rows),"downloaded":len(entries),"sheet_count":len(sheetmeta)},ensure_ascii=False))
+          PY
+
+      - name: Commit sheets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-type-sheets
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: build matched 1404 admission type sheets"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
