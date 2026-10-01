@@ -56,7 +56,7 @@ jobs:
               return out
           msgs={}
           before=52350; pages=0
-          while before>44500 and pages<500:
+          while before>43200 and pages<650:
               recs=page(before); pages+=1
               if not recs: before-=20; continue
               for i,t in recs: msgs[i]=t
@@ -90,18 +90,26 @@ jobs:
               else:
                   bestk=None
                   for k in keys:
-                      sc=SequenceMatcher(None,a["key"],k).ratio()
+                      if not k or not a["key"]: continue
+                      # Surname suffixes/prefixes often differ between the rank and admission post.
+                      if k.startswith(a["key"]) or a["key"].startswith(k):
+                          sc=min(len(k),len(a["key"]))/max(len(k),len(a["key"]))
+                          sc=max(sc,0.94)
+                      else:
+                          sc=SequenceMatcher(None,a["key"],k).ratio()
                       if sc>score: score=sc; bestk=k
-                  if score>=.88: r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
+                  if score>=.84: r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
               rows.append(dict(name=a["name"],quota=r["quota"] if r else "",quota_rank=r["rank"] if r else "",
                                admission_raw=a["admit"],rank_msg=r["id"] if r else "",admission_msg=a["id"],
                                sequence=a["seq"] or "",match_score=round(score,3) if r else ""))
           with open(O+"/staging_text.csv","w",encoding="utf-8-sig",newline="") as f:
               fs=["name","quota","quota_rank","admission_raw","rank_msg","admission_msg","sequence","match_score"]
               w=csv.DictWriter(f,fieldnames=fs);w.writeheader();w.writerows(rows)
+          seqs=sorted(set(int(x["sequence"]) for x in rows if x["sequence"]!=""))
+          missing_seq=[i for i in range(min(seqs or [1]),max(seqs or [0])+1) if i not in set(seqs)]
           sm={"pages":pages,"messages":len(msgs),"rank_posts":len(ranks),"admission_posts":len(ads),"paired":sum(bool(x["quota_rank"]) for x in rows),
-              "numbered_admissions":sum(x["sequence"]!="" for x in rows),"seq_min":min([x["sequence"] for x in rows if x["sequence"]!=""] or [None]),
-              "seq_max":max([x["sequence"] for x in rows if x["sequence"]!=""] or [None])}
+              "numbered_admissions":sum(x["sequence"]!="" for x in rows),"seq_min":min(seqs or [None]),
+              "seq_max":max(seqs or [None]),"missing_sequence_count":len(missing_seq),"missing_sequences":missing_seq}
           open(O+"/summary.json","w",encoding="utf-8").write(json.dumps(sm,ensure_ascii=False,indent=2))
           print(json.dumps(sm,ensure_ascii=False),flush=True)
           PY
