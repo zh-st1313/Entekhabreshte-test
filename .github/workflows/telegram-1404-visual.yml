@@ -93,9 +93,9 @@ jobs:
                   im=Image.open(io.BytesIO(best[1])).convert("RGB")
                   w,h=im.size
                   # Include header and accepted-program line; keep enough context for course type and semester.
-                  crop=im.crop((0,int(h*0.25),w,h))
-                  target_w=1500
-                  crop=crop.resize((target_w,max(320,int(crop.height*target_w/crop.width))))
+                  crop=im.crop((0,int(h*0.54),w,h))
+                  target_w=2600
+                  crop=crop.resize((target_w,max(500,int(crop.height*target_w/crop.width))))
                   return idx,row,crop,"ok"
               except Exception as e:
                   return idx,row,None,type(e).__name__
@@ -120,12 +120,12 @@ jobs:
           except Exception:
               font=ImageFont.load_default()
 
-          per_sheet=8
+          per_sheet=6
           manifest=[]
           for start in range(0,len(visual),per_sheet):
               items=visual[start:start+per_sheet]
-              row_h=520
-              sheet=Image.new("RGB",(1640,row_h*len(items)),"white")
+              row_h=430
+              sheet=Image.new("RGB",(2700,row_h*len(items)),"white")
               d=ImageDraw.Draw(sheet)
               rownums=[]
               for j,(idx,rec,img) in enumerate(items):
@@ -133,7 +133,7 @@ jobs:
                   label=f"ROW {idx+1} | MSG {rec['admission_msg']} | RANK {rec['quota_rank']} {rec['quota']}"
                   d.text((10,y+5),label,fill="black",font=font)
                   im=img.copy()
-                  im.thumbnail((1620,row_h-48))
+                  im.thumbnail((2680,row_h-48))
                   sheet.paste(im,(10,y+42))
                   rownums.append(idx+1)
               fn=f"sheet-{start//per_sheet+1:03d}.jpg"
