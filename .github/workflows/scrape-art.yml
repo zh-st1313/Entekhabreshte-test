@@ -1,4 +1,4 @@
-name: Probe Kanoon art scraper
+name: Probe Kanoon art scraper # rank-window probe
 
 on:
   push:
