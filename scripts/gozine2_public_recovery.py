@@ -18,13 +18,18 @@ S.headers.update({
 })
 
 CHANNELS = [
-    "gozine2", "G2_konkur99", "g2_old",
+    "gozine2", "G2_konkur99", "g2_old", "G2_konkur",
+    "G2_konkur1401", "gozine_dorost",
 ]
 
 QUERIES = [
-    "#کارنامه_کنکور97", "#کارنامه_کنکور۹۸",
-    "#کارنامه_کنکور۱۴۰۰", "#کارنامه_کنکور۱۴۰۱",
-    "#کارنامه_کنکور۱۴۰۲", "#کارنامه_کنکور۱۴۰۳",
+    "#کارنامه_کنکور97", "#کارنامه_کنکور۹۷",
+    "#کارنامه_کنکور98", "#کارنامه_کنکور۹۸",
+    "#کارنامه_کنکور۱۴۰۰",
+    "#کارنامه_کنکور۱۴۰۱",
+    "#کارنامه_کنکور۱۴۰۲",
+    "#کارنامه_کنکور۱۴۰۳",
+    "#کارنامه_پذیرفته_شدگان_کنکور",
 ]
 
 KNOWN_SHORTS = [
@@ -125,7 +130,7 @@ def parse_message(wrap, channel, query):
         "photo_urls": photos,
     }
 
-def crawl_search(channel, query, max_pages=1):
+def crawl_search(channel, query, max_pages=3):
     url = f"https://t.me/s/{channel}?q={quote(query)}"
     seen_urls = set()
     seen_posts = set()
@@ -156,17 +161,26 @@ def crawl_search(channel, query, max_pages=1):
         time.sleep(0.4)
     return rows
 
-def download_photos(rows, max_downloads=20):
+def download_photos(rows, max_downloads=250):
+    """Download one likely report-card image per post, skipping tiny UI sprites."""
     n = 0
     manifest = []
-    for row in rows:
-        for i, url in enumerate(row.get("photo_urls") or []):
-            if n >= max_downloads:
-                return manifest
+    # Prioritize older years first so the recovery artifact contains historical cards.
+    priority = {"97": 0, "۹۷": 0, "98": 1, "۹۸": 1, "۱۴۰۰": 2, "1400": 2,
+                "۱۴۰۱": 3, "1401": 3, "۱۴۰۲": 4, "1402": 4, "۱۴۰۳": 5, "1403": 5}
+    ordered = sorted(rows, key=lambda x: (priority.get(x.get("year_text",""), 99), x.get("date","")))
+    for row in ordered:
+        if n >= max_downloads:
+            break
+        urls = row.get("photo_urls") or []
+        for url in urls:
             try:
                 r = get(url)
                 ctype = r.headers.get("content-type", "")
                 if r.status_code != 200 or "image" not in ctype:
+                    continue
+                # Telegram UI sprites are tiny. Actual report cards are much larger.
+                if len(r.content) < 20000:
                     continue
                 ext = ".jpg"
                 if "png" in ctype:
@@ -175,16 +189,19 @@ def download_photos(rows, max_downloads=20):
                     ext = ".webp"
                 channel = re.sub(r"[^A-Za-z0-9_-]+", "_", row["channel"])
                 mid = row["message_id"] or str(n)
-                name = f"{channel}_{mid}_{i}{ext}"
+                name = f"{channel}_{mid}{ext}"
                 path = MEDIA / name
                 path.write_bytes(r.content)
                 manifest.append({
                     "file": str(path),
+                    "bytes": len(r.content),
+                    "year_text": row.get("year_text",""),
                     "source_url": url,
                     "post": row["post"],
                     "permalink": row["permalink"],
                 })
                 n += 1
+                break
             except Exception as e:
                 manifest.append({"error": str(e), "source_url": url, "post": row["post"]})
     return manifest
