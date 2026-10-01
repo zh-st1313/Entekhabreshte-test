@@ -1,0 +1,206 @@
+{
+  "dataset": "kanoon_language_1402",
+  "source_page": "https://www.kanoon.ir/Public/SuperiorsRankBased?type=3",
+  "post_endpoint": "https://www.kanoon.ir/Public/SuperiorsRankBasedShowSuperiors",
+  "dept": 5,
+  "year": 1402,
+  "year_code": 102,
+  "type": 3,
+  "regions": {
+    "1": {
+      "year": 1402,
+      "year_code": 102,
+      "dept": 5,
+      "group": "زبان",
+      "region": 1,
+      "query_count": 79,
+      "nonzero_queries": 10,
+      "zero_queries": 66,
+      "unique_rows": 7,
+      "quota_rank_min": 50,
+      "quota_rank_max": 863,
+      "national_rank_min": 92,
+      "national_rank_max": 1891,
+      "last_nonzero_target": 901,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    },
+    "2": {
+      "year": 1402,
+      "year_code": 102,
+      "dept": 5,
+      "group": "زبان",
+      "region": 2,
+      "query_count": 79,
+      "nonzero_queries": 32,
+      "zero_queries": 44,
+      "unique_rows": 44,
+      "quota_rank_min": 14,
+      "quota_rank_max": 6754,
+      "national_rank_min": 39,
+      "national_rank_max": 16115,
+      "last_nonzero_target": 7387,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    },
+    "3": {
+      "year": 1402,
+      "year_code": 102,
+      "dept": 5,
+      "group": "زبان",
+      "region": 3,
+      "query_count": 79,
+      "nonzero_queries": 25,
+      "zero_queries": 51,
+      "unique_rows": 39,
+      "quota_rank_min": 51,
+      "quota_rank_max": 3616,
+      "national_rank_min": 425,
+      "national_rank_max": 15405,
+      "last_nonzero_target": 3793,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    }
+  },
+  "combined_unique_rows": 90,
+  "normalized_language_rows": 90,
+  "merged_year_csv_rows": 146
+}

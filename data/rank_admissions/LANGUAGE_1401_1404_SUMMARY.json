@@ -1,0 +1,50 @@
+{
+  "source_page": "https://www.kanoon.ir/Public/SuperiorsRankBased?type=3",
+  "post_endpoint": "https://www.kanoon.ir/Public/SuperiorsRankBasedShowSuperiors",
+  "dept": 5,
+  "group": "زبان",
+  "coverage_method": "Overlapping adaptive quota-rank sweep from 1 through 500000; step=max(100,floor(10% of target)); plus far-tail probes.",
+  "years": {
+    "1401": {
+      "raw_unique_rows": 633,
+      "normalized_language_rows": 632,
+      "merged_year_csv_rows": 1060,
+      "regions": {
+        "1": 110,
+        "2": 293,
+        "3": 230
+      }
+    },
+    "1402": {
+      "raw_unique_rows": 90,
+      "normalized_language_rows": 90,
+      "merged_year_csv_rows": 146,
+      "regions": {
+        "1": 7,
+        "2": 44,
+        "3": 39
+      }
+    },
+    "1403": {
+      "raw_unique_rows": 125,
+      "normalized_language_rows": 124,
+      "merged_year_csv_rows": 187,
+      "regions": {
+        "1": 19,
+        "2": 62,
+        "3": 44
+      }
+    },
+    "1404": {
+      "raw_unique_rows": 98,
+      "normalized_language_rows": 98,
+      "merged_year_csv_rows": 149,
+      "regions": {
+        "1": 13,
+        "2": 46,
+        "3": 39
+      }
+    }
+  },
+  "total_normalized_language_rows": 944
+}
