@@ -1,0 +1,15 @@
+{
+  "requested": 56,
+  "ok": 55,
+  "failed": [
+    {
+      "row": 30,
+      "name": "بنیامین کرمی",
+      "rank": 914,
+      "quota": "منطقه 1",
+      "admission": "پزشکی تبریز",
+      "final_id": 51822,
+      "status": "no-photo"
+    }
+  ]
+}
