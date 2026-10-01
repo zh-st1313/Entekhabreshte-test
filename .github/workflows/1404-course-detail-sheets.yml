@@ -1,0 +1,137 @@
+name: Build 1404 course detail sheets
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/1404-course-detail-sheets.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+      - run: python -m pip install --quiet requests beautifulsoup4 pillow
+
+      - name: Build enlarged result-detail strips
+        run: |
+          python - <<'PY'
+          import csv,os,re,html,io,json
+          import requests
+          from bs4 import BeautifulSoup
+          from PIL import Image,ImageDraw,ImageFont,ImageEnhance
+
+          src="scratch/siibtorsh-1404-safe/paired.csv"
+          out="scratch/siibtorsh-1404-course-review/detail-sheets"
+          os.makedirs(out,exist_ok=True)
+          rows=[]
+          with open(src,encoding="utf-8-sig",newline="") as f:
+              for r in csv.DictReader(f):
+                  if str(r.get("quota_rank","")).strip():
+                      rows.append(r)
+
+          s=requests.Session(); s.headers["User-Agent"]="Mozilla/5.0"
+          items=[]; failures=[]
+
+          def find_wrapper(mid,name):
+              rr=s.get(f"https://t.me/s/SiiibTorsh?before={mid+1}",timeout=25); rr.raise_for_status()
+              soup=BeautifulSoup(rr.text,"html.parser")
+              fallback=None
+              for w in soup.select("div.tgme_widget_message_wrap"):
+                  ids=set()
+                  msg=w.select_one("div.tgme_widget_message")
+                  if msg:
+                      m=re.search(r'/(\d+)$',msg.get("data-post",""))
+                      if m: ids.add(int(m.group(1)))
+                  dl=w.select_one("a.tgme_widget_message_date")
+                  if dl:
+                      m=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                      if m: ids.add(int(m.group(1)))
+                  for a in w.select('a[href*="?single"]'):
+                      m=re.search(r'/(\d+)\?single',a.get("href",""))
+                      if m: ids.add(int(m.group(1)))
+                  te=w.select_one("div.tgme_widget_message_text")
+                  txt=te.get_text(" ",strip=True) if te else ""
+                  if mid in ids: return w
+                  if name and name in txt: fallback=w
+              return fallback
+
+          for idx,r in enumerate(rows,1):
+              mid=int(r["admission_msg"])
+              try:
+                  w=find_wrapper(mid,r["name"])
+                  if not w:
+                      failures.append({"rid":idx,"name":r["name"],"reason":"wrapper"})
+                      continue
+                  urls=[]
+                  for a in w.select("a.tgme_widget_message_photo_wrap"):
+                      m=re.search(r"background-image:url\('([^']+)'\)",a.get("style",""))
+                      if m: urls.append(html.unescape(m.group(1)))
+                  if not urls:
+                      for m in re.finditer(r"background-image:url\('([^']+)\'\)",str(w)):
+                          u=html.unescape(m.group(1))
+                          if "telesco.pe" in u: urls.append(u)
+                  best=None
+                  for u in dict.fromkeys(urls):
+                      try:
+                          rr=s.get(u,timeout=25)
+                          if rr.ok and len(rr.content)>1500 and (best is None or len(rr.content)>len(best[1])):
+                              best=(u,rr.content)
+                      except: pass
+                  if not best:
+                      failures.append({"rid":idx,"name":r["name"],"reason":"photo"})
+                      continue
+                  im=Image.open(io.BytesIO(best[1])).convert("RGB")
+                  w0,h0=im.size
+                  # The course/university/type line is normally in the lower third.
+                  strip=im.crop((0,int(h0*0.58),w0,h0))
+                  tw=1800
+                  th=max(300,int(strip.height*tw/strip.width))
+                  strip=strip.resize((tw,th))
+                  strip=ImageEnhance.Contrast(strip).enhance(1.25)
+                  strip=ImageEnhance.Sharpness(strip).enhance(1.55)
+                  items.append((idx,r,strip))
+              except Exception as e:
+                  failures.append({"rid":idx,"name":r["name"],"reason":type(e).__name__})
+
+          try: font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
+          except: font=ImageFont.load_default()
+
+          per=6; rowh=470; manifest=[]
+          for off in range(0,len(items),per):
+              sub=items[off:off+per]
+              sheet=Image.new("RGB",(1900,rowh*len(sub)),"white")
+              d=ImageDraw.Draw(sheet)
+              fn=f"detail-{off//per+1:03d}.jpg"
+              for j,(rid,r,strip) in enumerate(sub):
+                  y=j*rowh
+                  label=f"RID {rid} | {r['name']} | {r['quota_rank']} {r['quota']} | {r['admission_raw']} | msg {r['admission_msg']}"
+                  d.text((10,y+5),label,fill="black",font=font)
+                  ss=strip.copy(); ss.thumbnail((1880,rowh-45))
+                  sheet.paste(ss,(10,y+40))
+                  manifest.append({"rid":rid,"sheet":fn,"slot":j+1,"name":r["name"],"admission_raw":r["admission_raw"],"admission_msg":r["admission_msg"]})
+              sheet.save(os.path.join(out,fn),quality=92,optimize=True)
+
+          json.dump(manifest,open(os.path.join(out,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(failures,open(os.path.join(out,"failures.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump({"input":len(rows),"details":len(items),"failures":len(failures),"sheets":(len(items)+per-1)//per},
+                    open(os.path.join(out,"summary.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print(json.dumps({"input":len(rows),"details":len(items),"failures":len(failures),"sheets":(len(items)+per-1)//per},ensure_ascii=False))
+          PY
+
+      - name: Commit detail sheets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-course-review/detail-sheets
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add enlarged 1404 course detail sheets"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
