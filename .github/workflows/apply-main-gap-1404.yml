@@ -1,0 +1,122 @@
+name: Apply main gap to 1404 staging
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/apply-main-gap-1404.yml
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - name: Merge post-May-25 main-channel evidence
+        run: |
+          python - <<'PY'
+          import csv,json,re,unicodedata,os
+          from difflib import SequenceMatcher
+
+          def norm(s):
+              s=unicodedata.normalize("NFKC",s or "")
+              s=s.replace("ي","ی").replace("ك","ک").replace("ۀ","ه").replace("ة","ه")
+              s=re.sub(r'[\u200c\u200e\u200f\ufeff]',' ',s)
+              s=re.sub(r'\b(سید|سیده)\b',' ',s)
+              return re.sub(r'[^آ-یA-Za-z0-9]','',s).lower()
+
+          def norm_adm(s):
+              s=norm(s)
+              for w in ["دانشگاه","علومپزشکی","دانشگاهعلومپزشکی"]:
+                  s=s.replace(w,"")
+              return s
+
+          with open("scratch/siibtorsh-1404-safe/paired.csv",encoding="utf-8-sig",newline="") as f:
+              rows=list(csv.DictReader(f))
+
+          gap=json.load(open("scratch/main-gap-2026/merged_candidates.json",encoding="utf-8"))["candidates"]
+          gap=[g for g in gap if g.get("rank") and g.get("admission") and g.get("year")=="۱۴۰۴"]
+
+          by={}
+          for g in gap:
+              k=norm(g["name"])
+              if not k: continue
+              by.setdefault(k,[]).append(g)
+
+          recovered=[]
+          conflicts=[]
+          for r in rows:
+              if r.get("quota_rank"):
+                  continue
+              k=norm(r["name"])
+              cand=None
+              method=""
+              if k in by and len(by[k])==1:
+                  cand=by[k][0]; method="gap_exact_name"
+              else:
+                  scored=[]
+                  for gk,arr in by.items():
+                      if len(arr)!=1: continue
+                      if k.startswith(gk) or gk.startswith(k):
+                          sim=max(SequenceMatcher(None,k,gk).ratio(),0.95)
+                      else:
+                          sim=SequenceMatcher(None,k,gk).ratio()
+                      if sim>=0.94:
+                          scored.append((sim,gk,arr[0]))
+                  scored.sort(reverse=True,key=lambda x:x[0])
+                  if scored and (len(scored)==1 or scored[0][0]-scored[1][0]>=0.05):
+                      sim,gk,g=scored[0]
+                      # Admission text must be compatible too.
+                      a=norm_adm(r["admission_raw"]); b=norm_adm(g["admission"])
+                      adm_ok=(a==b or a in b or b in a or SequenceMatcher(None,a,b).ratio()>=0.78)
+                      if adm_ok:
+                          cand=g; method="gap_high_conf_name"
+
+              if cand:
+                  # final safety: admission compatibility
+                  a=norm_adm(r["admission_raw"]); b=norm_adm(cand["admission"])
+                  sima=SequenceMatcher(None,a,b).ratio()
+                  if not (a==b or a in b or b in a or sima>=0.78):
+                      conflicts.append({"row_name":r["name"],"row_admission":r["admission_raw"],"gap_name":cand["name"],"gap_admission":cand["admission"]})
+                      continue
+                  r["quota"]=cand["quota"].replace("۱","1").replace("۲","2").replace("۳","3")
+                  r["quota_rank"]=cand["rank"]
+                  r["rank_msg"]=cand["message_ids"][0] if cand.get("message_ids") else ""
+                  r["match_method"]=method
+                  r["match_score"]="1.000"
+                  recovered.append({"name":r["name"],"rank":r["quota_rank"],"quota":r["quota"],"admission":r["admission_raw"],"method":method})
+
+          outdir="scratch/siibtorsh-1404-gap-applied"
+          os.makedirs(outdir,exist_ok=True)
+          fields=list(rows[0].keys())
+          with open(outdir+"/paired.csv","w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          summary={
+              "total_rows":len(rows),
+              "gap_candidates_complete":len(gap),
+              "recovered_from_gap":len(recovered),
+              "matched_after_gap":sum(bool(x.get("quota_rank")) for x in rows),
+              "unmatched_after_gap":sum(not bool(x.get("quota_rank")) for x in rows),
+              "conflicts":len(conflicts)
+          }
+          json.dump(summary,open(outdir+"/summary.json","w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(recovered,open(outdir+"/recovered.json","w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(conflicts,open(outdir+"/conflicts.json","w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+
+      - name: Commit gap-applied staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-gap-applied
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: apply post-May-25 main gap to 1404 staging"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
