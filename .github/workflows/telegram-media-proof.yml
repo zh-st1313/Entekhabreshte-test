@@ -18,34 +18,37 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-
       - run: python -m pip install --quiet requests beautifulsoup4 pillow
-
-      - name: Fetch final-card images and build sheets
+      - name: Fetch recovered final-card images
         run: |
           python - <<'PY'
-          import json,re,os,io,time,html
+          import json,re,os,io,html
           import requests
           from bs4 import BeautifulSoup
           from PIL import Image,ImageDraw,ImageFont,ImageEnhance
 
-          src=json.load(open("scratch/siibtorsh-post-2026-05-25/compare-existing.json",encoding="utf-8"))
-          rows=src["missing"]
-          O="scratch/siibtorsh-post-2026-05-25/finalcards"
-          C=os.path.join(O,"cards")
-          S=os.path.join(O,"sheets")
+          O="scratch/siibtorsh-post-2026-05-25/recovered-finalcards"
+          C=os.path.join(O,"cards"); S=os.path.join(O,"sheets")
           os.makedirs(C,exist_ok=True); os.makedirs(S,exist_ok=True)
+          sess=requests.Session(); sess.headers.update({"User-Agent":"Mozilla/5.0"})
 
-          sess=requests.Session()
-          sess.headers.update({"User-Agent":"Mozilla/5.0"})
-          cache={}
-
-          def get_page(before):
-              if before not in cache:
-                  u=f"https://t.me/s/SiiibTorsh?before={before}"
-                  rr=sess.get(u,timeout=25); rr.raise_for_status()
-                  cache[before]=rr.text
-              return cache[before]
+          items=[]
+          for n in range(1,5):
+              p=f"scratch/siibtorsh-post-2026-05-25/final-search-batch{n:02d}.json"
+              arr=json.load(open(p,encoding="utf-8"))
+              for x in arr:
+                  finals=x.get("finals") or []
+                  chosen=None
+                  # Prefer a final post whose text contains the expected admission phrase.
+                  exp=(x.get("admission") or "").replace("‌"," ").replace("  "," ").strip()
+                  for f in finals:
+                      tx=(f.get("text") or "").replace("‌"," ").replace("  "," ")
+                      if exp and exp in tx:
+                          chosen=f;break
+                  if chosen is None and finals:
+                      chosen=finals[0]
+                  if chosen:
+                      items.append({**x,"final_id":chosen["id"],"final_text":chosen["text"]})
 
           def ids_for_wrap(w):
               ids=[]
@@ -63,114 +66,81 @@ jobs:
               return sorted(set(ids))
 
           def find_wrap(mid):
-              body=get_page(mid+2)
-              soup=BeautifulSoup(body,"html.parser")
+              rr=sess.get(f"https://t.me/s/SiiibTorsh?before={mid+2}",timeout=25)
+              rr.raise_for_status()
+              soup=BeautifulSoup(rr.text,"html.parser")
               best=None
               for w in soup.select("div.tgme_widget_message_wrap"):
                   ids=ids_for_wrap(w)
-                  if mid in ids:
-                      return w
-                  # group wrapper may use nearby id, keep closest candidate
+                  if mid in ids: return w
                   if ids:
-                      dist=min(abs(x-mid) for x in ids)
-                      if dist<=3 and (best is None or dist<best[0]):
-                          best=(dist,w)
+                      dist=min(abs(i-mid) for i in ids)
+                      if dist<=3 and (best is None or dist<best[0]): best=(dist,w)
               return best[1] if best else None
 
-          def final_link_from_wrap(w):
-              if not w: return None
-              te=w.select_one("div.tgme_widget_message_text")
-              if not te: return None
-              for a in te.select("a[href]"):
-                  tx=re.sub(r'\s+',' ',a.get_text(" ",strip=True)).replace("‌"," ")
-                  if "کارنامه نهایی" in tx:
-                      m=re.search(r'/(\d+)(?:\?single)?$',a.get("href",""))
-                      if m: return int(m.group(1))
-              return None
-
-          def photo_urls(w):
-              if not w:return []
+          def urls(w):
               out=[]
+              if not w:return out
               for a in w.select("a.tgme_widget_message_photo_wrap"):
                   style=a.get("style","")
                   m=re.search(r"background-image:url\('([^']+)'\)",style)
                   if m:
                       u=html.unescape(m.group(1))
-                      if "telesco.pe" in u and u not in out: out.append(u)
-              if not out:
-                  for m in re.finditer(r"background-image:url\('([^']+)'\)",str(w)):
-                      u=html.unescape(m.group(1))
                       if "telesco.pe" in u and u not in out:out.append(u)
               return out
 
-          meta=[]
-          card_items=[]
-          for idx,row in enumerate(rows,1):
-              mid=int(row["id"])
-              w=find_wrap(mid)
-              target=final_link_from_wrap(w)
-              rec={"row":idx,"name":row["name"],"rank":row["rank"],"quota":row["quota"],"admission":row["admission"],"recap_msg":mid,"final_msg":target,"status":""}
-              if not target:
-                  rec["status"]="final-link-not-found";meta.append(rec);continue
-              fw=find_wrap(target)
-              urls=photo_urls(fw)
-              if not urls:
-                  rec["status"]="final-photo-not-found";meta.append(rec);continue
+          meta=[]; cards=[]
+          for idx,x in enumerate(items,1):
+              mid=int(x["final_id"])
+              rec={"row":idx,"name":x["name"],"rank":x["rank"],"quota":x["quota"],"admission":x["admission"],"final_id":mid,"status":""}
+              w=find_wrap(mid); us=urls(w)
+              if not us:
+                  rec["status"]="no-photo";meta.append(rec);continue
               best=None
-              for u in urls:
+              for u in us:
                   try:
                       rr=sess.get(u,timeout=25)
-                      if rr.ok and len(rr.content)>5000:
-                          if best is None or len(rr.content)>len(best[1]):
-                              best=(u,rr.content)
-                  except Exception:
-                      pass
+                      if rr.ok and len(rr.content)>5000 and (best is None or len(rr.content)>len(best[1])):best=(u,rr.content)
+                  except Exception:pass
               if not best:
                   rec["status"]="download-failed";meta.append(rec);continue
               try:
                   im=Image.open(io.BytesIO(best[1])).convert("RGB")
                   rec["status"]="ok";rec["size"]=im.size
-                  path=os.path.join(C,f"{idx:03d}-{mid}-{target}.jpg")
-                  im.save(path,quality=92)
-                  # Useful lower/middle section, but keep entire card too.
+                  im.save(os.path.join(C,f"{idx:03d}-{mid}.jpg"),quality=93)
                   w0,h0=im.size
-                  crop=im.crop((0,int(h0*0.35),w0,h0))
-                  crop=ImageEnhance.Contrast(crop).enhance(1.12)
-                  card_items.append((idx,rec,crop))
-              except Exception as e:
+                  crop=im.crop((0,int(h0*0.30),w0,h0))
+                  crop=ImageEnhance.Contrast(crop).enhance(1.15)
+                  cards.append((idx,rec,crop))
+              except Exception:
                   rec["status"]="decode-failed"
               meta.append(rec)
 
-          try: font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
-          except Exception: font=ImageFont.load_default()
+          try:font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
+          except Exception:font=ImageFont.load_default()
 
-          # 4 cards per sheet for readable visual inspection.
-          for start in range(0,len(card_items),4):
-              items=card_items[start:start+4]
-              W=1800; row_h=650
-              sheet=Image.new("RGB",(W,row_h*len(items)),"white")
-              d=ImageDraw.Draw(sheet)
-              for j,(idx,rec,im) in enumerate(items):
-                  y=j*row_h
-                  label=f"ROW {idx} | {rec['name']} | {rec['rank']} {rec['quota']} | {rec['admission']} | final {rec['final_msg']}"
+          for start in range(0,len(cards),4):
+              pack=cards[start:start+4]
+              W=1900; RH=690
+              sh=Image.new("RGB",(W,RH*len(pack)),"white");d=ImageDraw.Draw(sh)
+              for j,(idx,rec,im) in enumerate(pack):
+                  y=j*RH
+                  label=f"ROW {idx} | {rec['name']} | {rec['rank']} {rec['quota']} | {rec['admission']} | msg {rec['final_id']}"
                   d.text((12,y+8),label,fill="black",font=font)
-                  cp=im.copy()
-                  cp.thumbnail((W-24,row_h-55))
-                  sheet.paste(cp,(12,y+48))
-              sheet.save(os.path.join(S,f"sheet-{start//4+1:02d}.jpg"),quality=90)
+                  cp=im.copy();cp.thumbnail((W-24,RH-58));sh.paste(cp,(12,y+50))
+              sh.save(os.path.join(S,f"sheet-{start//4+1:02d}.jpg"),quality=91)
 
           json.dump(meta,open(os.path.join(O,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
-          summary={"requested":len(rows),"ok":sum(x["status"]=="ok" for x in meta),"no_link":sum(x["status"]=="final-link-not-found" for x in meta),"no_photo":sum(x["status"]=="final-photo-not-found" for x in meta),"failed":[x for x in meta if x["status"]!="ok"]}
+          summary={"requested":len(items),"ok":sum(x["status"]=="ok" for x in meta),"failed":[x for x in meta if x["status"]!="ok"]}
           json.dump(summary,open(os.path.join(O,"summary.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
           print(json.dumps(summary,ensure_ascii=False))
           PY
-
-      - name: Commit cards and sheets
+      - name: Commit recovered cards
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/siibtorsh-post-2026-05-25/finalcards
+          git add scratch/siibtorsh-post-2026-05-25/recovered-finalcards
           git diff --cached --quiet && exit 0
-          git commit -m "extract: fetch post-May final cards for course type"
+          git commit -m "extract: fetch recovered post-May final cards"
           git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
