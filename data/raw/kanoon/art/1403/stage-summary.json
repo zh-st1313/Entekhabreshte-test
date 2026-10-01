@@ -1,0 +1,205 @@
+{
+  "dataset": "kanoon_art_1403",
+  "source_page": "https://www.kanoon.ir/Public/SuperiorsRankBased?type=3",
+  "post_endpoint": "https://www.kanoon.ir/Public/SuperiorsRankBasedShowSuperiors",
+  "dept": 4,
+  "year": 1403,
+  "year_code": 103,
+  "type": 3,
+  "regions": {
+    "1": {
+      "year": 1403,
+      "year_code": 103,
+      "dept": 4,
+      "group": "هنر",
+      "region": 1,
+      "query_count": 79,
+      "nonzero_queries": 10,
+      "zero_queries": 66,
+      "unique_rows": 6,
+      "quota_rank_min": 20,
+      "quota_rank_max": 2354,
+      "national_rank_min": 29,
+      "national_rank_max": 6164,
+      "last_nonzero_target": 2592,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    },
+    "2": {
+      "year": 1403,
+      "year_code": 103,
+      "dept": 4,
+      "group": "هنر",
+      "region": 2,
+      "query_count": 79,
+      "nonzero_queries": 28,
+      "zero_queries": 48,
+      "unique_rows": 38,
+      "quota_rank_min": 33,
+      "quota_rank_max": 11681,
+      "national_rank_min": 87,
+      "national_rank_max": 29801,
+      "last_nonzero_target": 11894,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    },
+    "3": {
+      "year": 1403,
+      "year_code": 103,
+      "dept": 4,
+      "group": "هنر",
+      "region": 3,
+      "query_count": 79,
+      "nonzero_queries": 13,
+      "zero_queries": 63,
+      "unique_rows": 19,
+      "quota_rank_min": 6,
+      "quota_rank_max": 1871,
+      "national_rank_min": 110,
+      "national_rank_max": 8611,
+      "last_nonzero_target": 1949,
+      "last_sweep_targets": [
+        {
+          "target": 251055,
+          "rows": 0
+        },
+        {
+          "target": 276160,
+          "rows": 0
+        },
+        {
+          "target": 303776,
+          "rows": 0
+        },
+        {
+          "target": 334153,
+          "rows": 0
+        },
+        {
+          "target": 367568,
+          "rows": 0
+        },
+        {
+          "target": 404324,
+          "rows": 0
+        },
+        {
+          "target": 444756,
+          "rows": 0
+        },
+        {
+          "target": 489231,
+          "rows": 0
+        }
+      ],
+      "far_tail_probes": [
+        {
+          "target": 600000,
+          "rows": 0
+        },
+        {
+          "target": 750000,
+          "rows": 0
+        },
+        {
+          "target": 1000000,
+          "rows": 0
+        }
+      ]
+    }
+  },
+  "combined_unique_rows": 63,
+  "normalized_csv_rows": 63
+}
