@@ -1,0 +1,62 @@
+name: Scrape Kanoon language 1401-1404
+
+on:
+  push:
+    paths:
+      - ".github/workflows/scrape-language-full.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-language:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scraper dependencies
+        run: pip install requests beautifulsoup4
+      - name: Extract complete Kanoon language data
+        run: python scripts/scrape_kanoon_language.py --full
+      - name: Validate language and preserve art
+        run: |
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+
+          root=Path("data/rank_admissions")
+          lsum=json.loads((root/"LANGUAGE_1401_1404_SUMMARY.json").read_text(encoding="utf-8"))
+          asum=json.loads((root/"ART_1401_1404_SUMMARY.json").read_text(encoding="utf-8"))
+
+          out={}
+          for year in (1401,1402,1403,1404):
+              p=root/f"rank_to_admission_{year}.csv"
+              with p.open(encoding="utf-8-sig",newline="") as f:
+                  rows=list(csv.DictReader(f))
+              art=[r for r in rows if r["گروه آزمایشی"]=="هنر"]
+              lang=[r for r in rows if r["گروه آزمایشی"]=="زبان"]
+              exp_art=asum["years"][str(year)]["normalized_csv_rows"]
+              exp_lang=lsum["years"][str(year)]["normalized_language_rows"]
+              assert len(art)==exp_art, (year,"art",len(art),exp_art)
+              assert len(lang)==exp_lang, (year,"language",len(lang),exp_lang)
+              assert lang, f"no language rows for {year}"
+              out[str(year)]={"art":len(art),"language":len(lang),"total":len(rows)}
+          print("VALIDATED",json.dumps(out,ensure_ascii=False))
+          PY
+      - name: Commit language data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/raw/kanoon/language
+          git add data/rank_admissions/rank_to_admission_1401.csv
+          git add data/rank_admissions/rank_to_admission_1402.csv
+          git add data/rank_admissions/rank_to_admission_1403.csv
+          git add data/rank_admissions/rank_to_admission_1404.csv
+          git add data/rank_admissions/LANGUAGE_1401_1404_SUMMARY.json
+          git diff --cached --stat
+          git commit -m "data: add Kanoon language admissions 1401-1404"
+          git push
