@@ -1,0 +1,1330 @@
+{
+  "count": 25,
+  "sheets": [
+    {
+      "file": "zoom-001.jpg",
+      "items": [
+        {
+          "rownum": 1,
+          "admission_msg": "48055",
+          "name": "محمدیاسین زایر",
+          "quota": "منطقه 3",
+          "quota_rank": "65",
+          "admission_raw": "پزشکی شهیدبهشتی"
+        },
+        {
+          "rownum": 2,
+          "admission_msg": "48062",
+          "name": "فاطمه عبدالملکی",
+          "quota": "منطقه 2",
+          "quota_rank": "436",
+          "admission_raw": "پزشکی ایران"
+        },
+        {
+          "rownum": 3,
+          "admission_msg": "48074",
+          "name": "محمدامین موسوی",
+          "quota": "منطقه 2",
+          "quota_rank": "617",
+          "admission_raw": "دندانپزشکی‌ زنجان"
+        },
+        {
+          "rownum": 4,
+          "admission_msg": "48075",
+          "name": "ریحانه سعادتی",
+          "quota": "منطقه 3",
+          "quota_rank": "252",
+          "admission_raw": "پزشکی ایلام"
+        },
+        {
+          "rownum": 5,
+          "admission_msg": "48076",
+          "name": "امیرمهدی آذری",
+          "quota": "منطقه 2",
+          "quota_rank": "448",
+          "admission_raw": "دندانپزشکی‌ شاهد تهران"
+        },
+        {
+          "rownum": 6,
+          "admission_msg": "48077",
+          "name": "محمدصدرا عزیزی فروتقه",
+          "quota": "منطقه 2",
+          "quota_rank": "198",
+          "admission_raw": "پزشکی‌ مشهد"
+        }
+      ]
+    },
+    {
+      "file": "zoom-002.jpg",
+      "items": [
+        {
+          "rownum": 7,
+          "admission_msg": "48079",
+          "name": "سارا جعفری پور",
+          "quota": "منطقه 3",
+          "quota_rank": "720",
+          "admission_raw": "پزشکی‌ همدان"
+        },
+        {
+          "rownum": 8,
+          "admission_msg": "48080",
+          "name": "مهدیس هاشمی",
+          "quota": "منطقه 3",
+          "quota_rank": "724",
+          "admission_raw": "دندانپزشکی‌ تبریز"
+        },
+        {
+          "rownum": 9,
+          "admission_msg": "48081",
+          "name": "فاطمه مولوی",
+          "quota": "منطقه 2",
+          "quota_rank": "848",
+          "admission_raw": "پزشکی‌ همدان"
+        },
+        {
+          "rownum": 10,
+          "admission_msg": "48082",
+          "name": "علی میرزائی",
+          "quota": "منطقه 2",
+          "quota_rank": "294",
+          "admission_raw": "دندانپزشکی‌ تبریز"
+        },
+        {
+          "rownum": 11,
+          "admission_msg": "48083",
+          "name": "مانی مهدوی بادمحمود",
+          "quota": "منطقه 3",
+          "quota_rank": "367",
+          "admission_raw": "پزشکی‌ تبریز"
+        },
+        {
+          "rownum": 12,
+          "admission_msg": "48084",
+          "name": "محمدحسن هدایتی",
+          "quota": "منطقه 3",
+          "quota_rank": "2819",
+          "admission_raw": "فیزیوتراپی کرمان"
+        }
+      ]
+    },
+    {
+      "file": "zoom-003.jpg",
+      "items": [
+        {
+          "rownum": 13,
+          "admission_msg": "48090",
+          "name": "هادی امیرزاده",
+          "quota": "منطقه 3",
+          "quota_rank": "118",
+          "admission_raw": "دندانپزشکی‌ تبریز"
+        },
+        {
+          "rownum": 14,
+          "admission_msg": "48093",
+          "name": "ابوالفضل یوسفی مقدم",
+          "quota": "منطقه 3",
+          "quota_rank": "759",
+          "admission_raw": "پزشکی‌ ایران"
+        },
+        {
+          "rownum": 15,
+          "admission_msg": "48097",
+          "name": "کیان تحویلداری",
+          "quota": "منطقه 2",
+          "quota_rank": "805",
+          "admission_raw": "پزشکی‌ شیراز"
+        },
+        {
+          "rownum": 16,
+          "admission_msg": "48104",
+          "name": "آروین پیشوائی",
+          "quota": "منطقه 1",
+          "quota_rank": "508",
+          "admission_raw": "پزشکی‌ مشهد"
+        },
+        {
+          "rownum": 17,
+          "admission_msg": "48108",
+          "name": "مهدی قنبری",
+          "quota": "منطقه 2",
+          "quota_rank": "1497",
+          "admission_raw": "دندانپزشکی‌ سمنان"
+        },
+        {
+          "rownum": 18,
+          "admission_msg": "48141",
+          "name": "غزل شهریاری",
+          "quota": "منطقه 3",
+          "quota_rank": "1086",
+          "admission_raw": "داروسازی تهران"
+        }
+      ]
+    },
+    {
+      "file": "zoom-004.jpg",
+      "items": [
+        {
+          "rownum": 19,
+          "admission_msg": "48150",
+          "name": "مطهره علیپورنیاول",
+          "quota": "منطقه 2",
+          "quota_rank": "625",
+          "admission_raw": "داروسازی تهران"
+        },
+        {
+          "rownum": 20,
+          "admission_msg": "48157",
+          "name": "محمدمهدی بیلندی",
+          "quota": "منطقه 3",
+          "quota_rank": "1599",
+          "admission_raw": "پزشکی مشهد"
+        },
+        {
+          "rownum": 21,
+          "admission_msg": "48159",
+          "name": "فاطمه فرجی عرقطو",
+          "quota": "منطقه 3",
+          "quota_rank": "2452",
+          "admission_raw": "داروسازی شهیدبهشتی"
+        },
+        {
+          "rownum": 22,
+          "admission_msg": "48186",
+          "name": "بنیامین صالحی",
+          "quota": "منطقه 2",
+          "quota_rank": "1831",
+          "admission_raw": "پزشکی زنجان"
+        },
+        {
+          "rownum": 23,
+          "admission_msg": "48187",
+          "name": "زهرا خسروی",
+          "quota": "منطقه 1",
+          "quota_rank": "2625",
+          "admission_raw": "پزشکی مشهد"
+        },
+        {
+          "rownum": 24,
+          "admission_msg": "48190",
+          "name": "مبین شعبانی",
+          "quota": "منطقه 2",
+          "quota_rank": "1558",
+          "admission_raw": "پزشکی قم"
+        }
+      ]
+    },
+    {
+      "file": "zoom-005.jpg",
+      "items": [
+        {
+          "rownum": 25,
+          "admission_msg": "48197",
+          "name": "مبینا بهرامی",
+          "quota": "منطقه 2",
+          "quota_rank": "2594",
+          "admission_raw": "دندانپزشکی سمنان"
+        },
+        {
+          "rownum": 26,
+          "admission_msg": "48200",
+          "name": "علیرضا عابد",
+          "quota": "منطقه 2",
+          "quota_rank": "972",
+          "admission_raw": "دندانپزشکی رفسنجان"
+        },
+        {
+          "rownum": 27,
+          "admission_msg": "48204",
+          "name": "زهرا بکشلو",
+          "quota": "منطقه 3",
+          "quota_rank": "2735",
+          "admission_raw": "پزشکی زنجان"
+        },
+        {
+          "rownum": 28,
+          "admission_msg": "48205",
+          "name": "طاهره مهرپویا",
+          "quota": "منطقه 2",
+          "quota_rank": "2699",
+          "admission_raw": "پزشکی اراک"
+        },
+        {
+          "rownum": 30,
+          "admission_msg": "48262",
+          "name": "فاطمه زهرا سیمرغ",
+          "quota": "منطقه 2",
+          "quota_rank": "1118",
+          "admission_raw": "پزشکی‌ شهیدبهشتی"
+        },
+        {
+          "rownum": 31,
+          "admission_msg": "48268",
+          "name": "باران سلیم پور",
+          "quota": "منطقه 3",
+          "quota_rank": "85",
+          "admission_raw": "پزشکی‌ شهیدبهشتی"
+        }
+      ]
+    },
+    {
+      "file": "zoom-006.jpg",
+      "items": [
+        {
+          "rownum": 32,
+          "admission_msg": "48273",
+          "name": "آفرین شینی",
+          "quota": "منطقه 2",
+          "quota_rank": "375",
+          "admission_raw": "پزشکی‌ ایران"
+        },
+        {
+          "rownum": 33,
+          "admission_msg": "48278",
+          "name": "فاطمه امیری",
+          "quota": "منطقه 3",
+          "quota_rank": "1378",
+          "admission_raw": "دندانپزشکی آزاد تهران"
+        },
+        {
+          "rownum": 34,
+          "admission_msg": "48280",
+          "name": "عرفان کرمعلی",
+          "quota": "منطقه 1",
+          "quota_rank": "552",
+          "admission_raw": "پزشکی شهیدبهشتی"
+        },
+        {
+          "rownum": 35,
+          "admission_msg": "48283",
+          "name": "مرتضی مسعودی",
+          "quota": "منطقه 3",
+          "quota_rank": "260",
+          "admission_raw": "پزشکی ایران"
+        },
+        {
+          "rownum": 36,
+          "admission_msg": "48285",
+          "name": "امیررضا جدی حسینی",
+          "quota": "منطقه 3",
+          "quota_rank": "2768",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 38,
+          "admission_msg": "48292",
+          "name": "علی علی مددی صومعه ای",
+          "quota": "منطقه 2",
+          "quota_rank": "370",
+          "admission_raw": "پزشکی‌ شهیدبهشتی"
+        }
+      ]
+    },
+    {
+      "file": "zoom-007.jpg",
+      "items": [
+        {
+          "rownum": 43,
+          "admission_msg": "48350",
+          "name": "رومینا موحدی نیا",
+          "quota": "منطقه 2",
+          "quota_rank": "996",
+          "admission_raw": "پزشکی‌"
+        },
+        {
+          "rownum": 47,
+          "admission_msg": "48364",
+          "name": "مریم لعل دولت آبادی",
+          "quota": "منطقه 3",
+          "quota_rank": "616",
+          "admission_raw": "پزشکی مشهد"
+        },
+        {
+          "rownum": 49,
+          "admission_msg": "48374",
+          "name": "محمد گردوئی",
+          "quota": "منطقه 1",
+          "quota_rank": "669",
+          "admission_raw": "پزشکی مشهد"
+        },
+        {
+          "rownum": 52,
+          "admission_msg": "48390",
+          "name": "فاطمه امیریان",
+          "quota": "منطقه 3",
+          "quota_rank": "1378",
+          "admission_raw": "داروسازی"
+        },
+        {
+          "rownum": 53,
+          "admission_msg": "48394",
+          "name": "میکائیل اله بخش",
+          "quota": "منطقه 2",
+          "quota_rank": "1848",
+          "admission_raw": "دندانپزشکی‌ مشهد"
+        },
+        {
+          "rownum": 57,
+          "admission_msg": "48436",
+          "name": "پریسا وکیلی سعیدابادی",
+          "quota": "منطقه 1",
+          "quota_rank": "917",
+          "admission_raw": "دندانپزشکی‌ آزاد تبریز"
+        }
+      ]
+    },
+    {
+      "file": "zoom-008.jpg",
+      "items": [
+        {
+          "rownum": 58,
+          "admission_msg": "48437",
+          "name": "عباس ابراهیمی",
+          "quota": "منطقه 1",
+          "quota_rank": "2152",
+          "admission_raw": "فیزیوتراپی تبریز"
+        },
+        {
+          "rownum": 59,
+          "admission_msg": "48440",
+          "name": "امیررضا خسروزاده",
+          "quota": "منطقه 2",
+          "quota_rank": "1146",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 60,
+          "admission_msg": "48444",
+          "name": "کوثر سلمان زاده",
+          "quota": "منطقه 3",
+          "quota_rank": "1428",
+          "admission_raw": "پزشکی تبریز"
+        },
+        {
+          "rownum": 61,
+          "admission_msg": "48449",
+          "name": "یسنا کفیلی گرگری",
+          "quota": "منطقه 3",
+          "quota_rank": "523",
+          "admission_raw": "پزشکی تبریز"
+        },
+        {
+          "rownum": 66,
+          "admission_msg": "48510",
+          "name": "شکیبا عبدی",
+          "quota": "منطقه 3",
+          "quota_rank": "1506",
+          "admission_raw": "دندانپزشکی آزاد اصفهان"
+        },
+        {
+          "rownum": 67,
+          "admission_msg": "48511",
+          "name": "الناز افشاریان",
+          "quota": "منطقه 2",
+          "quota_rank": "939",
+          "admission_raw": "پزشکی‌ اصفهان"
+        }
+      ]
+    },
+    {
+      "file": "zoom-009.jpg",
+      "items": [
+        {
+          "rownum": 71,
+          "admission_msg": "48541",
+          "name": "اردشیر ابوالصدق",
+          "quota": "منطقه 1",
+          "quota_rank": "931",
+          "admission_raw": "پزشکی آزاد تهران"
+        },
+        {
+          "rownum": 78,
+          "admission_msg": "48571",
+          "name": "میلاد رضیئی",
+          "quota": "منطقه 2",
+          "quota_rank": "1093",
+          "admission_raw": "فیزیوتراپی تهران"
+        },
+        {
+          "rownum": 85,
+          "admission_msg": "48647",
+          "name": "سما بیگی",
+          "quota": "منطقه 2",
+          "quota_rank": "609",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 87,
+          "admission_msg": "48657",
+          "name": "سارینا علیزاده",
+          "quota": "منطقه 3",
+          "quota_rank": "2368",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 91,
+          "admission_msg": "48678",
+          "name": "یاسمین رحیمی",
+          "quota": "منطقه 2",
+          "quota_rank": "1618",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 92,
+          "admission_msg": "48679",
+          "name": "سروش احمدی",
+          "quota": "منطقه 2",
+          "quota_rank": "2582",
+          "admission_raw": "پزشکی کرمانشاه"
+        }
+      ]
+    },
+    {
+      "file": "zoom-010.jpg",
+      "items": [
+        {
+          "rownum": 93,
+          "admission_msg": "48682",
+          "name": "هستی همتیان",
+          "quota": "منطقه 2",
+          "quota_rank": "1276",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 94,
+          "admission_msg": "48688",
+          "name": "زهرا نجاتی",
+          "quota": "منطقه 3",
+          "quota_rank": "327",
+          "admission_raw": "دندانپزشکی کرمانشاه"
+        },
+        {
+          "rownum": 100,
+          "admission_msg": "48743",
+          "name": "الناز جهانگیر برشنه",
+          "quota": "منطقه 1",
+          "quota_rank": "3427",
+          "admission_raw": "پزشکی شیراز"
+        },
+        {
+          "rownum": 103,
+          "admission_msg": "48759",
+          "name": "مهرناز حسینی",
+          "quota": "منطقه 3",
+          "quota_rank": "1514",
+          "admission_raw": "پزشکی‌ شیراز"
+        },
+        {
+          "rownum": 106,
+          "admission_msg": "48778",
+          "name": "محمدجواد دهقانی",
+          "quota": "منطقه 3",
+          "quota_rank": "902",
+          "admission_raw": "دندانپزشکی ازاد شیراز"
+        },
+        {
+          "rownum": 107,
+          "admission_msg": "48785",
+          "name": "مینا کاظمی",
+          "quota": "منطقه 1",
+          "quota_rank": "809",
+          "admission_raw": "دندانپزشکی شیراز"
+        }
+      ]
+    },
+    {
+      "file": "zoom-011.jpg",
+      "items": [
+        {
+          "rownum": 110,
+          "admission_msg": "48799",
+          "name": "محمدامین بهمنی نسب",
+          "quota": "منطقه 3",
+          "quota_rank": "88",
+          "admission_raw": "دندانپزشکی شیراز"
+        },
+        {
+          "rownum": 121,
+          "admission_msg": "48879",
+          "name": "حامد قنبری",
+          "quota": "منطقه 2",
+          "quota_rank": "1446",
+          "admission_raw": "پزشکی ساری"
+        },
+        {
+          "rownum": 124,
+          "admission_msg": "48892",
+          "name": "الهام ال محمد",
+          "quota": "منطقه 2",
+          "quota_rank": "1455",
+          "admission_raw": "پزشکی ساری"
+        },
+        {
+          "rownum": 126,
+          "admission_msg": "48897",
+          "name": "محمد فرستاده",
+          "quota": "منطقه 2",
+          "quota_rank": "1493",
+          "admission_raw": "پزشکی‌ ساری"
+        },
+        {
+          "rownum": 129,
+          "admission_msg": "48908",
+          "name": "عمادالدین ارازپور",
+          "quota": "منطقه 3",
+          "quota_rank": "1040",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 130,
+          "admission_msg": "48909",
+          "name": "راحیل بهفروز",
+          "quota": "منطقه 2",
+          "quota_rank": "319",
+          "admission_raw": "دندانپزشکی"
+        }
+      ]
+    },
+    {
+      "file": "zoom-012.jpg",
+      "items": [
+        {
+          "rownum": 132,
+          "admission_msg": "48954",
+          "name": "زهرا مومنی",
+          "quota": "منطقه 3",
+          "quota_rank": "2672",
+          "admission_raw": "پزشکی کرمان"
+        },
+        {
+          "rownum": 134,
+          "admission_msg": "48961",
+          "name": "ارشیا افضلی ساردو",
+          "quota": "منطقه 3",
+          "quota_rank": "1026",
+          "admission_raw": "پزشکی کرمان"
+        },
+        {
+          "rownum": 137,
+          "admission_msg": "48972",
+          "name": "زهرا سرمست",
+          "quota": "منطقه 2",
+          "quota_rank": "2018",
+          "admission_raw": "پزشکی کرمان"
+        },
+        {
+          "rownum": 138,
+          "admission_msg": "48976",
+          "name": "محسن حسینی",
+          "quota": "منطقه 3",
+          "quota_rank": "1579",
+          "admission_raw": "دندانپزشکی اهواز"
+        },
+        {
+          "rownum": 144,
+          "admission_msg": "48999",
+          "name": "کیمیا نقیبیان",
+          "quota": "منطقه 1",
+          "quota_rank": "656",
+          "admission_raw": "دندانپزشکی کرمان"
+        },
+        {
+          "rownum": 155,
+          "admission_msg": "49081",
+          "name": "مبینا امینی رارانی",
+          "quota": "منطقه 1",
+          "quota_rank": "2663",
+          "admission_raw": "فیزیوتراپی یزد"
+        }
+      ]
+    },
+    {
+      "file": "zoom-013.jpg",
+      "items": [
+        {
+          "rownum": 165,
+          "admission_msg": "49118",
+          "name": "امیرمحمد غفاری",
+          "quota": "منطقه 2",
+          "quota_rank": "116",
+          "admission_raw": "دندانپزشکی‌ یزد"
+        },
+        {
+          "rownum": 168,
+          "admission_msg": "49125",
+          "name": "ماهان شب گرد فریمانی",
+          "quota": "منطقه 3",
+          "quota_rank": "1139",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 181,
+          "admission_msg": "49212",
+          "name": "امیر حسین زاده",
+          "quota": "منطقه 1",
+          "quota_rank": "1041",
+          "admission_raw": "پزشکی شهیدبهشتی"
+        },
+        {
+          "rownum": 188,
+          "admission_msg": "49242",
+          "name": "فرزانه شاهمرادی",
+          "quota": "منطقه 3",
+          "quota_rank": "2053",
+          "admission_raw": "پزشکی‌ شهیدبهشتی"
+        },
+        {
+          "rownum": 194,
+          "admission_msg": "49292",
+          "name": "محسن محمدی",
+          "quota": "منطقه 1",
+          "quota_rank": "1386",
+          "admission_raw": "پزشکی همدان"
+        },
+        {
+          "rownum": 197,
+          "admission_msg": "49305",
+          "name": "نگار حبیب زاده",
+          "quota": "منطقه 2",
+          "quota_rank": "2761",
+          "admission_raw": "داروسازی همدان"
+        }
+      ]
+    },
+    {
+      "file": "zoom-014.jpg",
+      "items": [
+        {
+          "rownum": 198,
+          "admission_msg": "49306",
+          "name": "زینب موسیوند دارانی",
+          "quota": "منطقه 2",
+          "quota_rank": "2214",
+          "admission_raw": "پزشکی همدان"
+        },
+        {
+          "rownum": 199,
+          "admission_msg": "49309",
+          "name": "سنا عموزاده",
+          "quota": "منطقه 3",
+          "quota_rank": "645",
+          "admission_raw": "پزشکی همدان"
+        },
+        {
+          "rownum": 202,
+          "admission_msg": "49320",
+          "name": "تینا علی محمدی",
+          "quota": "منطقه 2",
+          "quota_rank": "654",
+          "admission_raw": "دندانپزشکی همدان"
+        },
+        {
+          "rownum": 204,
+          "admission_msg": "49328",
+          "name": "علی بهرامی",
+          "quota": "منطقه 2",
+          "quota_rank": "1146",
+          "admission_raw": "پزشکی همدان"
+        },
+        {
+          "rownum": 214,
+          "admission_msg": "49455",
+          "name": "اسرا کارگر",
+          "quota": "منطقه 1",
+          "quota_rank": "2257",
+          "admission_raw": "پزشکی بیرجند"
+        },
+        {
+          "rownum": 224,
+          "admission_msg": "49545",
+          "name": "فاطمه پورمحمد",
+          "quota": "منطقه 3",
+          "quota_rank": "648",
+          "admission_raw": "پزشکی ارومیه"
+        }
+      ]
+    },
+    {
+      "file": "zoom-015.jpg",
+      "items": [
+        {
+          "rownum": 226,
+          "admission_msg": "49550",
+          "name": "احسان برزی",
+          "quota": "منطقه 3",
+          "quota_rank": "924",
+          "admission_raw": "پزشکی ارومیه"
+        },
+        {
+          "rownum": 234,
+          "admission_msg": "49590",
+          "name": "سامیار چوکلی",
+          "quota": "منطقه 3",
+          "quota_rank": "658",
+          "admission_raw": "پزشکی ارومیه"
+        },
+        {
+          "rownum": 235,
+          "admission_msg": "49614",
+          "name": "یاسمن دولت آبادی مقدم",
+          "quota": "منطقه 2",
+          "quota_rank": "1853",
+          "admission_raw": "پزشکی رشت"
+        },
+        {
+          "rownum": 252,
+          "admission_msg": "49713",
+          "name": "احمد دغاغله",
+          "quota": "منطقه 2",
+          "quota_rank": "2552",
+          "admission_raw": "پزشکی اهواز"
+        },
+        {
+          "rownum": 253,
+          "admission_msg": "49718",
+          "name": "ماهان چناری",
+          "quota": "منطقه 3",
+          "quota_rank": "334",
+          "admission_raw": "پزشکی اهواز"
+        },
+        {
+          "rownum": 270,
+          "admission_msg": "49815",
+          "name": "مهران علی نژاد آذر",
+          "quota": "منطقه 2",
+          "quota_rank": "1076",
+          "admission_raw": "دندانپزشکی"
+        }
+      ]
+    },
+    {
+      "file": "zoom-016.jpg",
+      "items": [
+        {
+          "rownum": 275,
+          "admission_msg": "49841",
+          "name": "طه باقرنژاد",
+          "quota": "منطقه 2",
+          "quota_rank": "302",
+          "admission_raw": "پزشکی بابل"
+        },
+        {
+          "rownum": 276,
+          "admission_msg": "49842",
+          "name": "علی اصغر ابراهیمی",
+          "quota": "منطقه 2",
+          "quota_rank": "691",
+          "admission_raw": "پزشکی بابل"
+        },
+        {
+          "rownum": 288,
+          "admission_msg": "49931",
+          "name": "سعیده ترابی سوار",
+          "quota": "منطقه 3",
+          "quota_rank": "1040",
+          "admission_raw": "پزشکی خرم آباد"
+        },
+        {
+          "rownum": 308,
+          "admission_msg": "50039",
+          "name": "فاطمه نیک نام موسی اباد",
+          "quota": "منطقه 1",
+          "quota_rank": "2625",
+          "admission_raw": "فیزیوتراپی سمنان"
+        },
+        {
+          "rownum": 321,
+          "admission_msg": "50090",
+          "name": "شکیبا افشارزاده",
+          "quota": "منطقه 1",
+          "quota_rank": "1867",
+          "admission_raw": "داروسازی سمنان"
+        },
+        {
+          "rownum": 330,
+          "admission_msg": "50156",
+          "name": "علی سعیدی",
+          "quota": "منطقه 2",
+          "quota_rank": "2594",
+          "admission_raw": "پزشکی‌ زنجان"
+        }
+      ]
+    },
+    {
+      "file": "zoom-017.jpg",
+      "items": [
+        {
+          "rownum": 348,
+          "admission_msg": "50235",
+          "name": "ادیب امیدیان",
+          "quota": "منطقه 3",
+          "quota_rank": "2015",
+          "admission_raw": "دندانپزشکی زنجان"
+        },
+        {
+          "rownum": 349,
+          "admission_msg": "50240",
+          "name": "فاطمه حجار",
+          "quota": "منطقه 2",
+          "quota_rank": "855",
+          "admission_raw": "دندانپزشکی زنجان"
+        },
+        {
+          "rownum": 350,
+          "admission_msg": "50286",
+          "name": "امیرمحمد پیروزه",
+          "quota": "منطقه 3",
+          "quota_rank": "1959",
+          "admission_raw": "پزشکی بندرعباس"
+        },
+        {
+          "rownum": 351,
+          "admission_msg": "50287",
+          "name": "نگار حسینی پور",
+          "quota": "منطقه 3",
+          "quota_rank": "1620",
+          "admission_raw": "پزشکی بندرعباس"
+        },
+        {
+          "rownum": 365,
+          "admission_msg": "50355",
+          "name": "احسان مدبری",
+          "quota": "منطقه 3",
+          "quota_rank": "2167",
+          "admission_raw": "پزشکی اهواز"
+        },
+        {
+          "rownum": 373,
+          "admission_msg": "50422",
+          "name": "سیده میترا میرجلیلی",
+          "quota": "منطقه 1",
+          "quota_rank": "2477",
+          "admission_raw": "پزشکی تربت حیدریه"
+        }
+      ]
+    },
+    {
+      "file": "zoom-018.jpg",
+      "items": [
+        {
+          "rownum": 396,
+          "admission_msg": "50544",
+          "name": "محمد رهنما",
+          "quota": "منطقه 3",
+          "quota_rank": "587",
+          "admission_raw": "پزشکی تبریز"
+        },
+        {
+          "rownum": 400,
+          "admission_msg": "50562",
+          "name": "ماردین قادری",
+          "quota": "منطقه 3",
+          "quota_rank": "561",
+          "admission_raw": "پزشکی تبریز"
+        },
+        {
+          "rownum": 429,
+          "admission_msg": "50720",
+          "name": "نیلوفر توکلی شورجه",
+          "quota": "منطقه 3",
+          "quota_rank": "1837",
+          "admission_raw": "پزشکی شیراز"
+        },
+        {
+          "rownum": 450,
+          "admission_msg": "50841",
+          "name": "محمد باقی",
+          "quota": "منطقه 2",
+          "quota_rank": "928",
+          "admission_raw": "دندانپزشکی زاهدان"
+        },
+        {
+          "rownum": 451,
+          "admission_msg": "50845",
+          "name": "ایلیا جعفری",
+          "quota": "منطقه 2",
+          "quota_rank": "564",
+          "admission_raw": "دندانپزشکی زاهدان"
+        },
+        {
+          "rownum": 455,
+          "admission_msg": "50861",
+          "name": "یسنا ایمانی",
+          "quota": "منطقه 3",
+          "quota_rank": "2826",
+          "admission_raw": "پزشکی زاهدان"
+        }
+      ]
+    },
+    {
+      "file": "zoom-019.jpg",
+      "items": [
+        {
+          "rownum": 456,
+          "admission_msg": "50862",
+          "name": "الناز لنگری پور",
+          "quota": "منطقه 3",
+          "quota_rank": "2982",
+          "admission_raw": "پزشکی زاهدان"
+        },
+        {
+          "rownum": 458,
+          "admission_msg": "50938",
+          "name": "سوگند سلیمی فرد",
+          "quota": "منطقه 3",
+          "quota_rank": "1404",
+          "admission_raw": "پزشکی‌ کرمانشاه"
+        },
+        {
+          "rownum": 473,
+          "admission_msg": "51000",
+          "name": "علیرضا نوروزی",
+          "quota": "منطقه 3",
+          "quota_rank": "811",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 474,
+          "admission_msg": "51001",
+          "name": "سارینا علیزاده",
+          "quota": "منطقه 3",
+          "quota_rank": "2368",
+          "admission_raw": "پزشکی کرمانشاه"
+        },
+        {
+          "rownum": 497,
+          "admission_msg": "51107",
+          "name": "نیما نیکو",
+          "quota": "منطقه 3",
+          "quota_rank": "1067",
+          "admission_raw": "پزشکی گرگان"
+        },
+        {
+          "rownum": 501,
+          "admission_msg": "51143",
+          "name": "هدیه رحیمی",
+          "quota": "منطقه 2",
+          "quota_rank": "2810",
+          "admission_raw": "دندانپزشکی کرج"
+        }
+      ]
+    },
+    {
+      "file": "zoom-020.jpg",
+      "items": [
+        {
+          "rownum": 502,
+          "admission_msg": "51145",
+          "name": "مریم سادات موسوی",
+          "quota": "منطقه 2",
+          "quota_rank": "1287",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 503,
+          "admission_msg": "51146",
+          "name": "محمد وندالوند",
+          "quota": "منطقه 2",
+          "quota_rank": "1418",
+          "admission_raw": "پزشکی کرج"
+        },
+        {
+          "rownum": 504,
+          "admission_msg": "51147",
+          "name": "حنانه قدیمی",
+          "quota": "منطقه 2",
+          "quota_rank": "1926",
+          "admission_raw": "داروسازی کرج"
+        },
+        {
+          "rownum": 508,
+          "admission_msg": "51159",
+          "name": "سام بیداری",
+          "quota": "منطقه 1",
+          "quota_rank": "851",
+          "admission_raw": "پزشکی کرج"
+        },
+        {
+          "rownum": 510,
+          "admission_msg": "51167",
+          "name": "دانیال نصیری",
+          "quota": "منطقه 1",
+          "quota_rank": "902",
+          "admission_raw": "پزشکی‌ کرج"
+        },
+        {
+          "rownum": 516,
+          "admission_msg": "51195",
+          "name": "محمدرضا اسدی",
+          "quota": "منطقه 2",
+          "quota_rank": "2277",
+          "admission_raw": "دندانپزشکی کرج"
+        }
+      ]
+    },
+    {
+      "file": "zoom-021.jpg",
+      "items": [
+        {
+          "rownum": 524,
+          "admission_msg": "51246",
+          "name": "فاطمه سلمانی",
+          "quota": "منطقه 3",
+          "quota_rank": "1375",
+          "admission_raw": "پزشکی اراک"
+        },
+        {
+          "rownum": 537,
+          "admission_msg": "51312",
+          "name": "محمدجواد فریدونی",
+          "quota": "منطقه 3",
+          "quota_rank": "1252",
+          "admission_raw": "پزشکی اراک"
+        },
+        {
+          "rownum": 544,
+          "admission_msg": "51371",
+          "name": "محمدمهدی صادقی",
+          "quota": "منطقه 2",
+          "quota_rank": "724",
+          "admission_raw": "دندانپزشکی یاسوج"
+        },
+        {
+          "rownum": 558,
+          "admission_msg": "51422",
+          "name": "مهسا جلالی",
+          "quota": "منطقه 2",
+          "quota_rank": "613",
+          "admission_raw": "دندانپزشکی شهرکرد"
+        },
+        {
+          "rownum": 559,
+          "admission_msg": "51427",
+          "name": "زهرا سراج الدین میرقائد",
+          "quota": "منطقه 3",
+          "quota_rank": "1297",
+          "admission_raw": "دندانپزشکی شهرکرد"
+        },
+        {
+          "rownum": 560,
+          "admission_msg": "51448",
+          "name": "روژان رستمی",
+          "quota": "منطقه 3",
+          "quota_rank": "1157",
+          "admission_raw": "پزشکی سنندج"
+        }
+      ]
+    },
+    {
+      "file": "zoom-022.jpg",
+      "items": [
+        {
+          "rownum": 561,
+          "admission_msg": "51450",
+          "name": "کیانا صفائی",
+          "quota": "منطقه 3",
+          "quota_rank": "2433",
+          "admission_raw": "پزشکی"
+        },
+        {
+          "rownum": 570,
+          "admission_msg": "51489",
+          "name": "ژینو بهمنی",
+          "quota": "منطقه 2",
+          "quota_rank": "2018",
+          "admission_raw": "پزشکی سنندج"
+        },
+        {
+          "rownum": 577,
+          "admission_msg": "51522",
+          "name": "آریا غرائی",
+          "quota": "منطقه 3",
+          "quota_rank": "1771",
+          "admission_raw": "پزشکی سنندج"
+        },
+        {
+          "rownum": 578,
+          "admission_msg": "51549",
+          "name": "حنانه شاه محمدی",
+          "quota": "منطقه 2",
+          "quota_rank": "2101",
+          "admission_raw": "پزشکی قم"
+        },
+        {
+          "rownum": 579,
+          "admission_msg": "51559",
+          "name": "سید رضا حسینیان",
+          "quota": "منطقه 2",
+          "quota_rank": "623",
+          "admission_raw": "دندانپزشکی قم"
+        },
+        {
+          "rownum": 589,
+          "admission_msg": "51605",
+          "name": "حنانه سادات طباطبائی نژاد",
+          "quota": "منطقه 2",
+          "quota_rank": "1977",
+          "admission_raw": "پزشکی قم"
+        }
+      ]
+    },
+    {
+      "file": "zoom-023.jpg",
+      "items": [
+        {
+          "rownum": 591,
+          "admission_msg": "51609",
+          "name": "سهراب رحمانی",
+          "quota": "منطقه 3",
+          "quota_rank": "1990",
+          "admission_raw": "پزشکی قزوین"
+        },
+        {
+          "rownum": 592,
+          "admission_msg": "51613",
+          "name": "فاطمه محمدی",
+          "quota": "منطقه 2",
+          "quota_rank": "43",
+          "admission_raw": "پزشکی قزوین"
+        },
+        {
+          "rownum": 597,
+          "admission_msg": "51633",
+          "name": "مهسا مقدمی",
+          "quota": "منطقه 2",
+          "quota_rank": "1065",
+          "admission_raw": "دندانپزشکی قزوین"
+        },
+        {
+          "rownum": 598,
+          "admission_msg": "51664",
+          "name": "کیمیا جوبانو",
+          "quota": "منطقه 3",
+          "quota_rank": "1506",
+          "admission_raw": "دندانپزشکی ایلام"
+        },
+        {
+          "rownum": 616,
+          "admission_msg": "51740",
+          "name": "غزال صادقی",
+          "quota": "منطقه 3",
+          "quota_rank": "2002",
+          "admission_raw": "پزشکی ایلام"
+        },
+        {
+          "rownum": 622,
+          "admission_msg": "51804",
+          "name": "محمدحسین نجف زاده",
+          "quota": "منطقه 1",
+          "quota_rank": "1745",
+          "admission_raw": "پزشکی اردبیل"
+        }
+      ]
+    },
+    {
+      "file": "zoom-024.jpg",
+      "items": [
+        {
+          "rownum": 637,
+          "admission_msg": "51866",
+          "name": "ساناز کریمی شاوون",
+          "quota": "منطقه 3",
+          "quota_rank": "1088",
+          "admission_raw": "پزشکی اردبیل"
+        },
+        {
+          "rownum": 646,
+          "admission_msg": "51949",
+          "name": "محمدصالح صابری مقدم",
+          "quota": "منطقه 2",
+          "quota_rank": "2415",
+          "admission_raw": "پزشکی بجنورد"
+        },
+        {
+          "rownum": 657,
+          "admission_msg": "51988",
+          "name": "فاطمه اسکندری قاچکانلو",
+          "quota": "منطقه 2",
+          "quota_rank": "1939",
+          "admission_raw": "پزشکی بجنورد"
+        },
+        {
+          "rownum": 659,
+          "admission_msg": "51994",
+          "name": "محمدصالح صابری",
+          "quota": "منطقه 2",
+          "quota_rank": "2415",
+          "admission_raw": "پزشکی‌ بجنورد"
+        },
+        {
+          "rownum": 660,
+          "admission_msg": "51995",
+          "name": "محمد نوروزی",
+          "quota": "منطقه 2",
+          "quota_rank": "760",
+          "admission_raw": "دندانپزشکی بجنورد"
+        },
+        {
+          "rownum": 662,
+          "admission_msg": "52030",
+          "name": "مطهره علی پورنیاول",
+          "quota": "منطقه 2",
+          "quota_rank": "625",
+          "admission_raw": "داروسازی تهران"
+        }
+      ]
+    },
+    {
+      "file": "zoom-025.jpg",
+      "items": [
+        {
+          "rownum": 664,
+          "admission_msg": "52039",
+          "name": "نیکی پورجعفری",
+          "quota": "منطقه 2",
+          "quota_rank": "1892",
+          "admission_raw": "دندانپزشکی‌ آزاد تهران"
+        },
+        {
+          "rownum": 665,
+          "admission_msg": "52043",
+          "name": "آرش ایمانی هرسینی",
+          "quota": "منطقه 3",
+          "quota_rank": "3119",
+          "admission_raw": "داروسازی آزاد تهران"
+        },
+        {
+          "rownum": 671,
+          "admission_msg": "52066",
+          "name": "محمد امین بیرانوند",
+          "quota": "منطقه 2",
+          "quota_rank": "520",
+          "admission_raw": "پزشکی ایران"
+        },
+        {
+          "rownum": 674,
+          "admission_msg": "52076",
+          "name": "محمدرضا موسوی",
+          "quota": "منطقه 2",
+          "quota_rank": "1750",
+          "admission_raw": "دندانپزشکی شهیدبهشتی"
+        },
+        {
+          "rownum": 683,
+          "admission_msg": "52111",
+          "name": "رامیلا حاتمی",
+          "quota": "منطقه 2",
+          "quota_rank": "2001",
+          "admission_raw": "پزشکی آزاد تهران"
+        },
+        {
+          "rownum": 708,
+          "admission_msg": "52283",
+          "name": "زهرا مومنی صفری",
+          "quota": "منطقه 3",
+          "quota_rank": "2672",
+          "admission_raw": "دامپزشکی شیراز"
+        }
+      ]
+    }
+  ]
+}
