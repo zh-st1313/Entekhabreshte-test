@@ -1,0 +1,110 @@
+name: Publish 1404 verified branch file
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/1404-publish-branch.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - name: Build branch dataset
+        run: |
+          python - <<'PY'
+          import csv,os,re,json,unicodedata
+
+          src="scratch/siibtorsh-1404-final-staging/verified_1404.csv"
+          rows=list(csv.DictReader(open(src,encoding="utf-8-sig")))
+
+          def norm(s):
+              s=unicodedata.normalize("NFKC",s or "")
+              s=s.replace("ي","ی").replace("ك","ک")
+              return re.sub(r'\s+',' ',s).strip()
+
+          # Remove only confirmed duplicate pairs found in audit:
+          # same quota/rank/major/university/type/semester, and same normalized person name.
+          seen=set()
+          clean=[]
+          for r in rows:
+              namekey=norm(r["name"]).replace(" ","")
+              k=(r["quota"],r["quota_rank"],r["major"],r["university"],r["course_type"],r["semester"],namekey)
+              if k in seen:
+                  continue
+              seen.add(k)
+              clean.append(r)
+
+          # A second targeted duplicate normalization for the known spacing variant
+          # AliPourNiaAval: same factual admission key means same record.
+          final=[]
+          seen_fact_person=set()
+          for r in clean:
+              nk=norm(r["name"]).replace(" ","")
+              nk=nk.replace("علیپورنیاول","علیپورنیاول")
+              fact=(r["quota"],r["quota_rank"],r["major"],r["university"],r["course_type"],r["semester"],nk)
+              if fact in seen_fact_person:
+                  continue
+              seen_fact_person.add(fact)
+              final.append(r)
+
+          # Conservative factual-key de-dupe only when duplicate names normalize compatibly.
+          out=[]
+          factual={}
+          for r in final:
+              fk=(r["quota"],r["quota_rank"],r["major"],r["university"],r["course_type"],r["semester"])
+              nk=norm(r["name"]).replace(" ","")
+              if fk in factual:
+                  prev=factual[fk]
+                  pk=norm(prev["name"]).replace(" ","")
+                  if nk==pk or nk in pk or pk in nk:
+                      continue
+              factual[fk]=r
+              out.append(r)
+
+          def quota_num(q):
+              m=re.search(r'(\d+)',q or "")
+              return int(m.group(1)) if m else 99
+
+          out.sort(key=lambda r:(quota_num(r["quota"]),int(r["quota_rank"]),r["major"],r["university"]))
+
+          os.makedirs("data/rank_admissions",exist_ok=True)
+          dest="data/rank_admissions/rank_to_admission_1404.csv"
+          fields=["سال","گروه آزمایشی","رتبه کشوری","رتبه در سهمیه","سهمیه","رشته قبولی","دانشگاه قبولی","نوع دوره قبولی","نیمسال"]
+          with open(dest,"w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+              for r in out:
+                  w.writerow({
+                      "سال":"1404",
+                      "گروه آزمایشی":"تجربی",
+                      "رتبه کشوری":"",
+                      "رتبه در سهمیه":r["quota_rank"],
+                      "سهمیه":r["quota"],
+                      "رشته قبولی":r["major"],
+                      "دانشگاه قبولی":r["university"],
+                      "نوع دوره قبولی":r["course_type"],
+                      "نیمسال":r["semester"]
+                  })
+
+          summary={"input_verified":len(rows),"published_unique":len(out),"removed_duplicates":len(rows)-len(out)}
+          open("scratch/siibtorsh-1404-final-staging/publish_summary.json","w",encoding="utf-8").write(json.dumps(summary,ensure_ascii=False,indent=2))
+          print(json.dumps(summary,ensure_ascii=False))
+          PY
+
+      - name: Commit branch dataset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/rank_admissions/rank_to_admission_1404.csv scratch/siibtorsh-1404-final-staging/publish_summary.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: add verified 1404 rank admissions on extraction branch"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
