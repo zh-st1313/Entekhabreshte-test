@@ -1,0 +1,157 @@
+name: Index SiibTorsh Results 1404
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/siibtorsh-results-index.yml
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+      - run: python -m pip install --quiet requests beautifulsoup4
+
+      - name: Crawl public results channel
+        run: |
+          python - <<'PY'
+          import requests,re,html,json,os,unicodedata
+          from bs4 import BeautifulSoup
+
+          OUT="scratch/siibtorsh-results-1404-index"
+          os.makedirs(OUT,exist_ok=True)
+          s=requests.Session()
+          s.headers["User-Agent"]="Mozilla/5.0"
+
+          def norm(x):
+              x=unicodedata.normalize("NFKC",x or "")
+              x=x.replace("ي","ی").replace("ك","ک").replace("ۀ","ه").replace("ة","ه")
+              x=re.sub(r'[\u200c\u200e\u200f\ufeff]',' ',x)
+              x=re.sub(r'\b(سید|سیده)\b',' ',x)
+              return re.sub(r'[^آ-یA-Za-z0-9]','',x).lower()
+
+          def page(before):
+              url=f"https://t.me/s/SiiibTorsh_Results?before={before}"
+              r=s.get(url,timeout=30)
+              r.raise_for_status()
+              soup=BeautifulSoup(r.text,"html.parser")
+              out=[]
+              for wrap in soup.select("div.tgme_widget_message_wrap"):
+                  msg=wrap.select_one("div.tgme_widget_message")
+                  if not msg: continue
+                  ids=[]
+                  m=re.search(r'/(\d+)$',msg.get("data-post",""))
+                  if m: ids.append(int(m.group(1)))
+                  dl=wrap.select_one("a.tgme_widget_message_date")
+                  if dl:
+                      mm=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                      if mm: ids.append(int(mm.group(1)))
+                  for a in wrap.select('a[href*="?single"]'):
+                      mm=re.search(r'/(\d+)\?single',a.get("href",""))
+                      if mm: ids.append(int(mm.group(1)))
+                  if not ids: continue
+
+                  te=wrap.select_one("div.tgme_widget_message_text")
+                  txt=te.get_text("\n",strip=True) if te else ""
+                  photos=[]
+                  for a in wrap.select("a.tgme_widget_message_photo_wrap"):
+                      st=a.get("style","")
+                      mm=re.search(r"background-image:url\('([^']+)'\)",st)
+                      if mm:
+                          photos.append({
+                              "href":a.get("href",""),
+                              "url":html.unescape(mm.group(1))
+                          })
+                  out.append({"id":max(ids),"all_ids":sorted(set(ids)),"text":txt,"photos":photos})
+              return out
+
+          msgs={}
+          before=10420
+          pages=0
+          while before>1 and pages<700:
+              recs=page(before)
+              pages+=1
+              if not recs:
+                  before=max(1,before-20)
+                  continue
+              for x in recs: msgs[x["id"]]=x
+              mn=min(x["id"] for x in recs)
+              if mn>=before:
+                  before=max(1,before-20)
+              else:
+                  before=mn
+              if pages%50==0:
+                  print("pages",pages,"before",before,"msgs",len(msgs),flush=True)
+
+          records=[]
+          for mid,x in sorted(msgs.items()):
+              t=x["text"]
+              if "۱۴۰۴" not in t:
+                  continue
+              name=""
+              m=re.search(r'😍\s*([^\n]+)',t)
+              if m: name=m.group(1).strip()
+              if not name:
+                  m=re.search(r'بشنویم از\s+([^\n]+?)(?:\s+عزیزم|\s+نازنینم|$)',t)
+                  if m: name=m.group(1).strip()
+              rank=""
+              quota=""
+              mr=re.search(r'رتبه\s*[:：]?\s*([۰-۹0-9]+)\s*(منطقه\s*(?:یک|دو|سه|[۱۲۳123])|سهمیه\s*[^\n]+)',t)
+              if mr:
+                  rank=mr.group(1)
+                  quota=mr.group(2).strip()
+              admission=""
+              ma=re.search(r'⭐️\s*قبولی\s*([^\n]+)',t)
+              if ma: admission=ma.group(1).strip()
+              seq=""
+              ms=re.search(r'شماره\s*([۰-۹0-9]+)',t)
+              if ms: seq=ms.group(1)
+              records.append({
+                  "id":mid,"all_ids":x["all_ids"],"name":name,"key":norm(name),
+                  "rank":rank,"quota":quota,"admission":admission,"sequence":seq,
+                  "photos":x["photos"],"text":t
+              })
+
+          unmatched=json.load(open("scratch/siibtorsh-1404-safe/unmatched_names.json",encoding="utf-8"))
+          wanted={norm(n):n for n in unmatched}
+          matched=[]
+          for r in records:
+              if r["key"] in wanted:
+                  rr=dict(r)
+                  rr["wanted_name"]=wanted[r["key"]]
+                  matched.append(rr)
+
+          summary={
+              "pages":pages,
+              "all_messages":len(msgs),
+              "records_1404":len(records),
+              "records_with_names":sum(bool(r["name"]) for r in records),
+              "records_with_rank_text":sum(bool(r["rank"]) for r in records),
+              "records_with_admission_text":sum(bool(r["admission"]) for r in records),
+              "unmatched_names_input":len(unmatched),
+              "unmatched_names_found_exact":len(set(r["key"] for r in matched)),
+              "matched_records":len(matched)
+          }
+          json.dump(records,open(os.path.join(OUT,"records.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(matched,open(os.path.join(OUT,"matched-unmatched.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(summary,open(os.path.join(OUT,"summary.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print(json.dumps(summary,ensure_ascii=False),flush=True)
+          PY
+
+      - name: Commit index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-results-1404-index
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: index SiiibTorsh Results 1404"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
