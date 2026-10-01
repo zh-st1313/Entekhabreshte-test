@@ -196,15 +196,33 @@ def target_sequence(max_target: int = MAX_TARGET):
 def split_admission(raw: str) -> tuple[str, str]:
     """
     Conservative split: never invent a university. The raw value is always retained
-    in JSONL. In the historical CSV schema, split at the first clear institution marker.
+    in JSONL.
+
+    Kanoon 1401 uses a structured pipe form:
+      major | institution | course/type
+    Historical repo convention keeps course/type with the accepted major, not the
+    university column. Later years generally return "major university..." inline.
     """
     raw = clean_text(raw)
+
+    if "|" in raw:
+        parts = [clean_text(p) for p in raw.split("|")]
+        parts = [p for p in parts if p]
+        if len(parts) >= 2:
+            major = parts[0]
+            university = parts[1]
+            if len(parts) >= 3:
+                course = " - ".join(parts[2:])
+                major = f"{major} - {course}"
+            return major, university
+
     markers = [
         "دانشگاه",
         "دانشکده",
         "مؤسسه",
         "موسسه",
         "آموزشکده",
+        "اموزشکده",
         "مرکز آموزش عالی",
     ]
     hits = [(raw.find(marker), marker) for marker in markers if raw.find(marker) > 0]
@@ -463,15 +481,60 @@ def full_extract() -> None:
     print(json.dumps(all_summary, ensure_ascii=False, indent=2), flush=True)
 
 
+
+def normalize_existing() -> None:
+    grand_total = 0
+    counts = {}
+    for year in YEARS:
+        combined = {}
+        for region in REGIONS:
+            path = RAW_BASE / str(year) / f"region-{region}.jsonl"
+            if not path.exists():
+                raise RuntimeError(f"missing raw file: {path}")
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                combined[row_key(row)] = row
+        rows = sorted(
+            combined.values(),
+            key=lambda r: (
+                r["quota_region"],
+                r["quota_rank"],
+                r["national_rank"],
+                r["accepted_raw"],
+            ),
+        )
+        count = write_csv(RANK_BASE / f"rank_to_admission_{year}.csv", year, rows)
+        counts[str(year)] = count
+        grand_total += count
+        print(f"NORMALIZED year={year} rows={count}", flush=True)
+
+    summary_path = RANK_BASE / "ART_1401_1404_SUMMARY.json"
+    summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    for year, count in counts.items():
+        summary["years"][year]["normalized_csv_rows"] = count
+    summary["total_normalized_csv_rows"] = grand_total
+    summary_path.write_text(
+        json.dumps(summary, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print("NORMALIZE SUMMARY", json.dumps(counts, ensure_ascii=False), flush=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--full", action="store_true")
+    parser.add_argument("--normalize-existing", action="store_true")
     args = parser.parse_args()
 
     if args.full:
         full_extract()
         return
-    parser.error("use --full")
+    if args.normalize_existing:
+        normalize_existing()
+        return
+    parser.error("use --full or --normalize-existing")
 
 
 if __name__ == "__main__":
