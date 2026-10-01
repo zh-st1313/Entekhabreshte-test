@@ -48,16 +48,21 @@ jobs:
               soup=BeautifulSoup(r.text,"html.parser")
               target=None
               for wrap in soup.select("div.tgme_widget_message_wrap"):
-                  txt=wrap.select_one("div.tgme_widget_message_text")
-                  if not txt: continue
-                  if str(mid) in str(wrap):
-                      if "کارنامه نهایی انتخاب رشته" in txt.get_text(" ",strip=True):
-                          target=wrap; break
-              if target is None:
-                  # fallback by exact date-link/post ids in wrapper
-                  for wrap in soup.select("div.tgme_widget_message_wrap"):
-                      if re.search(rf'/{re.escape(str(mid))}(?:\?|")',str(wrap)):
-                          target=wrap; break
+                  msg=wrap.select_one("div.tgme_widget_message")
+                  own_id=None
+                  if msg:
+                      mm=re.search(r'/(\\d+)$',msg.get("data-post",""))
+                      if mm:
+                          own_id=int(mm.group(1))
+                  if own_id is None:
+                      dl=wrap.select_one("a.tgme_widget_message_date")
+                      if dl:
+                          mm=re.search(r'/(\\d+)(?:\\?.*)?$',dl.get("href",""))
+                          if mm:
+                              own_id=int(mm.group(1))
+                  if own_id==int(mid):
+                      target=wrap
+                      break
               if target is None:
                   return None
               urls=[]
