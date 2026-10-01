@@ -130,7 +130,8 @@ jobs:
                           "id":mid,"name":name,"key":norm(name),
                           "admit":ma.group(1).strip(),
                           "seq":int(en(mn.group(1))) if mn else None,
-                          "rank_link":obj.get("rank_link") or ""
+                          "rank_link":obj.get("rank_link") or "",
+                          "rank_href":obj.get("rank_href") or ""
                       })
 
           by={}
@@ -176,13 +177,14 @@ jobs:
                   "admission_raw":a["admit"],
                   "rank_msg":r["id"] if r else "",
                   "rank_link":a["rank_link"],
+                  "rank_href":a.get("rank_href") or "",
                   "admission_msg":a["id"],
                   "sequence":a["seq"] or "",
                   "match_score":round(score,3) if r else ""
               })
 
           with open(O+"/staging_text.csv","w",encoding="utf-8-sig",newline="") as f:
-              fs=["name","quota","quota_rank","admission_raw","rank_msg","rank_link","admission_msg","sequence","match_score"]
+              fs=["name","quota","quota_rank","admission_raw","rank_msg","rank_link","rank_href","admission_msg","sequence","match_score"]
               w=csv.DictWriter(f,fieldnames=fs)
               w.writeheader()
               w.writerows(rows)
