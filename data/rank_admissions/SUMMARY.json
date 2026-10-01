@@ -1,6 +1,6 @@
 {
-  "records_before": 74324,
-  "records_after": 73674,
+  "records_before": 74498,
+  "records_after": 73848,
   "duplicates_removed": 650,
   "years": {
     "1388": {
@@ -67,6 +67,11 @@
       "before": 4897,
       "after": 4863,
       "duplicates_removed": 34
+    },
+    "1402": {
+      "before": 174,
+      "after": 174,
+      "duplicates_removed": 0
     },
     "1403": {
       "before": 203,
