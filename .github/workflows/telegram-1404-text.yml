@@ -81,9 +81,9 @@ jobs:
               return out
 
           msgs={}
-          before=52350
+          before=59050
           pages=0
-          while before>43200 and pages<650:
+          while before>43200 and pages<1000:
               recs=page(before)
               pages+=1
               if not recs:
@@ -166,7 +166,7 @@ jobs:
                       if sc>score:
                           score=sc
                           bestk=k
-                  if bestk and score>=0.84:
+                  if bestk and score>=0.94:
                       r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
 
               rows.append({
