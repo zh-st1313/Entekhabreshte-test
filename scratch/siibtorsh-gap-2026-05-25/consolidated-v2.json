@@ -1,0 +1,1527 @@
+{
+  "summary": {
+    "raw_posts": 106,
+    "unique_candidates": 105,
+    "with_rank_and_quota": 40,
+    "missing_rank_or_quota": 65,
+    "explicit_course_type": 14,
+    "needs_course_type_image_review": 91,
+    "admission_conflicts": 0,
+    "rank_universe_conflicts": 3
+  },
+  "admissionConflicts": [],
+  "rankConflicts": [
+    {
+      "key": "ایلیارحیمی",
+      "values": [
+        [
+          "1471|منطقه 3",
+          2
+        ],
+        [
+          "1473|منطقه 3",
+          1
+        ]
+      ]
+    },
+    {
+      "key": "فاطمهنوشادی",
+      "values": [
+        [
+          "572|منطقه 3",
+          2
+        ],
+        [
+          "573|منطقه 3",
+          1
+        ]
+      ]
+    },
+    {
+      "key": "امیرحسینرضازاده",
+      "values": [
+        [
+          "1357|منطقه 3",
+          2
+        ],
+        [
+          "1375|منطقه 3",
+          1
+        ]
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "name": "فاطمه رزاقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سیرجان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55892,
+        55127
+      ],
+      "first_seen": "2026-05-25T10:15:08.000Z",
+      "last_seen": "2026-06-17T16:57:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مبینا اکبری",
+      "rank": 1416,
+      "quota": "منطقه 3",
+      "admission": "فیزیوتراپی تهران",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55131
+      ],
+      "first_seen": "2026-05-25T16:50:44.000Z",
+      "last_seen": "2026-05-25T16:50:44.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مبینا واحدیان",
+      "rank": 1645,
+      "quota": "منطقه 1",
+      "admission": "مهندسی برق مشهد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55148
+      ],
+      "first_seen": "2026-05-26T10:15:14.000Z",
+      "last_seen": "2026-05-26T10:15:14.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیر بذرافشان",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی بیرجند",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55153
+      ],
+      "first_seen": "2026-05-26T16:38:06.000Z",
+      "last_seen": "2026-05-26T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ابوالفضل مرادی",
+      "rank": 2153,
+      "quota": "منطقه 3",
+      "admission": "پزشکی اراک",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        55185
+      ],
+      "first_seen": "2026-05-27T16:40:06.000Z",
+      "last_seen": "2026-05-27T16:40:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ملینا غزنینی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد مشهد",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55205
+      ],
+      "first_seen": "2026-05-28T16:40:06.000Z",
+      "last_seen": "2026-05-28T16:40:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "صدرا جمشیدبیگی",
+      "rank": 622,
+      "quota": "منطقه 3",
+      "admission": "پزشکی ایلام",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55297
+      ],
+      "first_seen": "2026-05-30T16:41:39.000Z",
+      "last_seen": "2026-05-30T16:41:39.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "نرگس نصرالله زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55315
+      ],
+      "first_seen": "2026-05-31T17:01:53.000Z",
+      "last_seen": "2026-05-31T17:01:53.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیرحسین طالبی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آزاد دامغان",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55337
+      ],
+      "first_seen": "2026-06-01T16:48:18.000Z",
+      "last_seen": "2026-06-01T16:48:18.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "زهرا نوروزی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی قم",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55379
+      ],
+      "first_seen": "2026-06-02T16:51:41.000Z",
+      "last_seen": "2026-06-02T16:51:41.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدمهدی بیلندی",
+      "rank": 1599,
+      "quota": "منطقه 3",
+      "admission": "پزشکی مشهد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55434
+      ],
+      "first_seen": "2026-06-04T16:35:10.000Z",
+      "last_seen": "2026-06-04T16:35:10.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "اهورا حیدری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی شهیدبهشتی",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55453
+      ],
+      "first_seen": "2026-06-05T14:52:46.000Z",
+      "last_seen": "2026-06-05T14:52:46.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهدی امین",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55502
+      ],
+      "first_seen": "2026-06-06T16:50:07.000Z",
+      "last_seen": "2026-06-06T16:50:07.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "رومینا یوسفی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ایران",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55531
+      ],
+      "first_seen": "2026-06-07T16:57:46.000Z",
+      "last_seen": "2026-06-07T16:57:46.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ستایش شریعت زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی دامغان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55562
+      ],
+      "first_seen": "2026-06-08T16:47:16.000Z",
+      "last_seen": "2026-06-08T16:47:16.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "محمد میره کی",
+      "rank": 1416,
+      "quota": "منطقه 3",
+      "admission": "دندانپزشکی سنندج",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55651
+      ],
+      "first_seen": "2026-06-10T16:40:06.000Z",
+      "last_seen": "2026-06-10T16:40:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطمه نوح جاه",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی تهران",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55670
+      ],
+      "first_seen": "2026-06-11T16:50:13.000Z",
+      "last_seen": "2026-06-11T16:50:13.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "محسن محمدی",
+      "rank": 1386,
+      "quota": "منطقه 1",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55729
+      ],
+      "first_seen": "2026-06-12T16:38:06.000Z",
+      "last_seen": "2026-06-12T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مبینا زکانی",
+      "rank": 1225,
+      "quota": "منطقه 2",
+      "admission": "پزشکی قزوین",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55745
+      ],
+      "first_seen": "2026-06-13T10:04:19.000Z",
+      "last_seen": "2026-06-13T10:04:19.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "یگانه کرابی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی گناباد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55767
+      ],
+      "first_seen": "2026-06-13T16:38:06.000Z",
+      "last_seen": "2026-06-13T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سپیده منصوری",
+      "rank": 391,
+      "quota": "منطقه 3",
+      "admission": "دندانپزشکی اردبیل",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55783
+      ],
+      "first_seen": "2026-06-14T10:01:07.000Z",
+      "last_seen": "2026-06-14T10:01:07.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "یاسین سلیمانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد مشهد",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55791
+      ],
+      "first_seen": "2026-06-14T16:38:06.000Z",
+      "last_seen": "2026-06-14T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ایلیا رحیمی",
+      "rank": 1471,
+      "quota": "منطقه 3",
+      "admission": "پزشکی سنندج",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55803
+      ],
+      "first_seen": "2026-06-15T10:02:06.000Z",
+      "last_seen": "2026-06-15T10:02:06.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "محمدحسین تقیان",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کاشان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55814
+      ],
+      "first_seen": "2026-06-15T16:53:45.000Z",
+      "last_seen": "2026-06-15T16:53:45.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "نیکی پورجعفری",
+      "rank": 1892,
+      "quota": "منطقه 2",
+      "admission": "دندانپزشکی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55830
+      ],
+      "first_seen": "2026-06-16T10:03:06.000Z",
+      "last_seen": "2026-06-16T10:03:06.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "عطیه جانقربان",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55842
+      ],
+      "first_seen": "2026-06-16T16:38:06.000Z",
+      "last_seen": "2026-06-16T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهسا ستوده",
+      "rank": 1387,
+      "quota": "منطقه 3",
+      "admission": "پزشکی بجنورد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55876
+      ],
+      "first_seen": "2026-06-17T10:04:06.000Z",
+      "last_seen": "2026-06-17T10:04:06.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "حنانه قدیمی",
+      "rank": 1926,
+      "quota": "منطقه 2",
+      "admission": "داروسازی کرج",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55910
+      ],
+      "first_seen": "2026-06-18T10:05:12.000Z",
+      "last_seen": "2026-06-18T10:05:12.000Z",
+      "has_final_card": false
+    },
+    {
+      "name": "فاطیما صادقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        55914
+      ],
+      "first_seen": "2026-06-18T16:42:06.000Z",
+      "last_seen": "2026-06-18T16:42:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سید محمدعارف حسینی",
+      "rank": 692,
+      "quota": "منطقه 1",
+      "admission": "دندانپزشکی مشهد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        55930
+      ],
+      "first_seen": "2026-06-19T07:29:49.000Z",
+      "last_seen": "2026-06-19T07:29:49.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "اسما پیروی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی تبریز",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55946
+      ],
+      "first_seen": "2026-06-19T16:42:11.000Z",
+      "last_seen": "2026-06-19T16:42:11.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ابوالفضل حسینی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55974
+      ],
+      "first_seen": "2026-06-20T16:38:06.000Z",
+      "last_seen": "2026-06-20T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "نیایش ضیائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        55991
+      ],
+      "first_seen": "2026-06-21T16:53:07.000Z",
+      "last_seen": "2026-06-21T16:53:07.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیرحسین رمضانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56026
+      ],
+      "first_seen": "2026-06-22T17:19:26.000Z",
+      "last_seen": "2026-06-22T17:19:26.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سحر ذبیحی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی شاهرود",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56073
+      ],
+      "first_seen": "2026-06-23T16:38:42.000Z",
+      "last_seen": "2026-06-23T16:38:42.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "رضوان کریمی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        56097
+      ],
+      "first_seen": "2026-06-24T16:34:06.000Z",
+      "last_seen": "2026-06-24T16:34:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "زهرا بهپور مقدم",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی تبریز",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56111
+      ],
+      "first_seen": "2026-06-25T16:38:06.000Z",
+      "last_seen": "2026-06-25T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ستایش غلامزاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی تبریز",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56141
+      ],
+      "first_seen": "2026-06-26T17:14:39.000Z",
+      "last_seen": "2026-06-26T17:14:39.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محسن حسینی",
+      "rank": 1579,
+      "quota": "منطقه 3",
+      "admission": "دندانپزشکی اهواز",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        56166
+      ],
+      "first_seen": "2026-06-27T16:55:43.000Z",
+      "last_seen": "2026-06-27T16:55:43.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سروش احمدی",
+      "rank": 2582,
+      "quota": "منطقه 2",
+      "admission": "پزشکی کرمانشاه",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        56193
+      ],
+      "first_seen": "2026-06-28T17:27:32.000Z",
+      "last_seen": "2026-06-28T17:27:32.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "احسان بشیری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمانشاه",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56221
+      ],
+      "first_seen": "2026-06-29T16:59:30.000Z",
+      "last_seen": "2026-06-29T16:59:30.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "شایان عبداللهی",
+      "rank": 2442,
+      "quota": "منطقه 2",
+      "admission": "پزشکی کرمانشاه",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        56246
+      ],
+      "first_seen": "2026-06-30T16:47:41.000Z",
+      "last_seen": "2026-06-30T16:47:41.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ماجد امیری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی اهواز",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56269
+      ],
+      "first_seen": "2026-07-01T16:38:06.000Z",
+      "last_seen": "2026-07-01T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "نازنین زهرا متاجی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ساری",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56294
+      ],
+      "first_seen": "2026-07-02T16:38:06.000Z",
+      "last_seen": "2026-07-02T16:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "آراس نوری سیاسیاهی",
+      "rank": 845,
+      "quota": "منطقه 3",
+      "admission": "داروسازی‌ اصفهان",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        56324
+      ],
+      "first_seen": "2026-07-03T18:41:23.000Z",
+      "last_seen": "2026-07-03T18:41:23.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "حسام تقی زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی بابل",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56340
+      ],
+      "first_seen": "2026-07-04T16:53:26.000Z",
+      "last_seen": "2026-07-04T16:53:26.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهلا قادری",
+      "rank": 2109,
+      "quota": "منطقه 1",
+      "admission": "فیزیوتراپی شیراز",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        56364
+      ],
+      "first_seen": "2026-07-05T16:22:49.000Z",
+      "last_seen": "2026-07-05T16:22:49.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سینا مختومی",
+      "rank": 2735,
+      "quota": "منطقه 3",
+      "admission": "داروسازی ساری",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        56390
+      ],
+      "first_seen": "2026-07-06T16:41:17.000Z",
+      "last_seen": "2026-07-06T16:41:17.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ملیکا نبی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی بابل",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56417
+      ],
+      "first_seen": "2026-07-07T16:43:10.000Z",
+      "last_seen": "2026-07-07T16:43:10.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ملیکا بوتیمار",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بابل",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        56471
+      ],
+      "first_seen": "2026-07-09T16:46:57.000Z",
+      "last_seen": "2026-07-09T16:46:57.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ژینو بهمنی",
+      "rank": 2018,
+      "quota": "منطقه 2",
+      "admission": "پزشکی سنندج",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        56527
+      ],
+      "first_seen": "2026-07-10T17:02:11.000Z",
+      "last_seen": "2026-07-10T17:02:11.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطمه متین",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد شاهرود",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        58551
+      ],
+      "first_seen": "2026-08-10T15:34:06.000Z",
+      "last_seen": "2026-08-10T15:34:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیرحسین حجاری دولت آباد",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی تبریز",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58596
+      ],
+      "first_seen": "2026-08-11T15:53:05.000Z",
+      "last_seen": "2026-08-11T15:53:05.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدجواد فریدونی",
+      "rank": 1252,
+      "quota": "منطقه 3",
+      "admission": "پزشکی اراک",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        58629
+      ],
+      "first_seen": "2026-08-12T16:09:59.000Z",
+      "last_seen": "2026-08-12T16:09:59.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیررضا مرادبیگی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58643
+      ],
+      "first_seen": "2026-08-13T15:40:06.000Z",
+      "last_seen": "2026-08-13T15:40:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطمه نیکنام",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی سمنان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58673
+      ],
+      "first_seen": "2026-08-14T15:48:06.000Z",
+      "last_seen": "2026-08-14T15:48:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدرضا نصرتی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی شاهرود",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58693
+      ],
+      "first_seen": "2026-08-15T15:44:06.000Z",
+      "last_seen": "2026-08-15T15:44:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "شیوا بهنام",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی یزد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58710
+      ],
+      "first_seen": "2026-08-16T15:41:06.000Z",
+      "last_seen": "2026-08-16T15:41:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "زهرا سرمست",
+      "rank": 2018,
+      "quota": "منطقه 2",
+      "admission": "پزشکی کرمان",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        58731
+      ],
+      "first_seen": "2026-08-17T15:39:06.000Z",
+      "last_seen": "2026-08-17T15:39:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطمه رجب زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی کرمانشاه",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58776
+      ],
+      "first_seen": "2026-08-18T15:42:06.000Z",
+      "last_seen": "2026-08-18T15:42:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "حسین عجم اکرامی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بقیه الله",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58801
+      ],
+      "first_seen": "2026-08-19T15:33:06.000Z",
+      "last_seen": "2026-08-19T15:33:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "یسنا کفیلی",
+      "rank": 523,
+      "quota": "منطقه 3",
+      "admission": "پزشکی تبریز",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        58888
+      ],
+      "first_seen": "2026-08-20T15:37:07.000Z",
+      "last_seen": "2026-08-20T15:37:07.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ویانا اسماعیلی",
+      "rank": 2223,
+      "quota": "منطقه 2",
+      "admission": "پزشکی کرمانشاه",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        58939
+      ],
+      "first_seen": "2026-08-21T10:44:06.000Z",
+      "last_seen": "2026-08-21T10:44:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهیا باقیان",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی یزد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        58959
+      ],
+      "first_seen": "2026-08-21T15:45:09.000Z",
+      "last_seen": "2026-08-21T15:45:09.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سبا عربشاهی",
+      "rank": 1057,
+      "quota": "منطقه 1",
+      "admission": "پزشکی مشهد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        58978
+      ],
+      "first_seen": "2026-08-22T10:11:48.000Z",
+      "last_seen": "2026-08-22T10:11:48.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سالینا کیانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی یزد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59001
+      ],
+      "first_seen": "2026-08-22T15:39:06.000Z",
+      "last_seen": "2026-08-22T15:39:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "زهرا قیاسی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        59036
+      ],
+      "first_seen": "2026-08-23T15:36:06.000Z",
+      "last_seen": "2026-08-23T15:36:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدفاضل رهنی محبوب",
+      "rank": 2666,
+      "quota": "منطقه 3",
+      "admission": "پزشکی بیرجند",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        59076
+      ],
+      "first_seen": "2026-08-24T15:46:06.000Z",
+      "last_seen": "2026-08-24T15:46:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ترنم آزادی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی یزد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59112
+      ],
+      "first_seen": "2026-08-25T17:32:13.000Z",
+      "last_seen": "2026-08-25T17:32:13.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "عرفان رفتار علی آبادی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سبزوار",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59141
+      ],
+      "first_seen": "2026-08-26T15:36:06.000Z",
+      "last_seen": "2026-08-26T15:36:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "سنا عموزاده",
+      "rank": 645,
+      "quota": "منطقه 3",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        59173
+      ],
+      "first_seen": "2026-08-27T15:48:06.000Z",
+      "last_seen": "2026-08-27T15:48:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "لیلا محمودی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        59229
+      ],
+      "first_seen": "2026-08-28T15:36:06.000Z",
+      "last_seen": "2026-08-28T15:36:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "لاوین صالحی",
+      "rank": 2272,
+      "quota": "منطقه 3",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        59309
+      ],
+      "first_seen": "2026-08-29T16:15:14.000Z",
+      "last_seen": "2026-08-29T16:15:14.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیرسجاد قمری",
+      "rank": 2517,
+      "quota": "منطقه 1",
+      "admission": "دندانپزشکی یزد",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        59390
+      ],
+      "first_seen": "2026-08-30T15:48:06.000Z",
+      "last_seen": "2026-08-30T15:48:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "اسرا کارگر",
+      "rank": 2257,
+      "quota": "منطقه 1",
+      "admission": "پزشکی بیرجند",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        59435
+      ],
+      "first_seen": "2026-08-31T15:46:06.000Z",
+      "last_seen": "2026-08-31T15:46:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهدی سیستانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59525
+      ],
+      "first_seen": "2026-09-01T15:49:06.000Z",
+      "last_seen": "2026-09-01T15:49:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "پریا بابائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی قزوین",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59586
+      ],
+      "first_seen": "2026-09-02T15:47:06.000Z",
+      "last_seen": "2026-09-02T15:47:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "ماهان شبگرد",
+      "rank": 1139,
+      "quota": "منطقه 3",
+      "admission": "پزشکی یزد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        59655
+      ],
+      "first_seen": "2026-09-03T15:42:06.000Z",
+      "last_seen": "2026-09-03T15:42:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "نگار حبیب زاده",
+      "rank": 2761,
+      "quota": "منطقه 2",
+      "admission": "داروسازی همدان",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        59733
+      ],
+      "first_seen": "2026-09-04T15:38:06.000Z",
+      "last_seen": "2026-09-04T15:38:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدرضا رشیدزاده",
+      "rank": 1036,
+      "quota": "منطقه 3",
+      "admission": "پزشکی اردبیل",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        59797
+      ],
+      "first_seen": "2026-09-05T15:32:01.000Z",
+      "last_seen": "2026-09-05T15:32:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "آرینا نجفی مهر",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ایلام",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59851
+      ],
+      "first_seen": "2026-09-06T15:34:01.000Z",
+      "last_seen": "2026-09-06T15:34:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "رضا غیب الله زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ارومیه",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59914
+      ],
+      "first_seen": "2026-09-07T15:38:01.000Z",
+      "last_seen": "2026-09-07T15:38:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "کبری فرناد",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بجنورد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        59972
+      ],
+      "first_seen": "2026-09-08T15:40:04.000Z",
+      "last_seen": "2026-09-08T15:40:04.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مبینا موسوی",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی ایلام",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60021
+      ],
+      "first_seen": "2026-09-09T15:43:01.000Z",
+      "last_seen": "2026-09-09T15:43:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطمه اسکندری",
+      "rank": 1939,
+      "quota": "منطقه 2",
+      "admission": "پزشکی بجنورد",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        60063
+      ],
+      "first_seen": "2026-09-10T15:46:01.000Z",
+      "last_seen": "2026-09-10T15:46:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "پرنیان کیاحیرتی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی ایران",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60107
+      ],
+      "first_seen": "2026-09-11T15:34:01.000Z",
+      "last_seen": "2026-09-11T15:34:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "صالح تقوی",
+      "rank": 1841,
+      "quota": "منطقه 1",
+      "admission": "داروسازی بیرجند",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        60155
+      ],
+      "first_seen": "2026-09-12T15:32:01.000Z",
+      "last_seen": "2026-09-12T15:32:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "آرتین قبادی فر",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی جندی شاپور",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60190
+      ],
+      "first_seen": "2026-09-13T15:37:01.000Z",
+      "last_seen": "2026-09-13T15:37:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "حسین یادگاری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60225
+      ],
+      "first_seen": "2026-09-14T15:41:01.000Z",
+      "last_seen": "2026-09-14T15:41:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدامین ستوده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60280
+      ],
+      "first_seen": "2026-09-15T15:43:01.000Z",
+      "last_seen": "2026-09-15T15:43:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "بیتا پارسه",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آمل",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60329
+      ],
+      "first_seen": "2026-09-16T15:39:01.000Z",
+      "last_seen": "2026-09-16T15:39:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهسا کرامتی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بجنورد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60388
+      ],
+      "first_seen": "2026-09-17T15:35:08.000Z",
+      "last_seen": "2026-09-17T15:35:08.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهلا درویشی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بم",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60435
+      ],
+      "first_seen": "2026-09-18T15:33:01.000Z",
+      "last_seen": "2026-09-18T15:33:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "امیررضا اتشکار",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی اردبیل",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60481
+      ],
+      "first_seen": "2026-09-19T15:31:01.000Z",
+      "last_seen": "2026-09-19T15:31:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محمدمهدی پناهنده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سبزوار",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60519
+      ],
+      "first_seen": "2026-09-20T15:33:01.000Z",
+      "last_seen": "2026-09-20T15:33:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "هلیا جوادی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی ایران",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60555
+      ],
+      "first_seen": "2026-09-21T15:36:01.000Z",
+      "last_seen": "2026-09-21T15:36:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "شفا حق شناس",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی زاهدان",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60584
+      ],
+      "first_seen": "2026-09-22T15:39:01.000Z",
+      "last_seen": "2026-09-22T15:39:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مبینا کیماسی",
+      "rank": 1047,
+      "quota": "منطقه 3",
+      "admission": "پزشکی همدان",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        60648
+      ],
+      "first_seen": "2026-09-23T15:34:01.000Z",
+      "last_seen": "2026-09-23T15:34:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "یونس آقابیگی",
+      "rank": 1200,
+      "quota": "منطقه 3",
+      "admission": "دندانپزشکی آزاد تهران",
+      "course_type": "آزاد",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        60722
+      ],
+      "first_seen": "2026-09-24T15:40:06.000Z",
+      "last_seen": "2026-09-24T15:40:06.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "پدرام میرزائیان",
+      "rank": 845,
+      "quota": "منطقه 2",
+      "admission": "پزشکی اصفهان",
+      "course_type": "",
+      "rank_source": "gap_caption",
+      "source_ids": [
+        60823
+      ],
+      "first_seen": "2026-09-25T15:42:01.000Z",
+      "last_seen": "2026-09-25T15:42:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "عباس بشارتی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی کرمانشاه",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        60886
+      ],
+      "first_seen": "2026-09-26T15:33:01.000Z",
+      "last_seen": "2026-09-26T15:33:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "محدثه میرزائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تبریز",
+      "course_type": "آزاد",
+      "rank_source": "",
+      "source_ids": [
+        60949
+      ],
+      "first_seen": "2026-09-27T15:37:01.000Z",
+      "last_seen": "2026-09-27T15:37:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "فاطیما پیمانی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی کرمانشاه",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        61033
+      ],
+      "first_seen": "2026-09-28T15:38:01.000Z",
+      "last_seen": "2026-09-28T15:38:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهشاد ناطقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی گناباد",
+      "course_type": "",
+      "rank_source": "",
+      "source_ids": [
+        61084
+      ],
+      "first_seen": "2026-09-29T15:37:01.000Z",
+      "last_seen": "2026-09-29T15:37:01.000Z",
+      "has_final_card": true
+    },
+    {
+      "name": "مهشید کرکبودی",
+      "rank": 2304,
+      "quota": "منطقه 2",
+      "admission": "پزشکی گرگان",
+      "course_type": "",
+      "rank_source": "exact_name_rank_universe",
+      "source_ids": [
+        61156
+      ],
+      "first_seen": "2026-09-30T15:41:01.000Z",
+      "last_seen": "2026-09-30T15:41:01.000Z",
+      "has_final_card": true
+    }
+  ]
+}
