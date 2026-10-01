@@ -1,4 +1,4 @@
-name: Build 1404 SiibTorsh dataset
+name: Telegram media proof
 
 on:
   push:
@@ -11,260 +11,166 @@ permissions:
   contents: write
 
 jobs:
-  extract:
+  fetch:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
 
-      - name: Install dependencies
-        run: python -m pip install --quiet pillow requests beautifulsoup4
+      - run: python -m pip install --quiet requests beautifulsoup4 pillow
 
-      - name: Crawl 1404 rank and admission posts
+      - name: Fetch final-card images and build sheets
         run: |
           python - <<'PY'
-          import os,re,csv,html,time,json,unicodedata,io
+          import json,re,os,io,time,html
           import requests
           from bs4 import BeautifulSoup
-          from PIL import Image,ImageDraw,ImageFont
+          from PIL import Image,ImageDraw,ImageFont,ImageEnhance
 
-          OUT="scratch/siibtorsh-1404-full"
-          SHEETS=os.path.join(OUT,"course-type-sheets")
-          os.makedirs(SHEETS,exist_ok=True)
+          src=json.load(open("scratch/siibtorsh-post-2026-05-25/compare-existing.json",encoding="utf-8"))
+          rows=src["missing"]
+          O="scratch/siibtorsh-post-2026-05-25/finalcards"
+          C=os.path.join(O,"cards")
+          S=os.path.join(O,"sheets")
+          os.makedirs(C,exist_ok=True); os.makedirs(S,exist_ok=True)
+
           sess=requests.Session()
           sess.headers.update({"User-Agent":"Mozilla/5.0"})
+          cache={}
 
-          def fa2en(s):
-              trans=str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩","01234567890123456789")
-              return (s or "").translate(trans)
+          def get_page(before):
+              if before not in cache:
+                  u=f"https://t.me/s/SiiibTorsh?before={before}"
+                  rr=sess.get(u,timeout=25); rr.raise_for_status()
+                  cache[before]=rr.text
+              return cache[before]
 
-          def norm(s):
-              s=unicodedata.normalize("NFKC",s or "")
-              s=s.replace("ي","ی").replace("ك","ک").replace("ۀ","ه").replace("ة","ه")
-              s=re.sub(r'[\u200c\u200f\u200e\ufeff]', ' ', s)
-              s=re.sub(r'\b(سید|سیده)\b',' ',s)
-              s=re.sub(r'[^آ-یa-zA-Z0-9]+','',s)
-              return s.lower()
-
-          def parse_page(before):
-              url=f"https://t.me/s/SiiibTorsh?before={before}"
-              r=sess.get(url,timeout=30); r.raise_for_status()
-              soup=BeautifulSoup(r.text,"html.parser")
-              recs=[]
-              for wrap in soup.select("div.tgme_widget_message_wrap"):
-                  msg=wrap.select_one("div.tgme_widget_message")
-                  if not msg: continue
-                  data_post=msg.get("data-post","")
-                  ids=[]
-                  m=re.search(r'/(\d+)$',data_post)
+          def ids_for_wrap(w):
+              ids=[]
+              msg=w.select_one("div.tgme_widget_message")
+              if msg:
+                  m=re.search(r'/(\d+)$',msg.get("data-post",""))
                   if m: ids.append(int(m.group(1)))
-                  date_link=wrap.select_one("a.tgme_widget_message_date")
-                  if date_link:
-                      mm=re.search(r'/(\d+)(?:\?.*)?$',date_link.get("href",""))
-                      if mm: ids.append(int(mm.group(1)))
-                  for a in wrap.select('a[href*="?single"]'):
-                      mm=re.search(r'/(\d+)\?single',a.get("href",""))
-                      if mm: ids.append(int(mm.group(1)))
-                  if not ids: continue
-                  mid=max(ids)
-                  textel=wrap.select_one("div.tgme_widget_message_text")
-                  txt=textel.get_text("\n",strip=True) if textel else ""
-                  photo_urls=[]
-                  for a in wrap.select("a.tgme_widget_message_photo_wrap"):
-                      style=a.get("style","")
-                      mm=re.search(r"background-image:url\('([^']+)'\)",style)
-                      if mm: photo_urls.append(html.unescape(mm.group(1)))
-                  # fallback: all telesco background urls in wrapper
-                  if not photo_urls:
-                      for mm in re.finditer(r"background-image:url\('([^']+)'\)",str(wrap)):
-                          u=html.unescape(mm.group(1))
-                          if "telesco.pe" in u: photo_urls.append(u)
-                  recs.append({"id":mid,"text":txt,"photos":list(dict.fromkeys(photo_urls))})
-              return recs
+              dl=w.select_one("a.tgme_widget_message_date")
+              if dl:
+                  m=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                  if m: ids.append(int(m.group(1)))
+              for a in w.select('a[href*="?single"]'):
+                  m=re.search(r'/(\d+)\?single',a.get("href",""))
+                  if m: ids.append(int(m.group(1)))
+              return sorted(set(ids))
 
-          allmsgs={}
-          before=52350
-          lower=44500
-          empty=0
-          pages=0
-          while before>lower and pages<500:
-              recs=parse_page(before)
-              pages+=1
-              if not recs:
-                  empty+=1
-                  before-=20
-                  if empty>5: break
-                  continue
-              empty=0
-              for x in recs: allmsgs[x["id"]]=x
-              mn=min(x["id"] for x in recs)
-              if mn>=before:
-                  before-=20
-              else:
-                  before=mn
-              if pages%50==0: print("pages",pages,"before",before,"messages",len(allmsgs))
-          print("crawl complete",pages,len(allmsgs),min(allmsgs) if allmsgs else None,max(allmsgs) if allmsgs else None)
+          def find_wrap(mid):
+              body=get_page(mid+2)
+              soup=BeautifulSoup(body,"html.parser")
+              best=None
+              for w in soup.select("div.tgme_widget_message_wrap"):
+                  ids=ids_for_wrap(w)
+                  if mid in ids:
+                      return w
+                  # group wrapper may use nearby id, keep closest candidate
+                  if ids:
+                      dist=min(abs(x-mid) for x in ids)
+                      if dist<=3 and (best is None or dist<best[0]):
+                          best=(dist,w)
+              return best[1] if best else None
 
-          ranks=[]
-          admissions=[]
-          for mid,x in sorted(allmsgs.items()):
-              t=x["text"]
-              if "۱۴۰۴" not in t and "1404" not in fa2en(t):
-                  continue
-              if "رتبه برتر سیب ترشی" in t or "رتبه‌برتر سیب‌ترشی" in t:
-                  if "رتبه" in t and ("منطقه" in t or "سهمیه" in t):
-                      name=""
-                      m=re.search(r'😍\s*([^\n]+)',t)
-                      if m: name=m.group(1).strip()
-                      mr=re.search(r'رتبه\s*[:：]?\s*([۰-۹0-9]+)\s*(منطقه\s*(?:یک|دو|سه|[۱۲۳123])|سهمیه\s*[^\n]+)',t)
-                      if name and mr:
-                          rank=int(fa2en(mr.group(1)))
-                          quota=mr.group(2).strip()
-                          quota=quota.replace("منطقه یک","منطقه 1").replace("منطقه دو","منطقه 2").replace("منطقه سه","منطقه 3")
-                          quota=fa2en(quota)
-                          ranks.append({"rank_msg":mid,"name":name,"key":norm(name),"rank":rank,"quota":quota})
-              if "کارنامه نهایی انتخاب رشته" in t:
-                  name=""
-                  m=re.search(r'😍\s*([^\n]+)',t)
-                  if m: name=m.group(1).strip()
-                  ma=re.search(r'⭐️\s*قبولی\s*([^\n]+)',t)
-                  admit=ma.group(1).strip() if ma else ""
-                  mn=re.search(r'شماره\s*([۰-۹0-9]+)',t)
-                  seq=int(fa2en(mn.group(1))) if mn else None
-                  if name and admit:
-                      admissions.append({"admission_msg":mid,"seq":seq,"name":name,"key":norm(name),"admit":admit,"photos":x["photos"]})
+          def final_link_from_wrap(w):
+              if not w: return None
+              te=w.select_one("div.tgme_widget_message_text")
+              if not te: return None
+              for a in te.select("a[href]"):
+                  tx=re.sub(r'\s+',' ',a.get_text(" ",strip=True)).replace("‌"," ")
+                  if "کارنامه نهایی" in tx:
+                      m=re.search(r'/(\d+)(?:\?single)?$',a.get("href",""))
+                      if m: return int(m.group(1))
+              return None
 
-          # Keep one best rank record per normalized name; prefer smaller msg distance later during matching.
-          bykey={}
-          for r in ranks: bykey.setdefault(r["key"],[]).append(r)
+          def photo_urls(w):
+              if not w:return []
+              out=[]
+              for a in w.select("a.tgme_widget_message_photo_wrap"):
+                  style=a.get("style","")
+                  m=re.search(r"background-image:url\('([^']+)'\)",style)
+                  if m:
+                      u=html.unescape(m.group(1))
+                      if "telesco.pe" in u and u not in out: out.append(u)
+              if not out:
+                  for m in re.finditer(r"background-image:url\('([^']+)'\)",str(w)):
+                      u=html.unescape(m.group(1))
+                      if "telesco.pe" in u and u not in out:out.append(u)
+              return out
 
-          # conservative fuzzy matcher for small spelling drift
-          from difflib import SequenceMatcher
-          rank_keys=list(bykey)
-          def match_rank(a):
-              k=a["key"]
-              if k in bykey:
-                  cands=bykey[k]
-                  return min(cands,key=lambda r:abs(a["admission_msg"]-r["rank_msg"])),1.0
-              best=None; score=0
-              for rk in rank_keys:
-                  sc=SequenceMatcher(None,k,rk).ratio()
-                  if sc>score:
-                      score=sc; best=rk
-              if score>=0.88:
-                  cands=bykey[best]
-                  return min(cands,key=lambda r:abs(a["admission_msg"]-r["rank_msg"])),score
-              return None,score
-
-          def split_admit(s):
-              s=s.strip()
-              course_type=""
-              semester=""
-              if "آزاد" in s: course_type="آزاد"
-              elif "پردیس" in s: course_type="پردیس خودگردان"
-              elif "شهریه" in s: course_type="شهریه‌پرداز"
-              # major and university from caption are intentionally preserved as raw admission text too.
-              return course_type,semester
-
-          rows=[]
-          for a in admissions:
-              r,score=match_rank(a)
-              ctype,sem=split_admit(a["admit"])
-              rows.append({
-                  "year":"1404","group":"تجربی","name":a["name"],
-                  "quota":r["quota"] if r else "",
-                  "quota_rank":r["rank"] if r else "",
-                  "admission_raw":a["admit"],
-                  "course_type":ctype,"semester":sem,
-                  "rank_msg":r["rank_msg"] if r else "",
-                  "admission_msg":a["admission_msg"],
-                  "sequence":a["seq"] if a["seq"] is not None else "",
-                  "match_score":f"{score:.3f}" if r else "",
-                  "image_status":"",
-                  "photos":a["photos"],
-              })
-
-          # Download the largest result-card image for rows needing visual type confirmation.
-          def largest_image(urls):
+          meta=[]
+          card_items=[]
+          for idx,row in enumerate(rows,1):
+              mid=int(row["id"])
+              w=find_wrap(mid)
+              target=final_link_from_wrap(w)
+              rec={"row":idx,"name":row["name"],"rank":row["rank"],"quota":row["quota"],"admission":row["admission"],"recap_msg":mid,"final_msg":target,"status":""}
+              if not target:
+                  rec["status"]="final-link-not-found";meta.append(rec);continue
+              fw=find_wrap(target)
+              urls=photo_urls(fw)
+              if not urls:
+                  rec["status"]="final-photo-not-found";meta.append(rec);continue
               best=None
               for u in urls:
                   try:
-                      rr=sess.get(u,timeout=30)
-                      if rr.ok and len(rr.content)>1000:
-                          if best is None or len(rr.content)>len(best[1]): best=(u,rr.content)
-                  except Exception: pass
-              return best
-
-          visual=[]
-          for idx,row in enumerate(rows):
-              if row["course_type"]:
-                  row["image_status"]="type-explicit-caption"
-                  continue
-              a=admissions[idx]
-              got=largest_image(a["photos"])
-              if not got:
-                  row["image_status"]="no-image"
-                  continue
+                      rr=sess.get(u,timeout=25)
+                      if rr.ok and len(rr.content)>5000:
+                          if best is None or len(rr.content)>len(best[1]):
+                              best=(u,rr.content)
+                  except Exception:
+                      pass
+              if not best:
+                  rec["status"]="download-failed";meta.append(rec);continue
               try:
-                  im=Image.open(io.BytesIO(got[1])).convert("RGB")
-                  w,h=im.size
-                  # Final result card's useful course/university string is in lower half.
-                  crop=im.crop((0,int(h*0.48),w,h))
-                  target_w=1400
-                  nh=max(180,int(crop.height*target_w/crop.width))
-                  crop=crop.resize((target_w,nh))
-                  visual.append((idx,row,crop))
-                  row["image_status"]="visual-sheet"
-              except Exception:
-                  row["image_status"]="image-decode-failed"
+                  im=Image.open(io.BytesIO(best[1])).convert("RGB")
+                  rec["status"]="ok";rec["size"]=im.size
+                  path=os.path.join(C,f"{idx:03d}-{mid}-{target}.jpg")
+                  im.save(path,quality=92)
+                  # Useful lower/middle section, but keep entire card too.
+                  w0,h0=im.size
+                  crop=im.crop((0,int(h0*0.35),w0,h0))
+                  crop=ImageEnhance.Contrast(crop).enhance(1.12)
+                  card_items.append((idx,rec,crop))
+              except Exception as e:
+                  rec["status"]="decode-failed"
+              meta.append(rec)
 
-          # Build sheets, 12 records each, with large labels and image crops.
-          font=None
-          try: font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",26)
+          try: font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
           except Exception: font=ImageFont.load_default()
-          batch=12
-          sheet_manifest=[]
-          for sn in range(0,len(visual),batch):
-              items=visual[sn:sn+batch]
-              row_h=380
-              sheet=Image.new("RGB",(1600,row_h*len(items)),"white")
-              draw=ImageDraw.Draw(sheet)
-              for j,(idx,row,crop) in enumerate(items):
-                  y=j*row_h
-                  label=f"ROW {idx+1} | msg {row['admission_msg']} | {row['name']} | rank {row['quota_rank']} {row['quota']}"
-                  draw.text((10,y+5),label,fill="black",font=font)
-                  c=crop.copy()
-                  c.thumbnail((1580,row_h-48))
-                  sheet.paste(c,(10,y+42))
-              fn=f"sheet-{sn//batch+1:03d}.jpg"
-              sheet.save(os.path.join(SHEETS,fn),quality=82,optimize=True)
-              sheet_manifest.append({"sheet":fn,"start_row":sn+1,"end_row":sn+len(items)})
 
-          # CSV staging.
-          csvpath=os.path.join(OUT,"staging_1404.csv")
-          with open(csvpath,"w",encoding="utf-8-sig",newline="") as f:
-              fields=["year","group","name","quota","quota_rank","admission_raw","course_type","semester","rank_msg","admission_msg","sequence","match_score","image_status"]
-              w=csv.DictWriter(f,fieldnames=fields); w.writeheader()
-              for row in rows: w.writerow({k:row.get(k,"") for k in fields})
-          with open(os.path.join(OUT,"summary.json"),"w",encoding="utf-8") as f:
-              json.dump({
-                  "crawl_pages":pages,"messages":len(allmsgs),"rank_posts":len(ranks),
-                  "admission_posts":len(admissions),"paired":sum(bool(r["quota_rank"]) for r in rows),
-                  "needs_visual_type":len(visual),
-                  "explicit_type":sum(bool(r["course_type"]) for r in rows),
-                  "no_image":sum(r["image_status"]=="no-image" for r in rows),
-                  "sheets":sheet_manifest
-              },f,ensure_ascii=False,indent=2)
-          print(open(os.path.join(OUT,"summary.json"),encoding="utf-8").read())
+          # 4 cards per sheet for readable visual inspection.
+          for start in range(0,len(card_items),4):
+              items=card_items[start:start+4]
+              W=1800; row_h=650
+              sheet=Image.new("RGB",(W,row_h*len(items)),"white")
+              d=ImageDraw.Draw(sheet)
+              for j,(idx,rec,im) in enumerate(items):
+                  y=j*row_h
+                  label=f"ROW {idx} | {rec['name']} | {rec['rank']} {rec['quota']} | {rec['admission']} | final {rec['final_msg']}"
+                  d.text((12,y+8),label,fill="black",font=font)
+                  cp=im.copy()
+                  cp.thumbnail((W-24,row_h-55))
+                  sheet.paste(cp,(12,y+48))
+              sheet.save(os.path.join(S,f"sheet-{start//4+1:02d}.jpg"),quality=90)
+
+          json.dump(meta,open(os.path.join(O,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          summary={"requested":len(rows),"ok":sum(x["status"]=="ok" for x in meta),"no_link":sum(x["status"]=="final-link-not-found" for x in meta),"no_photo":sum(x["status"]=="final-photo-not-found" for x in meta),"failed":[x for x in meta if x["status"]!="ok"]}
+          json.dump(summary,open(os.path.join(O,"summary.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print(json.dumps(summary,ensure_ascii=False))
           PY
 
-      - name: Commit staging and sheets
+      - name: Commit cards and sheets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/siibtorsh-1404-full
+          git add scratch/siibtorsh-post-2026-05-25/finalcards
           git diff --cached --quiet && exit 0
-          git commit -m "extract: build full SiibTorsh 1404 staging dataset"
+          git commit -m "extract: fetch post-May final cards for course type"
+          git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
