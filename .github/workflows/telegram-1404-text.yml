@@ -77,7 +77,7 @@ jobs:
                                   rank_link=int(mm.group(1))
                                   break
 
-                  out.append({"id":max(ids),"text":txt,"rank_link":rank_link})
+                  out.append({"id":max(ids),"all_ids":sorted(set(ids)),"text":txt,"rank_link":rank_link})
               return out
 
           msgs={}
@@ -113,7 +113,8 @@ jobs:
                       quota=en(mr.group(2))
                       quota=quota.replace("منطقه یک","منطقه 1").replace("منطقه دو","منطقه 2").replace("منطقه سه","منطقه 3")
                       ranks.append({
-                          "id":mid,"name":name,"key":norm(name),
+                          "id":mid,"all_ids":obj.get("all_ids") or [mid],
+                          "name":name,"key":norm(name),
                           "rank":int(en(mr.group(1))),"quota":quota
                       })
 
@@ -136,7 +137,8 @@ jobs:
           rank_mid={}
           for r in ranks:
               by.setdefault(r["key"],[]).append(r)
-              rank_mid[r["id"]]=r
+              for alias_id in (r.get("all_ids") or [r["id"]]):
+                  rank_mid[alias_id]=r
           keys=list(by)
 
           rows=[]
@@ -192,7 +194,9 @@ jobs:
               "pages":pages,
               "messages":len(msgs),
               "rank_posts":len(ranks),
+              "unique_rank_names":len(set(r["key"] for r in ranks)),
               "admission_posts":len(ads),
+              "unique_admission_names":len(set(a["key"] for a in ads)),
               "paired":sum(bool(x["quota_rank"]) for x in rows),
               "rank_links_found":sum(bool(a["rank_link"]) for a in ads),
               "direct_link_pairs":direct_link_pairs,
