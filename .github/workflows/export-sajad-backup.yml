@@ -1,0 +1,34 @@
+name: Export Sajjad Backup
+
+on:
+  push:
+    branches:
+      - backup-sajad-export-20261001
+
+permissions:
+  contents: read
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout snapshot
+        uses: actions/checkout@v4
+      - name: Create backup manifest
+        run: |
+          cat > BACKUP_INFO.txt <<'EOF'
+          Repository: zh-st1313/Entekhabreshte-test
+          Source branch: extract-sajad-results
+          Snapshot branch: backup-sajad-export-20261001
+          Backup date: 2026-10-01
+          Includes the full repository snapshot, including Sajjad 1402, 1403, 1404 datasets and audit files.
+          EOF
+      - name: Upload repository snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: Entekhabreshte-test-sajad-backup
+          path: |
+            .
+            !.git
+          include-hidden-files: true
+          retention-days: 7
