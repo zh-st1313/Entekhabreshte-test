@@ -1,0 +1,8 @@
+{
+  "total_rows": 723,
+  "gap_candidates_complete": 110,
+  "recovered_from_gap": 1,
+  "matched_after_gap": 156,
+  "unmatched_after_gap": 567,
+  "conflicts": 0
+}
