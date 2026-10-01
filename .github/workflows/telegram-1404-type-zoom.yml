@@ -1,0 +1,75 @@
+name: Zoom 1404 admission result fields
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/telegram-1404-type-zoom.yml
+
+permissions:
+  contents: write
+
+jobs:
+  zoom:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+      - run: python -m pip install --quiet pillow
+      - name: Build zoomed lower-field sheets
+        run: |
+          python - <<'PY'
+          from PIL import Image,ImageEnhance,ImageDraw,ImageFont
+          import os,json
+          src="scratch/siibtorsh-1404-type-sheets"
+          out="scratch/siibtorsh-1404-type-zoom"
+          os.makedirs(out,exist_ok=True)
+          manifest=json.load(open(os.path.join(src,"manifest.json"),encoding="utf-8"))
+          try:
+              font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",30)
+          except Exception:
+              font=ImageFont.load_default()
+          made=[]
+          for sh in manifest["sheets"]:
+              fn=sh["file"]
+              im=Image.open(os.path.join(src,fn)).convert("RGB")
+              items=sh["items"]
+              tile_h=560
+              pieces=[]
+              for j,item in enumerate(items):
+                  y=j*tile_h
+                  # Bottom ~42% of each card tile contains admission code/title and often course type/semester.
+                  crop=im.crop((0,y+285,im.width,min(y+558,im.height)))
+                  crop=crop.resize((crop.width*2,crop.height*2))
+                  crop=ImageEnhance.Contrast(crop).enhance(1.25)
+                  crop=ImageEnhance.Sharpness(crop).enhance(1.5)
+                  pieces.append((item,crop))
+              if not pieces: continue
+              gap=55
+              W=max(p.width for _,p in pieces)
+              H=sum(p.height+gap for _,p in pieces)
+              sheet=Image.new("RGB",(W,H),"white")
+              d=ImageDraw.Draw(sheet)
+              yy=0
+              for item,p in pieces:
+                  label=f"ROW {item['rownum']} | MSG {item['admission_msg']} | RANK {item['quota_rank']} {item['quota']}"
+                  d.text((10,yy+5),label,fill="black",font=font)
+                  sheet.paste(p,(0,yy+gap))
+                  yy+=p.height+gap
+              zfn=fn.replace("sheet-","zoom-")
+              sheet.save(os.path.join(out,zfn),quality=92,optimize=True)
+              made.append({"file":zfn,"items":items})
+          json.dump({"count":len(made),"sheets":made},open(os.path.join(out,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print("made",len(made))
+          PY
+      - name: Commit zoom sheets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-type-zoom
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add zoomed 1404 admission fields"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
