@@ -1,0 +1,480 @@
+{
+  "to": "2026-03-19T12:12:29.000Z",
+  "pages": 9,
+  "done": true,
+  "next": {
+    "offsetDate": 1780079267,
+    "offsetMessageId": 55241
+  },
+  "count": 52,
+  "rows": [
+    {
+      "id": 56527,
+      "date": "2026-07-10T17:02:11.000Z",
+      "name": "ژینو بهمنی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سنندج",
+      "has_final_card": true
+    },
+    {
+      "id": 56471,
+      "date": "2026-07-09T16:46:57.000Z",
+      "name": "ملیکا بوتیمار",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بابل",
+      "has_final_card": true
+    },
+    {
+      "id": 56417,
+      "date": "2026-07-07T16:43:10.000Z",
+      "name": "ملیکا نبی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی بابل",
+      "has_final_card": true
+    },
+    {
+      "id": 56390,
+      "date": "2026-07-06T16:41:17.000Z",
+      "name": "سینا مختومی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی ساری",
+      "has_final_card": true
+    },
+    {
+      "id": 56364,
+      "date": "2026-07-05T16:22:49.000Z",
+      "name": "مهلا قادری",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی شیراز",
+      "has_final_card": true
+    },
+    {
+      "id": 56340,
+      "date": "2026-07-04T16:53:26.000Z",
+      "name": "حسام تقی زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی بابل",
+      "has_final_card": true
+    },
+    {
+      "id": 56324,
+      "date": "2026-07-03T18:41:23.000Z",
+      "name": "آراس نوری سیاسیاهی",
+      "rank": "۸۴۵",
+      "quota": "منطقه ۳",
+      "admission": "داروسازی‌ اصفهان",
+      "has_final_card": true
+    },
+    {
+      "id": 56294,
+      "date": "2026-07-02T16:38:06.000Z",
+      "name": "نازنین زهرا متاجی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ساری",
+      "has_final_card": true
+    },
+    {
+      "id": 56269,
+      "date": "2026-07-01T16:38:06.000Z",
+      "name": "ماجد امیری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی اهواز",
+      "has_final_card": true
+    },
+    {
+      "id": 56246,
+      "date": "2026-06-30T16:47:41.000Z",
+      "name": "شایان عبداللهی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمانشاه",
+      "has_final_card": true
+    },
+    {
+      "id": 56221,
+      "date": "2026-06-29T16:59:30.000Z",
+      "name": "احسان بشیری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمانشاه",
+      "has_final_card": true
+    },
+    {
+      "id": 56193,
+      "date": "2026-06-28T17:27:32.000Z",
+      "name": "سروش احمدی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمانشاه",
+      "has_final_card": true
+    },
+    {
+      "id": 56166,
+      "date": "2026-06-27T16:55:43.000Z",
+      "name": "محسن حسینی",
+      "rank": "۱۵۷۹",
+      "quota": "منطقه ۳",
+      "admission": "دندانپزشکی اهواز",
+      "has_final_card": true
+    },
+    {
+      "id": 56141,
+      "date": "2026-06-26T17:14:39.000Z",
+      "name": "ستایش غلامزاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی تبریز",
+      "has_final_card": true
+    },
+    {
+      "id": 56111,
+      "date": "2026-06-25T16:38:06.000Z",
+      "name": "زهرا بهپور مقدم",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی تبریز",
+      "has_final_card": true
+    },
+    {
+      "id": 56097,
+      "date": "2026-06-24T16:34:06.000Z",
+      "name": "رضوان کریمی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "has_final_card": true
+    },
+    {
+      "id": 56073,
+      "date": "2026-06-23T16:38:42.000Z",
+      "name": "سحر ذبیحی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی شاهرود",
+      "has_final_card": true
+    },
+    {
+      "id": 56026,
+      "date": "2026-06-22T17:19:26.000Z",
+      "name": "امیرحسین رمضانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 55991,
+      "date": "2026-06-21T16:53:07.000Z",
+      "name": "نیایش ضیائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 55974,
+      "date": "2026-06-20T16:38:06.000Z",
+      "name": "ابوالفضل حسینی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 55946,
+      "date": "2026-06-19T16:42:11.000Z",
+      "name": "اسما پیروی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی تبریز",
+      "has_final_card": true
+    },
+    {
+      "id": 55930,
+      "date": "2026-06-19T07:29:49.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۶۹۲",
+      "quota": "منطقه ۱",
+      "admission": "دندانپزشکی مشهد",
+      "has_final_card": true
+    },
+    {
+      "id": 55914,
+      "date": "2026-06-18T16:42:06.000Z",
+      "name": "فاطیما صادقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "has_final_card": true
+    },
+    {
+      "id": 55910,
+      "date": "2026-06-18T10:05:12.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۱۹۲۶",
+      "quota": "منطقه ۲",
+      "admission": "داروسازی کرج",
+      "has_final_card": false
+    },
+    {
+      "id": 55892,
+      "date": "2026-06-17T16:57:06.000Z",
+      "name": "فاطمه رزاقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سیرجان",
+      "has_final_card": true
+    },
+    {
+      "id": 55876,
+      "date": "2026-06-17T10:04:06.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۱۳۸۷",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی بجنورد",
+      "has_final_card": false
+    },
+    {
+      "id": 55842,
+      "date": "2026-06-16T16:38:06.000Z",
+      "name": "عطیه جانقربان",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد نجف آباد",
+      "has_final_card": true
+    },
+    {
+      "id": 55830,
+      "date": "2026-06-16T10:03:06.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۱۸۹۲",
+      "quota": "منطقه ۲",
+      "admission": "دندانپزشکی آزاد تهران",
+      "has_final_card": false
+    },
+    {
+      "id": 55814,
+      "date": "2026-06-15T16:53:45.000Z",
+      "name": "محمدحسین تقیان",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کاشان",
+      "has_final_card": true
+    },
+    {
+      "id": 55803,
+      "date": "2026-06-15T10:02:06.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۱۴۷۱",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی سنندج",
+      "has_final_card": false
+    },
+    {
+      "id": 55791,
+      "date": "2026-06-14T16:38:06.000Z",
+      "name": "یاسین سلیمانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد مشهد",
+      "has_final_card": true
+    },
+    {
+      "id": 55783,
+      "date": "2026-06-14T10:01:07.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۳۹۱",
+      "quota": "منطقه ۳",
+      "admission": "دندانپزشکی اردبیل",
+      "has_final_card": false
+    },
+    {
+      "id": 55767,
+      "date": "2026-06-13T16:38:06.000Z",
+      "name": "یگانه کرابی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی گناباد",
+      "has_final_card": true
+    },
+    {
+      "id": 55745,
+      "date": "2026-06-13T10:04:19.000Z",
+      "name": "جهت رزرو مشاوره خصوصی 👇",
+      "rank": "۱۲۲۵",
+      "quota": "منطقه ۲",
+      "admission": "پزشکی قزوین",
+      "has_final_card": true
+    },
+    {
+      "id": 55729,
+      "date": "2026-06-12T16:38:06.000Z",
+      "name": "محسن محمدی",
+      "rank": "۱۳۸۶",
+      "quota": "منطقه ۱",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 55670,
+      "date": "2026-06-11T16:50:13.000Z",
+      "name": "فاطمه نوح جاه",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی تهران",
+      "has_final_card": false
+    },
+    {
+      "id": 55651,
+      "date": "2026-06-10T16:40:06.000Z",
+      "name": "محمد میره کی",
+      "rank": "۱۴۱۶",
+      "quota": "منطقه ۳",
+      "admission": "دندانپزشکی سنندج",
+      "has_final_card": true
+    },
+    {
+      "id": 55562,
+      "date": "2026-06-08T16:47:16.000Z",
+      "name": "ستایش شریعت زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی دامغان",
+      "has_final_card": false
+    },
+    {
+      "id": 55531,
+      "date": "2026-06-07T16:57:46.000Z",
+      "name": "رومینا یوسفی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ایران",
+      "has_final_card": true
+    },
+    {
+      "id": 55502,
+      "date": "2026-06-06T16:50:07.000Z",
+      "name": "مهدی امین",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آزاد تهران",
+      "has_final_card": true
+    },
+    {
+      "id": 55453,
+      "date": "2026-06-05T14:52:46.000Z",
+      "name": "اهورا حیدری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی شهیدبهشتی",
+      "has_final_card": true
+    },
+    {
+      "id": 55434,
+      "date": "2026-06-04T16:35:10.000Z",
+      "name": "محمدمهدی بیلندی",
+      "rank": "۱۵۹۹",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی مشهد",
+      "has_final_card": true
+    },
+    {
+      "id": 55379,
+      "date": "2026-06-02T16:51:41.000Z",
+      "name": "زهرا نوروزی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی قم",
+      "has_final_card": true
+    },
+    {
+      "id": 55337,
+      "date": "2026-06-01T16:48:18.000Z",
+      "name": "امیرحسین طالبی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آزاد دامغان",
+      "has_final_card": true
+    },
+    {
+      "id": 55315,
+      "date": "2026-05-31T17:01:53.000Z",
+      "name": "نرگس نصرالله زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تهران",
+      "has_final_card": true
+    },
+    {
+      "id": 55297,
+      "date": "2026-05-30T16:41:39.000Z",
+      "name": "صدرا جمشیدبیگی",
+      "rank": "۶۲۲",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی ایلام",
+      "has_final_card": true
+    },
+    {
+      "id": 55205,
+      "date": "2026-05-28T16:40:06.000Z",
+      "name": "ملینا غزنینی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد مشهد",
+      "has_final_card": true
+    },
+    {
+      "id": 55185,
+      "date": "2026-05-27T16:40:06.000Z",
+      "name": "ابوالفضل مرادی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی اراک",
+      "has_final_card": true
+    },
+    {
+      "id": 55153,
+      "date": "2026-05-26T16:38:06.000Z",
+      "name": "امیر بذرافشان",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی بیرجند",
+      "has_final_card": true
+    },
+    {
+      "id": 55148,
+      "date": "2026-05-26T10:15:14.000Z",
+      "name": "ثبت‌نام مشاوره خصوصی 👇",
+      "rank": "۱۶۴۵",
+      "quota": "منطقه ۱",
+      "admission": "مهندسی برق مشهد",
+      "has_final_card": true
+    },
+    {
+      "id": 55131,
+      "date": "2026-05-25T16:50:44.000Z",
+      "name": "مبینا اکبری",
+      "rank": "۱۴۱۶",
+      "quota": "منطقه ۳",
+      "admission": "فیزیوتراپی تهران",
+      "has_final_card": true
+    },
+    {
+      "id": 55127,
+      "date": "2026-05-25T10:15:08.000Z",
+      "name": "ثبت‌نام مشاوره خصوصی 👇",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سیرجان",
+      "has_final_card": true
+    }
+  ]
+}
