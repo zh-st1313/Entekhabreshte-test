@@ -44,6 +44,14 @@ jobs:
           raw += d
           d=json.load(open("scratch/siibtorsh-1404-recovery/major-search-universe.json",encoding="utf-8"))
           raw += d
+          for p in [
+              "scratch/chiho-1404-ranks-after-48055-part1.json",
+              "scratch/chiho-1404-ranks-after-48055-part2.json",
+              "scratch/chiho-1404-ranks-after-48055-part3.json",
+              "scratch/chiho-1404-ranks-after-48055-part4.json"
+          ]:
+              d=json.load(open(p,encoding="utf-8"))
+              raw += d.get("rows",[])
           p="scratch/siibtorsh-1404-recovery/batch01.json"
           if os.path.exists(p):
               for item in json.load(open(p,encoding="utf-8")):
