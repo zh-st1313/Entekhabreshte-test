@@ -108,3 +108,5 @@ jobs:
           git commit -m "data: add verified 1404 rank admissions on extraction branch"
           git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
+
+# rerun after stable admission_msg review join
