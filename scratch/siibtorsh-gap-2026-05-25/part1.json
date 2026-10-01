@@ -1,0 +1,345 @@
+{
+  "from": "2026-10-01",
+  "to": "2026-08-25T05:03:02.000Z",
+  "pages": 10,
+  "next": {
+    "offsetDate": 1787634182,
+    "offsetMessageId": 59088
+  },
+  "count": 37,
+  "rows": [
+    {
+      "id": 61156,
+      "date": "2026-09-30T15:41:01.000Z",
+      "name": "مهشید کرکبودی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی گرگان",
+      "has_final_card": true
+    },
+    {
+      "id": 61084,
+      "date": "2026-09-29T15:37:01.000Z",
+      "name": "مهشاد ناطقی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی گناباد",
+      "has_final_card": true
+    },
+    {
+      "id": 61033,
+      "date": "2026-09-28T15:38:01.000Z",
+      "name": "فاطیما پیمانی",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی کرمانشاه",
+      "has_final_card": true
+    },
+    {
+      "id": 60949,
+      "date": "2026-09-27T15:37:01.000Z",
+      "name": "محدثه میرزائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تبریز",
+      "has_final_card": true
+    },
+    {
+      "id": 60886,
+      "date": "2026-09-26T15:33:01.000Z",
+      "name": "عباس بشارتی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی کرمانشاه",
+      "has_final_card": true
+    },
+    {
+      "id": 60823,
+      "date": "2026-09-25T15:42:01.000Z",
+      "name": "پدرام میرزائیان",
+      "rank": "۸۴۵",
+      "quota": "منطقه ۲",
+      "admission": "پزشکی اصفهان",
+      "has_final_card": true
+    },
+    {
+      "id": 60722,
+      "date": "2026-09-24T15:40:06.000Z",
+      "name": "یونس آقابیگی",
+      "rank": "۱۲۰۰",
+      "quota": "منطقه ۳",
+      "admission": "دندانپزشکی آزاد تهران",
+      "has_final_card": true
+    },
+    {
+      "id": 60648,
+      "date": "2026-09-23T15:34:01.000Z",
+      "name": "مبینا کیماسی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 60584,
+      "date": "2026-09-22T15:39:01.000Z",
+      "name": "شفا حق شناس",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی زاهدان",
+      "has_final_card": true
+    },
+    {
+      "id": 60555,
+      "date": "2026-09-21T15:36:01.000Z",
+      "name": "هلیا جوادی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی ایران",
+      "has_final_card": true
+    },
+    {
+      "id": 60519,
+      "date": "2026-09-20T15:33:01.000Z",
+      "name": "محمدمهدی پناهنده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سبزوار",
+      "has_final_card": true
+    },
+    {
+      "id": 60481,
+      "date": "2026-09-19T15:31:01.000Z",
+      "name": "امیررضا اتشکار",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی اردبیل",
+      "has_final_card": true
+    },
+    {
+      "id": 60435,
+      "date": "2026-09-18T15:33:01.000Z",
+      "name": "مهلا درویشی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بم",
+      "has_final_card": true
+    },
+    {
+      "id": 60388,
+      "date": "2026-09-17T15:35:08.000Z",
+      "name": "مهسا کرامتی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بجنورد",
+      "has_final_card": true
+    },
+    {
+      "id": 60329,
+      "date": "2026-09-16T15:39:01.000Z",
+      "name": "بیتا پارسه",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی آمل",
+      "has_final_card": true
+    },
+    {
+      "id": 60280,
+      "date": "2026-09-15T15:43:01.000Z",
+      "name": "محمدامین ستوده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "has_final_card": true
+    },
+    {
+      "id": 60225,
+      "date": "2026-09-14T15:41:01.000Z",
+      "name": "حسین یادگاری",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "has_final_card": true
+    },
+    {
+      "id": 60190,
+      "date": "2026-09-13T15:37:01.000Z",
+      "name": "آرتین قبادی فر",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی جندی شاپور",
+      "has_final_card": true
+    },
+    {
+      "id": 60155,
+      "date": "2026-09-12T15:32:01.000Z",
+      "name": "صالح تقوی",
+      "rank": "۱۸۴۱",
+      "quota": "منطقه ۱",
+      "admission": "داروسازی بیرجند",
+      "has_final_card": true
+    },
+    {
+      "id": 60107,
+      "date": "2026-09-11T15:34:01.000Z",
+      "name": "پرنیان کیاحیرتی",
+      "rank": "",
+      "quota": "",
+      "admission": "فیزیوتراپی ایران",
+      "has_final_card": true
+    },
+    {
+      "id": 60063,
+      "date": "2026-09-10T15:46:01.000Z",
+      "name": "فاطمه اسکندری",
+      "rank": "۱۹۳۹",
+      "quota": "منطقه ۲",
+      "admission": "پزشکی بجنورد",
+      "has_final_card": true
+    },
+    {
+      "id": 60021,
+      "date": "2026-09-09T15:43:01.000Z",
+      "name": "مبینا موسوی",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی ایلام",
+      "has_final_card": true
+    },
+    {
+      "id": 59972,
+      "date": "2026-09-08T15:40:04.000Z",
+      "name": "کبری فرناد",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بجنورد",
+      "has_final_card": true
+    },
+    {
+      "id": 59914,
+      "date": "2026-09-07T15:38:01.000Z",
+      "name": "رضا غیب الله زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ارومیه",
+      "has_final_card": true
+    },
+    {
+      "id": 59851,
+      "date": "2026-09-06T15:34:01.000Z",
+      "name": "آرینا نجفی مهر",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی ایلام",
+      "has_final_card": true
+    },
+    {
+      "id": 59797,
+      "date": "2026-09-05T15:32:01.000Z",
+      "name": "محمدرضا رشیدزاده",
+      "rank": "۱۰۳۶",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی اردبیل",
+      "has_final_card": true
+    },
+    {
+      "id": 59733,
+      "date": "2026-09-04T15:38:06.000Z",
+      "name": "نگار حبیب زاده",
+      "rank": "",
+      "quota": "",
+      "admission": "داروسازی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 59655,
+      "date": "2026-09-03T15:42:06.000Z",
+      "name": "ماهان شبگرد",
+      "rank": "۱۱۳۹",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی یزد",
+      "has_final_card": true
+    },
+    {
+      "id": 59586,
+      "date": "2026-09-02T15:47:06.000Z",
+      "name": "پریا بابائی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی قزوین",
+      "has_final_card": true
+    },
+    {
+      "id": 59525,
+      "date": "2026-09-01T15:49:06.000Z",
+      "name": "مهدی سیستانی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی کرمان",
+      "has_final_card": true
+    },
+    {
+      "id": 59435,
+      "date": "2026-08-31T15:46:06.000Z",
+      "name": "اسرا کارگر",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی بیرجند",
+      "has_final_card": true
+    },
+    {
+      "id": 59390,
+      "date": "2026-08-30T15:48:06.000Z",
+      "name": "امیرسجاد قمری",
+      "rank": "",
+      "quota": "",
+      "admission": "دندانپزشکی یزد",
+      "has_final_card": true
+    },
+    {
+      "id": 59309,
+      "date": "2026-08-29T16:15:14.000Z",
+      "name": "لاوین صالحی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 59229,
+      "date": "2026-08-28T15:36:06.000Z",
+      "name": "لیلا محمودی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی آزاد تهران",
+      "has_final_card": true
+    },
+    {
+      "id": 59173,
+      "date": "2026-08-27T15:48:06.000Z",
+      "name": "سنا عموزاده",
+      "rank": "۶۴۵",
+      "quota": "منطقه ۳",
+      "admission": "پزشکی همدان",
+      "has_final_card": true
+    },
+    {
+      "id": 59141,
+      "date": "2026-08-26T15:36:06.000Z",
+      "name": "عرفان رفتار علی آبادی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی سبزوار",
+      "has_final_card": true
+    },
+    {
+      "id": 59112,
+      "date": "2026-08-25T17:32:13.000Z",
+      "name": "ترنم آزادی",
+      "rank": "",
+      "quota": "",
+      "admission": "پزشکی یزد",
+      "has_final_card": true
+    }
+  ]
+}
