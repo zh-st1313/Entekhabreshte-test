@@ -68,16 +68,163 @@ jobs:
                   te=w.select_one("div.tgme_widget_message_text")
                   txt=te.get_text("\n",strip=True) if te else ""
                   rank_link=""
+                  rank_href=""
                   if te:
                       for a in te.select("a[href]"):
                           at=re.sub(r"\s+"," ",a.get_text(" ",strip=True)).replace("‌"," ")
                           if "کارنامه رتبه" in at:
-                              mm=re.search(r'/(\d+)(?:\?single)?$',a.get("href",""))
+                              rank_href=a.get("href","")
+                              mm=re.search(r'/(\d+)(?:\?single)?
+              return out
+
+          msgs={}
+          before=59050
+          pages=0
+          while before>43200 and pages<1000:
+              recs=page(before)
+              pages+=1
+              if not recs:
+                  before-=20
+                  continue
+              for x in recs:
+                  msgs[x["id"]]=x
+              mn=min(x["id"] for x in recs)
+              before=mn if mn<before else before-20
+              if pages%50==0:
+                  print("P",pages,"before",before,"msgs",len(msgs),flush=True)
+
+          ranks=[]
+          ads=[]
+          for mid,obj in sorted(msgs.items()):
+              t=obj["text"]
+              if "۱۴۰۴" not in t:
+                  continue
+              mname=re.search(r'😍\s*([^\n]+)',t)
+              name=mname.group(1).strip() if mname else ""
+              if not name:
+                  continue
+
+              if "رتبه برتر سیب ترشی" in t or "رتبه‌برتر سیب‌ترشی" in t:
+                  mr=re.search(r'رتبه\s*[:：]?\s*([۰-۹0-9]+)\s*(منطقه\s*(?:یک|دو|سه|[۱۲۳123])|سهمیه\s*[^\n]+)',t)
+                  if mr:
+                      quota=en(mr.group(2))
+                      quota=quota.replace("منطقه یک","منطقه 1").replace("منطقه دو","منطقه 2").replace("منطقه سه","منطقه 3")
+                      ranks.append({
+                          "id":mid,"all_ids":obj.get("all_ids") or [mid],
+                          "name":name,"key":norm(name),
+                          "rank":int(en(mr.group(1))),"quota":quota
+                      })
+
+              is_admission=("کارنامه نهایی انتخاب رشته" in t) or (
+                  "قبولی" in t and "شماره" in t and
+                  ("رتبه برتر سیب ترشی" in t or "نتایج درخشان سیب‌ترش" in t)
+              )
+              if is_admission:
+                  ma=re.search(r'⭐️\s*قبولی\s*([^\n]+)',t)
+                  if ma:
+                      mn=re.search(r'شماره\s*([۰-۹0-9]+)',t)
+                      ads.append({
+                          "id":mid,"name":name,"key":norm(name),
+                          "admit":ma.group(1).strip(),
+                          "seq":int(en(mn.group(1))) if mn else None,
+                          "rank_link":obj.get("rank_link") or "",
+                          "rank_href":obj.get("rank_href") or ""
+                      })
+
+          by={}
+          rank_mid={}
+          for r in ranks:
+              by.setdefault(r["key"],[]).append(r)
+              for alias_id in (r.get("all_ids") or [r["id"]]):
+                  rank_mid[alias_id]=r
+          keys=list(by)
+
+          rows=[]
+          direct_link_pairs=0
+          for a in ads:
+              r=None
+              score=0
+
+              if a["rank_link"] and a["rank_link"] in rank_mid:
+                  r=rank_mid[a["rank_link"]]
+                  score=1.0
+                  direct_link_pairs+=1
+              elif a["key"] in by:
+                  r=min(by[a["key"]],key=lambda x:abs(a["id"]-x["id"]))
+                  score=1.0
+              else:
+                  bestk=None
+                  for k in keys:
+                      if not k or not a["key"]:
+                          continue
+                      if k.startswith(a["key"]) or a["key"].startswith(k):
+                          sc=max(min(len(k),len(a["key"]))/max(len(k),len(a["key"])),0.94)
+                      else:
+                          sc=SequenceMatcher(None,a["key"],k).ratio()
+                      if sc>score:
+                          score=sc
+                          bestk=k
+                  if bestk and score>=0.94:
+                      r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
+
+              rows.append({
+                  "name":a["name"],
+                  "quota":r["quota"] if r else "",
+                  "quota_rank":r["rank"] if r else "",
+                  "admission_raw":a["admit"],
+                  "rank_msg":r["id"] if r else "",
+                  "rank_link":a["rank_link"],
+                  "rank_href":a.get("rank_href") or "",
+                  "admission_msg":a["id"],
+                  "sequence":a["seq"] or "",
+                  "match_score":round(score,3) if r else ""
+              })
+
+          with open(O+"/staging_text.csv","w",encoding="utf-8-sig",newline="") as f:
+              fs=["name","quota","quota_rank","admission_raw","rank_msg","rank_link","rank_href","admission_msg","sequence","match_score"]
+              w=csv.DictWriter(f,fieldnames=fs)
+              w.writeheader()
+              w.writerows(rows)
+
+          seqs=sorted(set(int(x["sequence"]) for x in rows if x["sequence"]!=""))
+          seqset=set(seqs)
+          missing_seq=[i for i in range(min(seqs or [1]),max(seqs or [0])+1) if i not in seqset]
+          sm={
+              "pages":pages,
+              "messages":len(msgs),
+              "rank_posts":len(ranks),
+              "unique_rank_names":len(set(r["key"] for r in ranks)),
+              "admission_posts":len(ads),
+              "unique_admission_names":len(set(a["key"] for a in ads)),
+              "paired":sum(bool(x["quota_rank"]) for x in rows),
+              "rank_links_found":sum(bool(a["rank_link"]) for a in ads),
+              "direct_link_pairs":direct_link_pairs,
+              "numbered_admissions":sum(x["sequence"]!="" for x in rows),
+              "seq_min":min(seqs or [None]),
+              "seq_max":max(seqs or [None]),
+              "missing_sequence_count":len(missing_seq),
+              "missing_sequences":missing_seq
+          }
+          with open(O+"/summary.json","w",encoding="utf-8") as f:
+              json.dump(sm,f,ensure_ascii=False,indent=2)
+          print(json.dumps(sm,ensure_ascii=False),flush=True)
+          PY
+
+      - name: Commit text index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-text
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add full 1404 text index with direct links"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
+,rank_href)
                               if mm:
                                   rank_link=int(mm.group(1))
-                                  break
+                              break
 
-                  out.append({"id":max(ids),"all_ids":sorted(set(ids)),"text":txt,"rank_link":rank_link})
+                  out.append({"id":max(ids),"all_ids":sorted(set(ids)),"text":txt,"rank_link":rank_link,"rank_href":rank_href})
               return out
 
           msgs={}
