@@ -1,4 +1,4 @@
-name: Gozine2 public archive recovery
+name: Gozine2 endpoint archive probe
 
 on:
   pull_request:
@@ -9,28 +9,27 @@ permissions:
   contents: read
 
 jobs:
-  recover:
+  probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Install dependencies
-        run: python -m pip install --upgrade requests beautifulsoup4 lxml
-      - name: Recover public archive traces
-        run: python scripts/gozine2_public_recovery.py
+      - name: Install dependency
+        run: python -m pip install --upgrade requests
+      - name: Probe historical public API captures
+        run: python scripts/gozine2_endpoint_probe.py
       - name: Show summary
         if: always()
         run: |
-          test -f artifacts/gozine2/summary.json && cat artifacts/gozine2/summary.json || true
-          test -f artifacts/gozine2/crawl_failures.json && cat artifacts/gozine2/crawl_failures.json || true
-      - name: Upload recovery bundle
+          test -f artifacts/gozine2-endpoints/summary.json && cat artifacts/gozine2-endpoints/summary.json || true
+      - name: Upload endpoint archaeology
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: gozine2-public-recovery
-          path: artifacts/gozine2/
+          name: gozine2-endpoint-archive
+          path: artifacts/gozine2-endpoints/
           if-no-files-found: warn
           retention-days: 7
