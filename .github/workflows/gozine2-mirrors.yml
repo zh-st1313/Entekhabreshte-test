@@ -1,0 +1,35 @@
+name: Gozine2 mirror recovery
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mirrors:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --upgrade requests beautifulsoup4 lxml
+      - name: Recover public mirror posts
+        run: python scripts/gozine2_mirror_recovery.py
+      - name: Show summary
+        if: always()
+        run: |
+          test -f artifacts/gozine2-mirrors/summary.json && cat artifacts/gozine2-mirrors/summary.json || true
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gozine2-mirrors
+          path: artifacts/gozine2-mirrors/
+          if-no-files-found: warn
+          retention-days: 7
