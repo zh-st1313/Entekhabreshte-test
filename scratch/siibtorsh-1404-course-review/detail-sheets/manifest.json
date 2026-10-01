@@ -1,0 +1,1194 @@
+[
+  {
+    "rid": 1,
+    "sheet": "detail-001.jpg",
+    "slot": 1,
+    "name": "محمدیاسین زایر",
+    "admission_raw": "پزشکی شهیدبهشتی",
+    "admission_msg": "48055"
+  },
+  {
+    "rid": 2,
+    "sheet": "detail-001.jpg",
+    "slot": 2,
+    "name": "فاطمه عبدالملکی",
+    "admission_raw": "پزشکی ایران",
+    "admission_msg": "48062"
+  },
+  {
+    "rid": 3,
+    "sheet": "detail-001.jpg",
+    "slot": 3,
+    "name": "محمدامین موسوی",
+    "admission_raw": "دندانپزشکی‌ زنجان",
+    "admission_msg": "48074"
+  },
+  {
+    "rid": 4,
+    "sheet": "detail-001.jpg",
+    "slot": 4,
+    "name": "ریحانه سعادتی",
+    "admission_raw": "پزشکی ایلام",
+    "admission_msg": "48075"
+  },
+  {
+    "rid": 5,
+    "sheet": "detail-001.jpg",
+    "slot": 5,
+    "name": "امیرمهدی آذری",
+    "admission_raw": "دندانپزشکی‌ شاهد تهران",
+    "admission_msg": "48076"
+  },
+  {
+    "rid": 6,
+    "sheet": "detail-001.jpg",
+    "slot": 6,
+    "name": "محمدصدرا عزیزی فروتقه",
+    "admission_raw": "پزشکی‌ مشهد",
+    "admission_msg": "48077"
+  },
+  {
+    "rid": 7,
+    "sheet": "detail-002.jpg",
+    "slot": 1,
+    "name": "سارا جعفری پور",
+    "admission_raw": "پزشکی‌ همدان",
+    "admission_msg": "48079"
+  },
+  {
+    "rid": 8,
+    "sheet": "detail-002.jpg",
+    "slot": 2,
+    "name": "مهدیس هاشمی",
+    "admission_raw": "دندانپزشکی‌ تبریز",
+    "admission_msg": "48080"
+  },
+  {
+    "rid": 9,
+    "sheet": "detail-002.jpg",
+    "slot": 3,
+    "name": "فاطمه مولوی",
+    "admission_raw": "پزشکی‌ همدان",
+    "admission_msg": "48081"
+  },
+  {
+    "rid": 10,
+    "sheet": "detail-002.jpg",
+    "slot": 4,
+    "name": "علی میرزائی",
+    "admission_raw": "دندانپزشکی‌ تبریز",
+    "admission_msg": "48082"
+  },
+  {
+    "rid": 11,
+    "sheet": "detail-002.jpg",
+    "slot": 5,
+    "name": "مانی مهدوی بادمحمود",
+    "admission_raw": "پزشکی‌ تبریز",
+    "admission_msg": "48083"
+  },
+  {
+    "rid": 12,
+    "sheet": "detail-002.jpg",
+    "slot": 6,
+    "name": "محمدحسن هدایتی",
+    "admission_raw": "فیزیوتراپی کرمان",
+    "admission_msg": "48084"
+  },
+  {
+    "rid": 13,
+    "sheet": "detail-003.jpg",
+    "slot": 1,
+    "name": "هادی امیرزاده",
+    "admission_raw": "دندانپزشکی‌ تبریز",
+    "admission_msg": "48090"
+  },
+  {
+    "rid": 14,
+    "sheet": "detail-003.jpg",
+    "slot": 2,
+    "name": "ابوالفضل یوسفی مقدم",
+    "admission_raw": "پزشکی‌ ایران",
+    "admission_msg": "48093"
+  },
+  {
+    "rid": 15,
+    "sheet": "detail-003.jpg",
+    "slot": 3,
+    "name": "کیان تحویلداری",
+    "admission_raw": "پزشکی‌ شیراز",
+    "admission_msg": "48097"
+  },
+  {
+    "rid": 16,
+    "sheet": "detail-003.jpg",
+    "slot": 4,
+    "name": "آروین پیشوائی",
+    "admission_raw": "پزشکی‌ مشهد",
+    "admission_msg": "48104"
+  },
+  {
+    "rid": 17,
+    "sheet": "detail-003.jpg",
+    "slot": 5,
+    "name": "مهدی قنبری",
+    "admission_raw": "دندانپزشکی‌ سمنان",
+    "admission_msg": "48108"
+  },
+  {
+    "rid": 18,
+    "sheet": "detail-003.jpg",
+    "slot": 6,
+    "name": "غزل شهریاری",
+    "admission_raw": "داروسازی تهران",
+    "admission_msg": "48141"
+  },
+  {
+    "rid": 19,
+    "sheet": "detail-004.jpg",
+    "slot": 1,
+    "name": "مطهره علیپورنیاول",
+    "admission_raw": "داروسازی تهران",
+    "admission_msg": "48150"
+  },
+  {
+    "rid": 20,
+    "sheet": "detail-004.jpg",
+    "slot": 2,
+    "name": "محمدمهدی بیلندی",
+    "admission_raw": "پزشکی مشهد",
+    "admission_msg": "48157"
+  },
+  {
+    "rid": 21,
+    "sheet": "detail-004.jpg",
+    "slot": 3,
+    "name": "فاطمه فرجی عرقطو",
+    "admission_raw": "داروسازی شهیدبهشتی",
+    "admission_msg": "48159"
+  },
+  {
+    "rid": 22,
+    "sheet": "detail-004.jpg",
+    "slot": 4,
+    "name": "بنیامین صالحی",
+    "admission_raw": "پزشکی زنجان",
+    "admission_msg": "48186"
+  },
+  {
+    "rid": 23,
+    "sheet": "detail-004.jpg",
+    "slot": 5,
+    "name": "زهرا خسروی",
+    "admission_raw": "پزشکی مشهد",
+    "admission_msg": "48187"
+  },
+  {
+    "rid": 24,
+    "sheet": "detail-004.jpg",
+    "slot": 6,
+    "name": "مبین شعبانی",
+    "admission_raw": "پزشکی قم",
+    "admission_msg": "48190"
+  },
+  {
+    "rid": 25,
+    "sheet": "detail-005.jpg",
+    "slot": 1,
+    "name": "مبینا بهرامی",
+    "admission_raw": "دندانپزشکی سمنان",
+    "admission_msg": "48197"
+  },
+  {
+    "rid": 26,
+    "sheet": "detail-005.jpg",
+    "slot": 2,
+    "name": "علیرضا عابد",
+    "admission_raw": "دندانپزشکی رفسنجان",
+    "admission_msg": "48200"
+  },
+  {
+    "rid": 27,
+    "sheet": "detail-005.jpg",
+    "slot": 3,
+    "name": "زهرا بکشلو",
+    "admission_raw": "پزشکی زنجان",
+    "admission_msg": "48204"
+  },
+  {
+    "rid": 28,
+    "sheet": "detail-005.jpg",
+    "slot": 4,
+    "name": "طاهره مهرپویا",
+    "admission_raw": "پزشکی اراک",
+    "admission_msg": "48205"
+  },
+  {
+    "rid": 29,
+    "sheet": "detail-005.jpg",
+    "slot": 5,
+    "name": "فاطمه زهرا سیمرغ",
+    "admission_raw": "پزشکی‌ شهیدبهشتی",
+    "admission_msg": "48262"
+  },
+  {
+    "rid": 30,
+    "sheet": "detail-005.jpg",
+    "slot": 6,
+    "name": "باران سلیم پور",
+    "admission_raw": "پزشکی‌ شهیدبهشتی",
+    "admission_msg": "48268"
+  },
+  {
+    "rid": 31,
+    "sheet": "detail-006.jpg",
+    "slot": 1,
+    "name": "آفرین شینی",
+    "admission_raw": "پزشکی‌ ایران",
+    "admission_msg": "48273"
+  },
+  {
+    "rid": 32,
+    "sheet": "detail-006.jpg",
+    "slot": 2,
+    "name": "فاطمه امیری",
+    "admission_raw": "دندانپزشکی آزاد تهران",
+    "admission_msg": "48278"
+  },
+  {
+    "rid": 33,
+    "sheet": "detail-006.jpg",
+    "slot": 3,
+    "name": "عرفان کرمعلی",
+    "admission_raw": "پزشکی شهیدبهشتی",
+    "admission_msg": "48280"
+  },
+  {
+    "rid": 34,
+    "sheet": "detail-006.jpg",
+    "slot": 4,
+    "name": "مرتضی مسعودی",
+    "admission_raw": "پزشکی ایران",
+    "admission_msg": "48283"
+  },
+  {
+    "rid": 35,
+    "sheet": "detail-006.jpg",
+    "slot": 5,
+    "name": "امیررضا جدی حسینی",
+    "admission_raw": "پزشکی",
+    "admission_msg": "48285"
+  },
+  {
+    "rid": 36,
+    "sheet": "detail-006.jpg",
+    "slot": 6,
+    "name": "علی علی مددی صومعه ای",
+    "admission_raw": "پزشکی‌ شهیدبهشتی",
+    "admission_msg": "48292"
+  },
+  {
+    "rid": 37,
+    "sheet": "detail-007.jpg",
+    "slot": 1,
+    "name": "رومینا موحدی نیا",
+    "admission_raw": "پزشکی‌",
+    "admission_msg": "48350"
+  },
+  {
+    "rid": 38,
+    "sheet": "detail-007.jpg",
+    "slot": 2,
+    "name": "مریم لعل دولت آبادی",
+    "admission_raw": "پزشکی مشهد",
+    "admission_msg": "48364"
+  },
+  {
+    "rid": 39,
+    "sheet": "detail-007.jpg",
+    "slot": 3,
+    "name": "محمد گردوئی",
+    "admission_raw": "پزشکی مشهد",
+    "admission_msg": "48374"
+  },
+  {
+    "rid": 40,
+    "sheet": "detail-007.jpg",
+    "slot": 4,
+    "name": "فاطمه امیریان",
+    "admission_raw": "داروسازی",
+    "admission_msg": "48390"
+  },
+  {
+    "rid": 41,
+    "sheet": "detail-007.jpg",
+    "slot": 5,
+    "name": "میکائیل اله بخش",
+    "admission_raw": "دندانپزشکی‌ مشهد",
+    "admission_msg": "48394"
+  },
+  {
+    "rid": 42,
+    "sheet": "detail-007.jpg",
+    "slot": 6,
+    "name": "پریسا وکیلی سعیدابادی",
+    "admission_raw": "دندانپزشکی‌ آزاد تبریز",
+    "admission_msg": "48436"
+  },
+  {
+    "rid": 43,
+    "sheet": "detail-008.jpg",
+    "slot": 1,
+    "name": "عباس ابراهیمی",
+    "admission_raw": "فیزیوتراپی تبریز",
+    "admission_msg": "48437"
+  },
+  {
+    "rid": 44,
+    "sheet": "detail-008.jpg",
+    "slot": 2,
+    "name": "امیررضا خسروزاده",
+    "admission_raw": "پزشکی",
+    "admission_msg": "48440"
+  },
+  {
+    "rid": 45,
+    "sheet": "detail-008.jpg",
+    "slot": 3,
+    "name": "کوثر سلمان زاده",
+    "admission_raw": "پزشکی تبریز",
+    "admission_msg": "48444"
+  },
+  {
+    "rid": 46,
+    "sheet": "detail-008.jpg",
+    "slot": 4,
+    "name": "یسنا کفیلی گرگری",
+    "admission_raw": "پزشکی تبریز",
+    "admission_msg": "48449"
+  },
+  {
+    "rid": 47,
+    "sheet": "detail-008.jpg",
+    "slot": 5,
+    "name": "شکیبا عبدی",
+    "admission_raw": "دندانپزشکی آزاد اصفهان",
+    "admission_msg": "48510"
+  },
+  {
+    "rid": 48,
+    "sheet": "detail-008.jpg",
+    "slot": 6,
+    "name": "الناز افشاریان",
+    "admission_raw": "پزشکی‌ اصفهان",
+    "admission_msg": "48511"
+  },
+  {
+    "rid": 49,
+    "sheet": "detail-009.jpg",
+    "slot": 1,
+    "name": "اردشیر ابوالصدق",
+    "admission_raw": "پزشکی آزاد تهران",
+    "admission_msg": "48541"
+  },
+  {
+    "rid": 50,
+    "sheet": "detail-009.jpg",
+    "slot": 2,
+    "name": "میلاد رضیئی",
+    "admission_raw": "فیزیوتراپی تهران",
+    "admission_msg": "48571"
+  },
+  {
+    "rid": 51,
+    "sheet": "detail-009.jpg",
+    "slot": 3,
+    "name": "سما بیگی",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "48647"
+  },
+  {
+    "rid": 52,
+    "sheet": "detail-009.jpg",
+    "slot": 4,
+    "name": "سارینا علیزاده",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "48657"
+  },
+  {
+    "rid": 53,
+    "sheet": "detail-009.jpg",
+    "slot": 5,
+    "name": "یاسمین رحیمی",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "48678"
+  },
+  {
+    "rid": 55,
+    "sheet": "detail-009.jpg",
+    "slot": 6,
+    "name": "هستی همتیان",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "48682"
+  },
+  {
+    "rid": 56,
+    "sheet": "detail-010.jpg",
+    "slot": 1,
+    "name": "زهرا نجاتی",
+    "admission_raw": "دندانپزشکی کرمانشاه",
+    "admission_msg": "48688"
+  },
+  {
+    "rid": 57,
+    "sheet": "detail-010.jpg",
+    "slot": 2,
+    "name": "الناز جهانگیر برشنه",
+    "admission_raw": "پزشکی شیراز",
+    "admission_msg": "48743"
+  },
+  {
+    "rid": 58,
+    "sheet": "detail-010.jpg",
+    "slot": 3,
+    "name": "مهرناز حسینی",
+    "admission_raw": "پزشکی‌ شیراز",
+    "admission_msg": "48759"
+  },
+  {
+    "rid": 59,
+    "sheet": "detail-010.jpg",
+    "slot": 4,
+    "name": "محمدجواد دهقانی",
+    "admission_raw": "دندانپزشکی ازاد شیراز",
+    "admission_msg": "48778"
+  },
+  {
+    "rid": 60,
+    "sheet": "detail-010.jpg",
+    "slot": 5,
+    "name": "مینا کاظمی",
+    "admission_raw": "دندانپزشکی شیراز",
+    "admission_msg": "48785"
+  },
+  {
+    "rid": 61,
+    "sheet": "detail-010.jpg",
+    "slot": 6,
+    "name": "محمدامین بهمنی نسب",
+    "admission_raw": "دندانپزشکی شیراز",
+    "admission_msg": "48799"
+  },
+  {
+    "rid": 62,
+    "sheet": "detail-011.jpg",
+    "slot": 1,
+    "name": "حامد قنبری",
+    "admission_raw": "پزشکی ساری",
+    "admission_msg": "48879"
+  },
+  {
+    "rid": 63,
+    "sheet": "detail-011.jpg",
+    "slot": 2,
+    "name": "الهام ال محمد",
+    "admission_raw": "پزشکی ساری",
+    "admission_msg": "48892"
+  },
+  {
+    "rid": 64,
+    "sheet": "detail-011.jpg",
+    "slot": 3,
+    "name": "محمد فرستاده",
+    "admission_raw": "پزشکی‌ ساری",
+    "admission_msg": "48897"
+  },
+  {
+    "rid": 65,
+    "sheet": "detail-011.jpg",
+    "slot": 4,
+    "name": "عمادالدین ارازپور",
+    "admission_raw": "پزشکی",
+    "admission_msg": "48908"
+  },
+  {
+    "rid": 66,
+    "sheet": "detail-011.jpg",
+    "slot": 5,
+    "name": "راحیل بهفروز",
+    "admission_raw": "دندانپزشکی",
+    "admission_msg": "48909"
+  },
+  {
+    "rid": 67,
+    "sheet": "detail-011.jpg",
+    "slot": 6,
+    "name": "زهرا مومنی",
+    "admission_raw": "پزشکی کرمان",
+    "admission_msg": "48954"
+  },
+  {
+    "rid": 68,
+    "sheet": "detail-012.jpg",
+    "slot": 1,
+    "name": "ارشیا افضلی ساردو",
+    "admission_raw": "پزشکی کرمان",
+    "admission_msg": "48961"
+  },
+  {
+    "rid": 69,
+    "sheet": "detail-012.jpg",
+    "slot": 2,
+    "name": "زهرا سرمست",
+    "admission_raw": "پزشکی کرمان",
+    "admission_msg": "48972"
+  },
+  {
+    "rid": 70,
+    "sheet": "detail-012.jpg",
+    "slot": 3,
+    "name": "محسن حسینی",
+    "admission_raw": "دندانپزشکی اهواز",
+    "admission_msg": "48976"
+  },
+  {
+    "rid": 71,
+    "sheet": "detail-012.jpg",
+    "slot": 4,
+    "name": "کیمیا نقیبیان",
+    "admission_raw": "دندانپزشکی کرمان",
+    "admission_msg": "48999"
+  },
+  {
+    "rid": 73,
+    "sheet": "detail-012.jpg",
+    "slot": 5,
+    "name": "مبینا امینی رارانی",
+    "admission_raw": "فیزیوتراپی یزد",
+    "admission_msg": "49081"
+  },
+  {
+    "rid": 74,
+    "sheet": "detail-012.jpg",
+    "slot": 6,
+    "name": "امیرمحمد غفاری",
+    "admission_raw": "دندانپزشکی‌ یزد",
+    "admission_msg": "49118"
+  },
+  {
+    "rid": 75,
+    "sheet": "detail-013.jpg",
+    "slot": 1,
+    "name": "ماهان شب گرد فریمانی",
+    "admission_raw": "پزشکی",
+    "admission_msg": "49125"
+  },
+  {
+    "rid": 76,
+    "sheet": "detail-013.jpg",
+    "slot": 2,
+    "name": "امیر حسین زاده",
+    "admission_raw": "پزشکی شهیدبهشتی",
+    "admission_msg": "49212"
+  },
+  {
+    "rid": 77,
+    "sheet": "detail-013.jpg",
+    "slot": 3,
+    "name": "فرزانه شاهمرادی",
+    "admission_raw": "پزشکی‌ شهیدبهشتی",
+    "admission_msg": "49242"
+  },
+  {
+    "rid": 78,
+    "sheet": "detail-013.jpg",
+    "slot": 4,
+    "name": "محسن محمدی",
+    "admission_raw": "پزشکی همدان",
+    "admission_msg": "49292"
+  },
+  {
+    "rid": 79,
+    "sheet": "detail-013.jpg",
+    "slot": 5,
+    "name": "نگار حبیب زاده",
+    "admission_raw": "داروسازی همدان",
+    "admission_msg": "49305"
+  },
+  {
+    "rid": 80,
+    "sheet": "detail-013.jpg",
+    "slot": 6,
+    "name": "زینب موسیوند دارانی",
+    "admission_raw": "پزشکی همدان",
+    "admission_msg": "49306"
+  },
+  {
+    "rid": 81,
+    "sheet": "detail-014.jpg",
+    "slot": 1,
+    "name": "سنا عموزاده",
+    "admission_raw": "پزشکی همدان",
+    "admission_msg": "49309"
+  },
+  {
+    "rid": 82,
+    "sheet": "detail-014.jpg",
+    "slot": 2,
+    "name": "تینا علی محمدی",
+    "admission_raw": "دندانپزشکی همدان",
+    "admission_msg": "49320"
+  },
+  {
+    "rid": 83,
+    "sheet": "detail-014.jpg",
+    "slot": 3,
+    "name": "علی بهرامی",
+    "admission_raw": "پزشکی همدان",
+    "admission_msg": "49328"
+  },
+  {
+    "rid": 84,
+    "sheet": "detail-014.jpg",
+    "slot": 4,
+    "name": "اسرا کارگر",
+    "admission_raw": "پزشکی بیرجند",
+    "admission_msg": "49455"
+  },
+  {
+    "rid": 85,
+    "sheet": "detail-014.jpg",
+    "slot": 5,
+    "name": "فاطمه پورمحمد",
+    "admission_raw": "پزشکی ارومیه",
+    "admission_msg": "49545"
+  },
+  {
+    "rid": 86,
+    "sheet": "detail-014.jpg",
+    "slot": 6,
+    "name": "احسان برزی",
+    "admission_raw": "پزشکی ارومیه",
+    "admission_msg": "49550"
+  },
+  {
+    "rid": 87,
+    "sheet": "detail-015.jpg",
+    "slot": 1,
+    "name": "سامیار چوکلی",
+    "admission_raw": "پزشکی ارومیه",
+    "admission_msg": "49590"
+  },
+  {
+    "rid": 88,
+    "sheet": "detail-015.jpg",
+    "slot": 2,
+    "name": "یاسمن دولت آبادی مقدم",
+    "admission_raw": "پزشکی رشت",
+    "admission_msg": "49614"
+  },
+  {
+    "rid": 89,
+    "sheet": "detail-015.jpg",
+    "slot": 3,
+    "name": "احمد دغاغله",
+    "admission_raw": "پزشکی اهواز",
+    "admission_msg": "49713"
+  },
+  {
+    "rid": 90,
+    "sheet": "detail-015.jpg",
+    "slot": 4,
+    "name": "ماهان چناری",
+    "admission_raw": "پزشکی اهواز",
+    "admission_msg": "49718"
+  },
+  {
+    "rid": 91,
+    "sheet": "detail-015.jpg",
+    "slot": 5,
+    "name": "مهران علی نژاد آذر",
+    "admission_raw": "دندانپزشکی",
+    "admission_msg": "49815"
+  },
+  {
+    "rid": 93,
+    "sheet": "detail-015.jpg",
+    "slot": 6,
+    "name": "طه باقرنژاد",
+    "admission_raw": "پزشکی بابل",
+    "admission_msg": "49841"
+  },
+  {
+    "rid": 94,
+    "sheet": "detail-016.jpg",
+    "slot": 1,
+    "name": "علی اصغر ابراهیمی",
+    "admission_raw": "پزشکی بابل",
+    "admission_msg": "49842"
+  },
+  {
+    "rid": 95,
+    "sheet": "detail-016.jpg",
+    "slot": 2,
+    "name": "سعیده ترابی سوار",
+    "admission_raw": "پزشکی خرم آباد",
+    "admission_msg": "49931"
+  },
+  {
+    "rid": 96,
+    "sheet": "detail-016.jpg",
+    "slot": 3,
+    "name": "فاطمه نیک نام موسی اباد",
+    "admission_raw": "فیزیوتراپی سمنان",
+    "admission_msg": "50039"
+  },
+  {
+    "rid": 98,
+    "sheet": "detail-016.jpg",
+    "slot": 4,
+    "name": "شکیبا افشارزاده",
+    "admission_raw": "داروسازی سمنان",
+    "admission_msg": "50090"
+  },
+  {
+    "rid": 99,
+    "sheet": "detail-016.jpg",
+    "slot": 5,
+    "name": "علی سعیدی",
+    "admission_raw": "پزشکی‌ زنجان",
+    "admission_msg": "50156"
+  },
+  {
+    "rid": 100,
+    "sheet": "detail-016.jpg",
+    "slot": 6,
+    "name": "ادیب امیدیان",
+    "admission_raw": "دندانپزشکی زنجان",
+    "admission_msg": "50235"
+  },
+  {
+    "rid": 101,
+    "sheet": "detail-017.jpg",
+    "slot": 1,
+    "name": "فاطمه حجار",
+    "admission_raw": "دندانپزشکی زنجان",
+    "admission_msg": "50240"
+  },
+  {
+    "rid": 102,
+    "sheet": "detail-017.jpg",
+    "slot": 2,
+    "name": "امیرمحمد پیروزه",
+    "admission_raw": "پزشکی بندرعباس",
+    "admission_msg": "50286"
+  },
+  {
+    "rid": 103,
+    "sheet": "detail-017.jpg",
+    "slot": 3,
+    "name": "نگار حسینی پور",
+    "admission_raw": "پزشکی بندرعباس",
+    "admission_msg": "50287"
+  },
+  {
+    "rid": 104,
+    "sheet": "detail-017.jpg",
+    "slot": 4,
+    "name": "احسان مدبری",
+    "admission_raw": "پزشکی اهواز",
+    "admission_msg": "50355"
+  },
+  {
+    "rid": 105,
+    "sheet": "detail-017.jpg",
+    "slot": 5,
+    "name": "سیده میترا میرجلیلی",
+    "admission_raw": "پزشکی تربت حیدریه",
+    "admission_msg": "50422"
+  },
+  {
+    "rid": 106,
+    "sheet": "detail-017.jpg",
+    "slot": 6,
+    "name": "محمد رهنما",
+    "admission_raw": "پزشکی تبریز",
+    "admission_msg": "50544"
+  },
+  {
+    "rid": 107,
+    "sheet": "detail-018.jpg",
+    "slot": 1,
+    "name": "ماردین قادری",
+    "admission_raw": "پزشکی تبریز",
+    "admission_msg": "50562"
+  },
+  {
+    "rid": 108,
+    "sheet": "detail-018.jpg",
+    "slot": 2,
+    "name": "نیلوفر توکلی شورجه",
+    "admission_raw": "پزشکی شیراز",
+    "admission_msg": "50720"
+  },
+  {
+    "rid": 109,
+    "sheet": "detail-018.jpg",
+    "slot": 3,
+    "name": "محمد باقی",
+    "admission_raw": "دندانپزشکی زاهدان",
+    "admission_msg": "50841"
+  },
+  {
+    "rid": 110,
+    "sheet": "detail-018.jpg",
+    "slot": 4,
+    "name": "ایلیا جعفری",
+    "admission_raw": "دندانپزشکی زاهدان",
+    "admission_msg": "50845"
+  },
+  {
+    "rid": 111,
+    "sheet": "detail-018.jpg",
+    "slot": 5,
+    "name": "یسنا ایمانی",
+    "admission_raw": "پزشکی زاهدان",
+    "admission_msg": "50861"
+  },
+  {
+    "rid": 112,
+    "sheet": "detail-018.jpg",
+    "slot": 6,
+    "name": "الناز لنگری پور",
+    "admission_raw": "پزشکی زاهدان",
+    "admission_msg": "50862"
+  },
+  {
+    "rid": 113,
+    "sheet": "detail-019.jpg",
+    "slot": 1,
+    "name": "سوگند سلیمی فرد",
+    "admission_raw": "پزشکی‌ کرمانشاه",
+    "admission_msg": "50938"
+  },
+  {
+    "rid": 115,
+    "sheet": "detail-019.jpg",
+    "slot": 2,
+    "name": "علیرضا نوروزی",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "51000"
+  },
+  {
+    "rid": 116,
+    "sheet": "detail-019.jpg",
+    "slot": 3,
+    "name": "سارینا علیزاده",
+    "admission_raw": "پزشکی کرمانشاه",
+    "admission_msg": "51001"
+  },
+  {
+    "rid": 117,
+    "sheet": "detail-019.jpg",
+    "slot": 4,
+    "name": "نیما نیکو",
+    "admission_raw": "پزشکی گرگان",
+    "admission_msg": "51107"
+  },
+  {
+    "rid": 118,
+    "sheet": "detail-019.jpg",
+    "slot": 5,
+    "name": "هدیه رحیمی",
+    "admission_raw": "دندانپزشکی کرج",
+    "admission_msg": "51143"
+  },
+  {
+    "rid": 119,
+    "sheet": "detail-019.jpg",
+    "slot": 6,
+    "name": "مریم سادات موسوی",
+    "admission_raw": "پزشکی",
+    "admission_msg": "51145"
+  },
+  {
+    "rid": 120,
+    "sheet": "detail-020.jpg",
+    "slot": 1,
+    "name": "محمد وندالوند",
+    "admission_raw": "پزشکی کرج",
+    "admission_msg": "51146"
+  },
+  {
+    "rid": 121,
+    "sheet": "detail-020.jpg",
+    "slot": 2,
+    "name": "حنانه قدیمی",
+    "admission_raw": "داروسازی کرج",
+    "admission_msg": "51147"
+  },
+  {
+    "rid": 122,
+    "sheet": "detail-020.jpg",
+    "slot": 3,
+    "name": "سام بیداری",
+    "admission_raw": "پزشکی کرج",
+    "admission_msg": "51159"
+  },
+  {
+    "rid": 123,
+    "sheet": "detail-020.jpg",
+    "slot": 4,
+    "name": "دانیال نصیری",
+    "admission_raw": "پزشکی‌ کرج",
+    "admission_msg": "51167"
+  },
+  {
+    "rid": 124,
+    "sheet": "detail-020.jpg",
+    "slot": 5,
+    "name": "محمدرضا اسدی",
+    "admission_raw": "دندانپزشکی کرج",
+    "admission_msg": "51195"
+  },
+  {
+    "rid": 125,
+    "sheet": "detail-020.jpg",
+    "slot": 6,
+    "name": "فاطمه سلمانی",
+    "admission_raw": "پزشکی اراک",
+    "admission_msg": "51246"
+  },
+  {
+    "rid": 126,
+    "sheet": "detail-021.jpg",
+    "slot": 1,
+    "name": "محمدجواد فریدونی",
+    "admission_raw": "پزشکی اراک",
+    "admission_msg": "51312"
+  },
+  {
+    "rid": 127,
+    "sheet": "detail-021.jpg",
+    "slot": 2,
+    "name": "محمدمهدی صادقی",
+    "admission_raw": "دندانپزشکی یاسوج",
+    "admission_msg": "51371"
+  },
+  {
+    "rid": 128,
+    "sheet": "detail-021.jpg",
+    "slot": 3,
+    "name": "مهسا جلالی",
+    "admission_raw": "دندانپزشکی شهرکرد",
+    "admission_msg": "51422"
+  },
+  {
+    "rid": 129,
+    "sheet": "detail-021.jpg",
+    "slot": 4,
+    "name": "زهرا سراج الدین میرقائد",
+    "admission_raw": "دندانپزشکی شهرکرد",
+    "admission_msg": "51427"
+  },
+  {
+    "rid": 130,
+    "sheet": "detail-021.jpg",
+    "slot": 5,
+    "name": "روژان رستمی",
+    "admission_raw": "پزشکی سنندج",
+    "admission_msg": "51448"
+  },
+  {
+    "rid": 131,
+    "sheet": "detail-021.jpg",
+    "slot": 6,
+    "name": "کیانا صفائی",
+    "admission_raw": "پزشکی",
+    "admission_msg": "51450"
+  },
+  {
+    "rid": 132,
+    "sheet": "detail-022.jpg",
+    "slot": 1,
+    "name": "ژینو بهمنی",
+    "admission_raw": "پزشکی سنندج",
+    "admission_msg": "51489"
+  },
+  {
+    "rid": 133,
+    "sheet": "detail-022.jpg",
+    "slot": 2,
+    "name": "آریا غرائی",
+    "admission_raw": "پزشکی سنندج",
+    "admission_msg": "51522"
+  },
+  {
+    "rid": 134,
+    "sheet": "detail-022.jpg",
+    "slot": 3,
+    "name": "حنانه شاه محمدی",
+    "admission_raw": "پزشکی قم",
+    "admission_msg": "51549"
+  },
+  {
+    "rid": 135,
+    "sheet": "detail-022.jpg",
+    "slot": 4,
+    "name": "سید رضا حسینیان",
+    "admission_raw": "دندانپزشکی قم",
+    "admission_msg": "51559"
+  },
+  {
+    "rid": 136,
+    "sheet": "detail-022.jpg",
+    "slot": 5,
+    "name": "حنانه سادات طباطبائی نژاد",
+    "admission_raw": "پزشکی قم",
+    "admission_msg": "51605"
+  },
+  {
+    "rid": 137,
+    "sheet": "detail-022.jpg",
+    "slot": 6,
+    "name": "سهراب رحمانی",
+    "admission_raw": "پزشکی قزوین",
+    "admission_msg": "51609"
+  },
+  {
+    "rid": 138,
+    "sheet": "detail-023.jpg",
+    "slot": 1,
+    "name": "فاطمه محمدی",
+    "admission_raw": "پزشکی قزوین",
+    "admission_msg": "51613"
+  },
+  {
+    "rid": 139,
+    "sheet": "detail-023.jpg",
+    "slot": 2,
+    "name": "مهسا مقدمی",
+    "admission_raw": "دندانپزشکی قزوین",
+    "admission_msg": "51633"
+  },
+  {
+    "rid": 140,
+    "sheet": "detail-023.jpg",
+    "slot": 3,
+    "name": "کیمیا جوبانو",
+    "admission_raw": "دندانپزشکی ایلام",
+    "admission_msg": "51664"
+  },
+  {
+    "rid": 141,
+    "sheet": "detail-023.jpg",
+    "slot": 4,
+    "name": "غزال صادقی",
+    "admission_raw": "پزشکی ایلام",
+    "admission_msg": "51740"
+  },
+  {
+    "rid": 142,
+    "sheet": "detail-023.jpg",
+    "slot": 5,
+    "name": "محمدحسین نجف زاده",
+    "admission_raw": "پزشکی اردبیل",
+    "admission_msg": "51804"
+  },
+  {
+    "rid": 144,
+    "sheet": "detail-023.jpg",
+    "slot": 6,
+    "name": "ساناز کریمی شاوون",
+    "admission_raw": "پزشکی اردبیل",
+    "admission_msg": "51866"
+  },
+  {
+    "rid": 145,
+    "sheet": "detail-024.jpg",
+    "slot": 1,
+    "name": "محمدصالح صابری مقدم",
+    "admission_raw": "پزشکی بجنورد",
+    "admission_msg": "51949"
+  },
+  {
+    "rid": 146,
+    "sheet": "detail-024.jpg",
+    "slot": 2,
+    "name": "فاطمه اسکندری قاچکانلو",
+    "admission_raw": "پزشکی بجنورد",
+    "admission_msg": "51988"
+  },
+  {
+    "rid": 147,
+    "sheet": "detail-024.jpg",
+    "slot": 3,
+    "name": "محمدصالح صابری",
+    "admission_raw": "پزشکی‌ بجنورد",
+    "admission_msg": "51994"
+  },
+  {
+    "rid": 148,
+    "sheet": "detail-024.jpg",
+    "slot": 4,
+    "name": "محمد نوروزی",
+    "admission_raw": "دندانپزشکی بجنورد",
+    "admission_msg": "51995"
+  },
+  {
+    "rid": 149,
+    "sheet": "detail-024.jpg",
+    "slot": 5,
+    "name": "مطهره علی پورنیاول",
+    "admission_raw": "داروسازی تهران",
+    "admission_msg": "52030"
+  },
+  {
+    "rid": 150,
+    "sheet": "detail-024.jpg",
+    "slot": 6,
+    "name": "نیکی پورجعفری",
+    "admission_raw": "دندانپزشکی‌ آزاد تهران",
+    "admission_msg": "52039"
+  },
+  {
+    "rid": 151,
+    "sheet": "detail-025.jpg",
+    "slot": 1,
+    "name": "آرش ایمانی هرسینی",
+    "admission_raw": "داروسازی آزاد تهران",
+    "admission_msg": "52043"
+  },
+  {
+    "rid": 152,
+    "sheet": "detail-025.jpg",
+    "slot": 2,
+    "name": "محمد امین بیرانوند",
+    "admission_raw": "پزشکی ایران",
+    "admission_msg": "52066"
+  },
+  {
+    "rid": 153,
+    "sheet": "detail-025.jpg",
+    "slot": 3,
+    "name": "محمدرضا موسوی",
+    "admission_raw": "دندانپزشکی شهیدبهشتی",
+    "admission_msg": "52076"
+  },
+  {
+    "rid": 154,
+    "sheet": "detail-025.jpg",
+    "slot": 4,
+    "name": "رامیلا حاتمی",
+    "admission_raw": "پزشکی آزاد تهران",
+    "admission_msg": "52111"
+  },
+  {
+    "rid": 155,
+    "sheet": "detail-025.jpg",
+    "slot": 5,
+    "name": "زهرا مومنی صفری",
+    "admission_raw": "دامپزشکی شیراز",
+    "admission_msg": "52283"
+  }
+]
