@@ -64,7 +64,14 @@ def crawl(ch,y,g,q,max_pages=30):
         soup=BeautifulSoup(r.text,"lxml")
         for w in soup.select(".tgme_widget_message_wrap"):
             x=parse(w,ch,q,y,g)
-            if x and x["post"] not in posts:posts.add(x["post"]); out.append(x)
+            if x:
+                txt=x.get("text","")
+                ok = q in txt
+                if q.startswith("#کارنامه_پذیرفته_شدگان_کنکور"):
+                    yr=q.split()[-1]
+                    ok = "#کارنامه_پذیرفته_شدگان_کنکور" in txt and yr in txt
+                if ok and x["post"] not in posts:
+                    posts.add(x["post"]); out.append(x)
         more=soup.select_one("a.tme_messages_more")
         if not more or not more.get("href"):break
         nxt=urljoin("https://t.me",more["href"])
