@@ -1,0 +1,173 @@
+name: Build 1404 course-type sheets
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/1404-course-sheets.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - run: python -m pip install --quiet requests beautifulsoup4 pillow
+
+      - name: Fetch admission cards and build sheets
+        run: |
+          python - <<'PY'
+          import csv,os,re,html,io,json,time
+          import requests
+          from bs4 import BeautifulSoup
+          from PIL import Image,ImageDraw,ImageFont,ImageEnhance
+
+          src="scratch/siibtorsh-1404-safe/paired.csv"
+          out="scratch/siibtorsh-1404-course-review"
+          sheets=os.path.join(out,"sheets")
+          os.makedirs(sheets,exist_ok=True)
+
+          rows=[]
+          with open(src,encoding="utf-8-sig",newline="") as f:
+              for r in csv.DictReader(f):
+                  if str(r.get("quota_rank","")).strip():
+                      rows.append(r)
+
+          s=requests.Session()
+          s.headers.update({"User-Agent":"Mozilla/5.0"})
+          items=[]
+          failures=[]
+
+          def get_wrapper(mid,name):
+              url=f"https://t.me/s/SiiibTorsh?before={mid+1}"
+              rr=s.get(url,timeout=25); rr.raise_for_status()
+              soup=BeautifulSoup(rr.text,"html.parser")
+              best=None
+              for w in soup.select("div.tgme_widget_message_wrap"):
+                  ids=set()
+                  msg=w.select_one("div.tgme_widget_message")
+                  if msg:
+                      m=re.search(r'/(\d+)$',msg.get("data-post",""))
+                      if m: ids.add(int(m.group(1)))
+                  dl=w.select_one("a.tgme_widget_message_date")
+                  if dl:
+                      m=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                      if m: ids.add(int(m.group(1)))
+                  for a in w.select('a[href*="?single"]'):
+                      m=re.search(r'/(\d+)\?single',a.get("href",""))
+                      if m: ids.add(int(m.group(1)))
+                  textel=w.select_one("div.tgme_widget_message_text")
+                  txt=textel.get_text(" ",strip=True) if textel else ""
+                  if mid in ids:
+                      return w
+                  if name and name in txt:
+                      best=w
+              return best
+
+          for idx,r in enumerate(rows,1):
+              mid=int(r["admission_msg"])
+              try:
+                  w=get_wrapper(mid,r["name"])
+                  if not w:
+                      failures.append({"row":idx,"name":r["name"],"msg":mid,"reason":"wrapper_not_found"})
+                      continue
+                  urls=[]
+                  for a in w.select("a.tgme_widget_message_photo_wrap"):
+                      st=a.get("style","")
+                      m=re.search(r"background-image:url\('([^']+)'\)",st)
+                      if m: urls.append(html.unescape(m.group(1)))
+                  if not urls:
+                      for m in re.finditer(r"background-image:url\('([^']+)\'\)",str(w)):
+                          u=html.unescape(m.group(1))
+                          if "telesco.pe" in u: urls.append(u)
+                  urls=list(dict.fromkeys(urls))
+                  if not urls:
+                      failures.append({"row":idx,"name":r["name"],"msg":mid,"reason":"no_photo"})
+                      continue
+
+                  best=None
+                  for u in urls:
+                      try:
+                          rr=s.get(u,timeout=25)
+                          if rr.ok and len(rr.content)>1500:
+                              if best is None or len(rr.content)>len(best[1]):
+                                  best=(u,rr.content)
+                      except Exception:
+                          pass
+                  if not best:
+                      failures.append({"row":idx,"name":r["name"],"msg":mid,"reason":"download_failed"})
+                      continue
+
+                  im=Image.open(io.BytesIO(best[1])).convert("RGB")
+                  w0,h0=im.size
+                  # Keep bottom ~55%, where admission/course details are usually printed.
+                  crop=im.crop((0,int(h0*0.42),w0,h0))
+                  tw=1280
+                  th=max(260,int(crop.height*tw/crop.width))
+                  crop=crop.resize((tw,th))
+                  crop=ImageEnhance.Contrast(crop).enhance(1.12)
+                  crop=ImageEnhance.Sharpness(crop).enhance(1.25)
+                  items.append({
+                      "review_id":len(items)+1,
+                      "name":r["name"],
+                      "quota":r["quota"],
+                      "quota_rank":r["quota_rank"],
+                      "admission_raw":r["admission_raw"],
+                      "admission_msg":mid,
+                      "image":crop
+                  })
+              except Exception as e:
+                  failures.append({"row":idx,"name":r["name"],"msg":mid,"reason":type(e).__name__})
+
+          try:
+              font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",22)
+          except:
+              font=ImageFont.load_default()
+
+          manifest=[]
+          per=8
+          rowh=380
+          for sn in range(0,len(items),per):
+              subset=items[sn:sn+per]
+              canvas=Image.new("RGB",(1500,rowh*len(subset)),"white")
+              d=ImageDraw.Draw(canvas)
+              sheet_name=f"sheet-{sn//per+1:03d}.jpg"
+              for j,it in enumerate(subset):
+                  y=j*rowh
+                  label=f"RID {it['review_id']} | msg {it['admission_msg']} | rank {it['quota_rank']} {it['quota']} | {it['name']} | {it['admission_raw']}"
+                  d.text((10,y+4),label,fill="black",font=font)
+                  c=it["image"].copy()
+                  c.thumbnail((1480,rowh-42))
+                  canvas.paste(c,(10,y+38))
+                  manifest.append({
+                      "review_id":it["review_id"],"sheet":sheet_name,"slot":j+1,
+                      "name":it["name"],"quota":it["quota"],"quota_rank":it["quota_rank"],
+                      "admission_raw":it["admission_raw"],"admission_msg":it["admission_msg"]
+                  })
+              canvas.save(os.path.join(sheets,sheet_name),quality=88,optimize=True)
+
+          with open(os.path.join(out,"manifest.json"),"w",encoding="utf-8") as f:
+              json.dump(manifest,f,ensure_ascii=False,indent=2)
+          with open(os.path.join(out,"failures.json"),"w",encoding="utf-8") as f:
+              json.dump(failures,f,ensure_ascii=False,indent=2)
+          with open(os.path.join(out,"summary.json"),"w",encoding="utf-8") as f:
+              json.dump({"matched_input":len(rows),"images":len(items),"failures":len(failures),"sheets":(len(items)+per-1)//per},f,ensure_ascii=False,indent=2)
+          print(json.dumps({"matched_input":len(rows),"images":len(items),"failures":len(failures),"sheets":(len(items)+per-1)//per},ensure_ascii=False))
+          PY
+
+      - name: Commit review sheets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-course-review
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add 1404 course type review sheets"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
