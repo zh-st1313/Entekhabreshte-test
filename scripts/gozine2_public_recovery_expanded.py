@@ -14,19 +14,14 @@ S=requests.Session()
 S.headers.update({"User-Agent":"Mozilla/5.0 Gozine2PublicTelegramArchiveResearch/2.0"})
 
 CHANNELS=[
- "gozine2","G2_konkur","G2_konkur406","G2_konkur1401","G2_konkur1407",
- "G2_konkur99","g2_old","gozine_dorost","gozine2tabas"
+ "G2_konkur406","G2_konkur1407","G2_konkur1401"
 ]
 QUERIES=[
- "#کارنامه_کنکور97","#کارنامه_کنکور۹۷",
  "#کارنامه_کنکور98","#کارنامه_کنکور۹۸",
  "#کارنامه_کنکور99","#کارنامه_کنکور۹۹",
- "#کارنامه_کنکور1400","#کارنامه_کنکور۱۴۰۰",
  "#کارنامه_کنکور1401","#کارنامه_کنکور۱۴۰۱",
  "#کارنامه_کنکور1402","#کارنامه_کنکور۱۴۰۲",
- "#کارنامه_کنکور1403","#کارنامه_کنکور۱۴۰۳",
- "#کارنامه_پذیرفته_شدگان","#کارنامه_پذیرفته_شدگان_کنکور",
- "نمونه کارنامه کنکور ۱۴۰۱","نمونه کارنامه پذیرفته شدگان"
+ "#کارنامه_پذیرفته_شدگان"
 ]
 
 def get(url, timeout=15):
@@ -66,7 +61,7 @@ def parse(wrap,ch,q):
     return {"post":post,"channel":ch,"query":q,"date":date,"year_text":year,
             "permalink":"https://t.me/"+post,"text":text,"photo_urls":photos}
 
-def crawl(ch,q,max_pages=8):
+def crawl(ch,q,max_pages=3):
     url=f"https://t.me/s/{ch}?q={quote(q)}"
     seen_urls=set(); seen_posts=set(); rows=[]
     for _ in range(max_pages):
