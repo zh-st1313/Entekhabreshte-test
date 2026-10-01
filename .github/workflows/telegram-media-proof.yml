@@ -18,129 +18,110 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-      - run: python -m pip install --quiet requests beautifulsoup4 pillow
-      - name: Fetch recovered final-card images
+      - run: python -m pip install --quiet requests beautifulsoup4
+      - name: Fetch all ambiguous album photos
         run: |
           python - <<'PY'
-          import json,re,os,io,html
-          import requests
+          import requests,re,os,json,html
           from bs4 import BeautifulSoup
-          from PIL import Image,ImageDraw,ImageFont,ImageEnhance
 
-          O="scratch/siibtorsh-post-2026-05-25/recovered-finalcards"
-          C=os.path.join(O,"cards"); S=os.path.join(O,"sheets")
-          os.makedirs(C,exist_ok=True); os.makedirs(S,exist_ok=True)
-          sess=requests.Session(); sess.headers.update({"User-Agent":"Mozilla/5.0"})
-
-          items=[]
-          for n in range(1,5):
-              p=f"scratch/siibtorsh-post-2026-05-25/final-search-batch{n:02d}.json"
-              arr=json.load(open(p,encoding="utf-8"))
-              for x in arr:
-                  finals=x.get("finals") or []
-                  chosen=None
-                  # Prefer a final post whose text contains the expected admission phrase.
-                  exp=(x.get("admission") or "").replace("‌"," ").replace("  "," ").strip()
-                  for f in finals:
-                      tx=(f.get("text") or "").replace("‌"," ").replace("  "," ")
-                      if exp and exp in tx:
-                          chosen=f;break
-                  if chosen is None and finals:
-                      chosen=finals[0]
-                  if chosen:
-                      items.append({**x,"final_id":chosen["id"],"final_text":chosen["text"]})
+          targets=[
+            ("SiiibTorsh",48154,6,"محمدمهدی بیلندی"),
+            ("SiiibTorsh",49841,11,"طه باقرنژاد"),
+            ("SiiibTorsh",49289,14,"محسن محمدی"),
+            ("SiiibTorsh",48370,23,"محمد گردوئی"),
+            ("SiiibTorsh",50236,24,"فاطمه حجار"),
+            ("SiiibTorsh",48973,28,"محسن حسینی"),
+            ("SiiibTorsh",50838,29,"محمد باقی"),
+            ("SiiibTorsh",51822,30,"بنیامین کرمی"),
+            ("SiiibTorsh",51557,32,"رضا حسینیان"),
+            ("SiiibTorsh",50558,34,"ماردین قادری"),
+            ("SiiibTorsh",48269,38,"آفرین شینی"),
+            ("SiiibTorsh",48686,39,"زهرا نجاتی"),
+            ("SiiibTorsh",52040,40,"آرش ایمانی"),
+            ("SiiibTorsh",49718,41,"ماهان چناری"),
+            ("SiiibTorsh",48568,42,"میلاد رضیئی"),
+            ("SiiibTorsh",51014,45,"امیرحسین رضازاده"),
+            ("SiiibTorsh",51309,50,"محمدجواد فریدونی"),
+            ("SiiibTorsh",49307,53,"سنا عموزاده"),
+            ("SiiibTorsh_Results",5888,101,"مبینا اکبری"),
+            ("SiiibTorsh_Results",9734,102,"صدرا جمشیدبیگی"),
+            ("SiiibTorsh_Results",9450,103,"دینا دادفر"),
+            ("SiiibTorsh_Results",9953,104,"نازنین عظیمی"),
+            ("SiiibTorsh_Results",9926,105,"زهرا نجفی"),
+            ("SiiibTorsh_Results",10360,106,"پدرام میرزائیان")
+          ]
+          O="scratch/siibtorsh-post-2026-05-25/all-media"
+          os.makedirs(O,exist_ok=True)
+          s=requests.Session(); s.headers["User-Agent"]="Mozilla/5.0"
+          meta=[]
 
           def ids_for_wrap(w):
-              ids=[]
-              msg=w.select_one("div.tgme_widget_message")
-              if msg:
-                  m=re.search(r'/(\d+)$',msg.get("data-post",""))
-                  if m: ids.append(int(m.group(1)))
-              dl=w.select_one("a.tgme_widget_message_date")
-              if dl:
-                  m=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
-                  if m: ids.append(int(m.group(1)))
-              for a in w.select('a[href*="?single"]'):
-                  m=re.search(r'/(\d+)\?single',a.get("href",""))
-                  if m: ids.append(int(m.group(1)))
-              return sorted(set(ids))
+            ids=[]
+            m=w.select_one("div.tgme_widget_message")
+            if m:
+              z=re.search(r'/(\d+)$',m.get("data-post",""))
+              if z:ids.append(int(z.group(1)))
+            d=w.select_one("a.tgme_widget_message_date")
+            if d:
+              z=re.search(r'/(\d+)(?:\?.*)?$',d.get("href",""))
+              if z:ids.append(int(z.group(1)))
+            for a in w.select('a[href*="?single"]'):
+              z=re.search(r'/(\d+)\?single',a.get("href",""))
+              if z:ids.append(int(z.group(1)))
+            return sorted(set(ids))
 
-          def find_wrap(mid):
-              rr=sess.get(f"https://t.me/s/SiiibTorsh?before={mid+2}",timeout=25)
-              rr.raise_for_status()
-              soup=BeautifulSoup(rr.text,"html.parser")
-              best=None
-              for w in soup.select("div.tgme_widget_message_wrap"):
-                  ids=ids_for_wrap(w)
-                  if mid in ids: return w
-                  if ids:
-                      dist=min(abs(i-mid) for i in ids)
-                      if dist<=3 and (best is None or dist<best[0]): best=(dist,w)
-              return best[1] if best else None
+          def find_wrap(channel,mid):
+            rr=s.get(f"https://t.me/s/{channel}?before={mid+2}",timeout=25)
+            rr.raise_for_status()
+            soup=BeautifulSoup(rr.text,"html.parser")
+            best=None
+            for w in soup.select("div.tgme_widget_message_wrap"):
+              ids=ids_for_wrap(w)
+              if mid in ids:return w
+              if ids:
+                dist=min(abs(x-mid) for x in ids)
+                if dist<=4 and (best is None or dist<best[0]):best=(dist,w)
+            return best[1] if best else None
 
-          def urls(w):
-              out=[]
-              if not w:return out
-              for a in w.select("a.tgme_widget_message_photo_wrap"):
-                  style=a.get("style","")
-                  m=re.search(r"background-image:url\('([^']+)'\)",style)
-                  if m:
-                      u=html.unescape(m.group(1))
-                      if "telesco.pe" in u and u not in out:out.append(u)
-              return out
-
-          meta=[]; cards=[]
-          for idx,x in enumerate(items,1):
-              mid=int(x["final_id"])
-              rec={"row":idx,"name":x["name"],"rank":x["rank"],"quota":x["quota"],"admission":x["admission"],"final_id":mid,"status":""}
-              w=find_wrap(mid); us=urls(w)
-              if not us:
-                  rec["status"]="no-photo";meta.append(rec);continue
-              best=None
-              for u in us:
-                  try:
-                      rr=sess.get(u,timeout=25)
-                      if rr.ok and len(rr.content)>5000 and (best is None or len(rr.content)>len(best[1])):best=(u,rr.content)
-                  except Exception:pass
-              if not best:
-                  rec["status"]="download-failed";meta.append(rec);continue
+          for channel,mid,row,name in targets:
+            rec={"row":row,"channel":channel,"mid":mid,"name":name,"files":[]}
+            try:w=find_wrap(channel,mid)
+            except Exception as e:
+              rec["error"]="page-error";meta.append(rec);continue
+            if not w:
+              rec["error"]="wrap-not-found";meta.append(rec);continue
+            urls=[]
+            for mm in re.finditer(r"background-image:url\('([^']+)'\)",str(w)):
+              u=html.unescape(mm.group(1))
+              if ("telesco.pe" in u or "telegram-cdn" in u) and u not in urls:urls.append(u)
+            # also img src if any
+            for im in w.select("img[src]"):
+              u=html.unescape(im.get("src",""))
+              if u.startswith("http") and u not in urls:urls.append(u)
+            td=os.path.join(O,f"row-{row:03d}-{mid}");os.makedirs(td,exist_ok=True)
+            for j,u in enumerate(urls,1):
               try:
-                  im=Image.open(io.BytesIO(best[1])).convert("RGB")
-                  rec["status"]="ok";rec["size"]=im.size
-                  im.save(os.path.join(C,f"{idx:03d}-{mid}.jpg"),quality=93)
-                  w0,h0=im.size
-                  crop=im.crop((0,int(h0*0.30),w0,h0))
-                  crop=ImageEnhance.Contrast(crop).enhance(1.15)
-                  cards.append((idx,rec,crop))
-              except Exception:
-                  rec["status"]="decode-failed"
-              meta.append(rec)
-
-          try:font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
-          except Exception:font=ImageFont.load_default()
-
-          for start in range(0,len(cards),4):
-              pack=cards[start:start+4]
-              W=1900; RH=690
-              sh=Image.new("RGB",(W,RH*len(pack)),"white");d=ImageDraw.Draw(sh)
-              for j,(idx,rec,im) in enumerate(pack):
-                  y=j*RH
-                  label=f"ROW {idx} | {rec['name']} | {rec['rank']} {rec['quota']} | {rec['admission']} | msg {rec['final_id']}"
-                  d.text((12,y+8),label,fill="black",font=font)
-                  cp=im.copy();cp.thumbnail((W-24,RH-58));sh.paste(cp,(12,y+50))
-              sh.save(os.path.join(S,f"sheet-{start//4+1:02d}.jpg"),quality=91)
-
+                rr=s.get(u,timeout=25)
+                if rr.ok and len(rr.content)>2000:
+                  ext=".jpg"
+                  ct=rr.headers.get("content-type","")
+                  if "png" in ct:ext=".png"
+                  fn=f"{j:02d}{ext}"
+                  open(os.path.join(td,fn),"wb").write(rr.content)
+                  rec["files"].append({"file":fn,"bytes":len(rr.content),"url":u})
+              except Exception:pass
+            if not rec["files"]:rec["error"]="no-media"
+            meta.append(rec)
           json.dump(meta,open(os.path.join(O,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
-          summary={"requested":len(items),"ok":sum(x["status"]=="ok" for x in meta),"failed":[x for x in meta if x["status"]!="ok"]}
-          json.dump(summary,open(os.path.join(O,"summary.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
-          print(json.dumps(summary,ensure_ascii=False))
+          print(json.dumps([{"row":x["row"],"name":x["name"],"n":len(x["files"]),"error":x.get("error")} for x in meta],ensure_ascii=False))
           PY
-      - name: Commit recovered cards
+      - name: Commit all media
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/siibtorsh-post-2026-05-25/recovered-finalcards
+          git add scratch/siibtorsh-post-2026-05-25/all-media
           git diff --cached --quiet && exit 0
-          git commit -m "extract: fetch recovered post-May final cards"
+          git commit -m "extract: fetch all ambiguous and archive final-card media"
           git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
