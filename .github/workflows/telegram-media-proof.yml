@@ -11,117 +11,53 @@ permissions:
   contents: write
 
 jobs:
-  fetch:
+  verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
           ref: extract-sibtorsh-results
-      - run: python -m pip install --quiet requests beautifulsoup4
-      - name: Fetch all ambiguous album photos
+      - run: python -m pip install --quiet pillow
+      - name: Crop uncertain course-type lines
         run: |
           python - <<'PY'
-          import requests,re,os,json,html
-          from bs4 import BeautifulSoup
-
-          targets=[
-            ("SiiibTorsh",48154,6,"محمدمهدی بیلندی"),
-            ("SiiibTorsh",49841,11,"طه باقرنژاد"),
-            ("SiiibTorsh",49289,14,"محسن محمدی"),
-            ("SiiibTorsh",48370,23,"محمد گردوئی"),
-            ("SiiibTorsh",50236,24,"فاطمه حجار"),
-            ("SiiibTorsh",48973,28,"محسن حسینی"),
-            ("SiiibTorsh",50838,29,"محمد باقی"),
-            ("SiiibTorsh",51822,30,"بنیامین کرمی"),
-            ("SiiibTorsh",51557,32,"رضا حسینیان"),
-            ("SiiibTorsh",50558,34,"ماردین قادری"),
-            ("SiiibTorsh",48269,38,"آفرین شینی"),
-            ("SiiibTorsh",48686,39,"زهرا نجاتی"),
-            ("SiiibTorsh",52040,40,"آرش ایمانی"),
-            ("SiiibTorsh",49718,41,"ماهان چناری"),
-            ("SiiibTorsh",48568,42,"میلاد رضیئی"),
-            ("SiiibTorsh",51014,45,"امیرحسین رضازاده"),
-            ("SiiibTorsh",51309,50,"محمدجواد فریدونی"),
-            ("SiiibTorsh",49307,53,"سنا عموزاده"),
-            ("SiiibTorsh_Results",5888,101,"مبینا اکبری"),
-            ("SiiibTorsh_Results",9734,102,"صدرا جمشیدبیگی"),
-            ("SiiibTorsh_Results",9450,103,"دینا دادفر"),
-            ("SiiibTorsh_Results",9953,104,"نازنین عظیمی"),
-            ("SiiibTorsh_Results",9926,105,"زهرا نجفی"),
-            ("SiiibTorsh_Results",10360,106,"پدرام میرزائیان")
-          ]
-          O="scratch/siibtorsh-post-2026-05-25/all-media"
-          os.makedirs(O,exist_ok=True)
-          s=requests.Session(); s.headers["User-Agent"]="Mozilla/5.0"
-          meta=[]
-
-          def ids_for_wrap(w):
-            ids=[]
-            m=w.select_one("div.tgme_widget_message")
-            if m:
-              z=re.search(r'/(\d+)$',m.get("data-post",""))
-              if z:ids.append(int(z.group(1)))
-            d=w.select_one("a.tgme_widget_message_date")
-            if d:
-              z=re.search(r'/(\d+)(?:\?.*)?$',d.get("href",""))
-              if z:ids.append(int(z.group(1)))
-            for a in w.select('a[href*="?single"]'):
-              z=re.search(r'/(\d+)\?single',a.get("href",""))
-              if z:ids.append(int(z.group(1)))
-            return sorted(set(ids))
-
-          def find_wrap(channel,mid):
-            rr=s.get(f"https://t.me/s/{channel}?before={mid+2}",timeout=25)
-            rr.raise_for_status()
-            soup=BeautifulSoup(rr.text,"html.parser")
-            best=None
-            for w in soup.select("div.tgme_widget_message_wrap"):
-              ids=ids_for_wrap(w)
-              if mid in ids:return w
-              if ids:
-                dist=min(abs(x-mid) for x in ids)
-                if dist<=4 and (best is None or dist<best[0]):best=(dist,w)
-            return best[1] if best else None
-
-          for channel,mid,row,name in targets:
-            rec={"row":row,"channel":channel,"mid":mid,"name":name,"files":[]}
-            try:w=find_wrap(channel,mid)
-            except Exception as e:
-              rec["error"]="page-error";meta.append(rec);continue
-            if not w:
-              rec["error"]="wrap-not-found";meta.append(rec);continue
-            urls=[]
-            for mm in re.finditer(r"background-image:url\('([^']+)'\)",str(w)):
-              u=html.unescape(mm.group(1))
-              if ("telesco.pe" in u or "telegram-cdn" in u) and u not in urls:urls.append(u)
-            # also img src if any
-            for im in w.select("img[src]"):
-              u=html.unescape(im.get("src",""))
-              if u.startswith("http") and u not in urls:urls.append(u)
-            td=os.path.join(O,f"row-{row:03d}-{mid}");os.makedirs(td,exist_ok=True)
-            for j,u in enumerate(urls,1):
-              try:
-                rr=s.get(u,timeout=25)
-                if rr.ok and len(rr.content)>2000:
-                  ext=".jpg"
-                  ct=rr.headers.get("content-type","")
-                  if "png" in ct:ext=".png"
-                  fn=f"{j:02d}{ext}"
-                  open(os.path.join(td,fn),"wb").write(rr.content)
-                  rec["files"].append({"file":fn,"bytes":len(rr.content),"url":u})
-              except Exception:pass
-            if not rec["files"]:rec["error"]="no-media"
-            meta.append(rec)
-          json.dump(meta,open(os.path.join(O,"manifest.json"),"w",encoding="utf-8"),ensure_ascii=False,indent=2)
-          print(json.dumps([{"row":x["row"],"name":x["name"],"n":len(x["files"]),"error":x.get("error")} for x in meta],ensure_ascii=False))
+          from PIL import Image,ImageEnhance
+          import os
+          specs={
+            6:"006-48154.jpg",
+            9:"009-48454.jpg",
+            10:"010-49677.jpg",
+            28:"028-48973.jpg",
+            47:"047-49521.jpg",
+            48:"048-48109.jpg",
+            49:"049-48111.jpg",
+          }
+          src="scratch/siibtorsh-post-2026-05-25/recovered-finalcards/cards"
+          out="scratch/siibtorsh-post-2026-05-25/type-verify-crops"
+          os.makedirs(out,exist_ok=True)
+          for row,fn in specs.items():
+            im=Image.open(os.path.join(src,fn)).convert("RGB")
+            w,h=im.size
+            # Produce three overlapping lower crops to handle variable result-line placement.
+            boxes={
+              "lower":(0,int(h*.55),w,h),
+              "midlower":(0,int(h*.42),w,int(h*.82)),
+              "full":(0,0,w,h),
+            }
+            for tag,box in boxes.items():
+              c=im.crop(box)
+              scale=4 if tag!="full" else 2
+              c=c.resize((c.width*scale,c.height*scale))
+              c=ImageEnhance.Contrast(c).enhance(1.18)
+              c=ImageEnhance.Sharpness(c).enhance(1.45)
+              c.save(os.path.join(out,f"row-{row:02d}-{tag}.jpg"),quality=96)
           PY
-      - name: Commit all media
+      - name: Commit crops
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scratch/siibtorsh-post-2026-05-25/all-media
+          git add scratch/siibtorsh-post-2026-05-25/type-verify-crops
           git diff --cached --quiet && exit 0
-          git commit -m "extract: fetch all ambiguous and archive final-card media"
+          git commit -m "extract: add course-type verification crops"
           git pull --rebase origin extract-sibtorsh-results
           git push origin HEAD:extract-sibtorsh-results
