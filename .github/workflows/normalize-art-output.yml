@@ -1,0 +1,49 @@
+name: Normalize Kanoon art outputs
+
+on:
+  push:
+    paths:
+      - ".github/workflows/normalize-art-output.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - name: Rebuild CSVs from committed raw source
+        run: python scripts/scrape_kanoon_art.py --normalize-existing
+      - name: Audit 1401 pipe normalization
+        run: |
+          python - <<'PY'
+          import csv
+          p="data/rank_admissions/rank_to_admission_1401.csv"
+          with open(p,encoding="utf-8-sig",newline="") as f:
+              rows=list(csv.DictReader(f))
+          assert rows and len(rows)==428
+          assert all("|" not in r["رشته قبولی"] for r in rows)
+          assert all("|" not in r["دانشگاه قبولی"] for r in rows)
+          print("1401 normalized rows:",len(rows))
+          print("sample:",rows[0])
+          PY
+      - name: Commit normalized outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/rank_admissions/rank_to_admission_1401.csv
+          git add data/rank_admissions/rank_to_admission_1402.csv
+          git add data/rank_admissions/rank_to_admission_1403.csv
+          git add data/rank_admissions/rank_to_admission_1404.csv
+          git add data/rank_admissions/ART_1401_1404_SUMMARY.json
+          if git diff --cached --quiet; then
+            echo "No normalization changes"
+          else
+            git commit -m "data: normalize art admission fields"
+            git push
+          fi
