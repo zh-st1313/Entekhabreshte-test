@@ -18,15 +18,13 @@ S.headers.update({
 })
 
 CHANNELS = [
-    "gozine2", "G2_konkur99", "g2_old", "G2_konkur",
-    "gozine2ahwaz", "gozine2neka", "gozine_dorost",
+    "gozine2", "G2_konkur99", "g2_old",
 ]
 
 QUERIES = [
     "#کارنامه_کنکور97", "#کارنامه_کنکور۹۸",
     "#کارنامه_کنکور۱۴۰۰", "#کارنامه_کنکور۱۴۰۱",
     "#کارنامه_کنکور۱۴۰۲", "#کارنامه_کنکور۱۴۰۳",
-    "#کارنامه_پذیرفته_شدگان",
 ]
 
 KNOWN_SHORTS = [
@@ -38,18 +36,16 @@ KNOWN_SHORTS = [
 WAYBACK_PATTERNS = [
     "student.gozine2.ir/KonkurResult/*",
     "student.gozine2.ir/konkurresult/*",
-    "student.gozine2.ir/FieldStatistic/*",
-    "student.gozine2.ir/fieldstatistic/*",
 ]
 
 def get(url, **kw):
-    kw.setdefault("timeout", 25)
-    for attempt in range(3):
+    kw.setdefault("timeout", 12)
+    for attempt in range(2):
         try:
             r = S.get(url, **kw)
             return r
         except Exception:
-            if attempt == 2:
+            if attempt == 1:
                 raise
             time.sleep(1.5 * (attempt + 1))
 
@@ -129,7 +125,7 @@ def parse_message(wrap, channel, query):
         "photo_urls": photos,
     }
 
-def crawl_search(channel, query, max_pages=5):
+def crawl_search(channel, query, max_pages=1):
     url = f"https://t.me/s/{channel}?q={quote(query)}"
     seen_urls = set()
     seen_posts = set()
@@ -160,7 +156,7 @@ def crawl_search(channel, query, max_pages=5):
         time.sleep(0.4)
     return rows
 
-def download_photos(rows, max_downloads=80):
+def download_photos(rows, max_downloads=20):
     n = 0
     manifest = []
     for row in rows:
@@ -216,7 +212,7 @@ def cdx(pattern):
         "filter": "statuscode:200",
         "collapse": "digest",
     }
-    r = S.get(endpoint, params=params, timeout=45)
+    r = S.get(endpoint, params=params, timeout=20)
     r.raise_for_status()
     data = r.json()
     if not data:
@@ -250,7 +246,7 @@ def parse_archived_html(text, base_url):
         "interesting_links": sorted(set(links + interesting)),
     }
 
-def archive_probe(captures, max_html=20):
+def archive_probe(captures, max_html=5):
     probes = []
     # Choose spread across time rather than blindly first N.
     if len(captures) > max_html:
