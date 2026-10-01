@@ -76,6 +76,34 @@ def fetch_capture(c):
     except Exception as e:
         return {**c,"replay_url":replay,"error":str(e)}
 
+def live_public_probe():
+    url="https://student.gozine2.ir/KonkurResult/GetReshtehData"
+    params={"rotbe":"1000","studentFieldID":"2","studentCategoryID":"1","captchaInputText":""}
+    try:
+        r=S.get(url,params=params,timeout=20,allow_redirects=False)
+        out={"url":r.url,"status":r.status_code,"location":r.headers.get("location",""),
+             "content_type":r.headers.get("content-type",""),"bytes":len(r.content)}
+        body=r.text[:2000]
+        try:
+            obj=r.json()
+            out["json"]=True
+            out["top_keys"]=list(obj)[:20] if isinstance(obj,dict) else []
+            if isinstance(obj,dict):
+                out["success"]=obj.get("success")
+                data=obj.get("data")
+                if isinstance(data,dict):
+                    out["data_keys"]=list(data)[:30]
+                    dd=data.get("data")
+                    if isinstance(dd,list):
+                        out["row_count"]=len(dd)
+                        out["sample_keys"]=list(dd[0])[:30] if dd and isinstance(dd[0],dict) else []
+        except Exception:
+            out["json"]=False
+            out["body_preview"]=body.replace("\n"," ")[:500]
+        return out
+    except Exception as e:
+        return {"error":str(e)}
+
 def main():
     allcaps=[]
     by={}
@@ -107,14 +135,14 @@ def main():
     json_caps=[x for x in fetched if x.get("is_json")]
     rows=sum(int(x.get("row_count") or 0) for x in json_caps)
     endpoints=sorted(set(x.get("original","") for x in fetched if "Get" in x.get("original","")))
-    summary={
+    live=live_public_probe()\n    summary={
       "cdx_capture_count":sum(len([x for x in v if x.get("timestamp")]) for v in by.values()),
       "fetched_count":len(fetched),
       "json_capture_count":len(json_caps),
       "rows_visible_in_archived_json":rows,
       "patterns_selected":per_pattern,
       "endpoint_originals_sample":endpoints[:100],
-      "successful_files":len(list(RAW.glob("*"))),
+      "successful_files":len(list(RAW.glob("*"))),\n      "live_public_probe":live,
     }
     (OUT/"summary.json").write_text(json.dumps(summary,ensure_ascii=False,indent=2),encoding="utf-8")
     print(json.dumps(summary,ensure_ascii=False,indent=2))
