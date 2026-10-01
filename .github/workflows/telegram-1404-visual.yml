@@ -1,0 +1,167 @@
+name: Build 1404 visual review
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/telegram-1404-visual.yml
+
+permissions:
+  contents: write
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+      - run: python -m pip install --quiet requests beautifulsoup4 pillow
+      - name: Build course-type review sheets
+        run: |
+          python - <<'PY'
+          import csv,os,re,io,html,json,requests
+          from bs4 import BeautifulSoup
+          from PIL import Image,ImageDraw,ImageFont
+          from concurrent.futures import ThreadPoolExecutor,as_completed
+
+          SRC="scratch/siibtorsh-1404-text/staging_text.csv"
+          OUT="scratch/siibtorsh-1404-visual"
+          SHEETS=os.path.join(OUT,"sheets")
+          os.makedirs(SHEETS,exist_ok=True)
+
+          with open(SRC,encoding="utf-8-sig") as f:
+              allrows=list(csv.DictReader(f))
+          rows=[r for r in allrows if r.get("quota_rank") and r.get("quota")]
+
+          def explicit_type(raw):
+              x=raw or ""
+              if "آزاد" in x or "ازاد" in x: return "آزاد"
+              if "پردیس" in x: return "پردیس خودگردان"
+              if "شهریه" in x: return "شهریه‌پرداز"
+              return ""
+
+          def fetch_one(item):
+              idx,row=item
+              msg=int(row["admission_msg"])
+              ss=requests.Session(); ss.headers["User-Agent"]="Mozilla/5.0"
+              url=f"https://t.me/s/SiiibTorsh?before={msg+1}"
+              try:
+                  rr=ss.get(url,timeout=30); rr.raise_for_status()
+                  soup=BeautifulSoup(rr.text,"html.parser")
+                  target=None
+                  for w in soup.select("div.tgme_widget_message_wrap"):
+                      ids=[]
+                      m=w.select_one("div.tgme_widget_message")
+                      if m:
+                          z=re.search(r'/(\d+)$',m.get("data-post",""))
+                          if z: ids.append(int(z.group(1)))
+                      dl=w.select_one("a.tgme_widget_message_date")
+                      if dl:
+                          z=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                          if z: ids.append(int(z.group(1)))
+                      for a in w.select('a[href*="?single"]'):
+                          z=re.search(r'/(\d+)\?single',a.get("href",""))
+                          if z: ids.append(int(z.group(1)))
+                      if msg in ids or (ids and max(ids)==msg):
+                          target=w; break
+                  if target is None:
+                      return idx,row,None,"wrapper-not-found"
+
+                  urls=[]
+                  for a in target.select("a.tgme_widget_message_photo_wrap"):
+                      style=a.get("style","")
+                      z=re.search(r"background-image:url\('([^']+)'\)",style)
+                      if z: urls.append(html.unescape(z.group(1)))
+                  if not urls:
+                      for z in re.finditer(r"background-image:url\('([^']+)'\)",str(target)):
+                          u=html.unescape(z.group(1))
+                          if "telesco.pe" in u: urls.append(u)
+                  urls=list(dict.fromkeys(urls))
+                  best=None
+                  for u in urls:
+                      try:
+                          q=ss.get(u,timeout=30)
+                          if q.ok and len(q.content)>1200 and (best is None or len(q.content)>len(best[1])):
+                              best=(u,q.content)
+                      except Exception:
+                          pass
+                  if not best:
+                      return idx,row,None,"image-not-found"
+                  im=Image.open(io.BytesIO(best[1])).convert("RGB")
+                  w,h=im.size
+                  # Include header and accepted-program line; keep enough context for course type and semester.
+                  crop=im.crop((0,int(h*0.25),w,h))
+                  target_w=1500
+                  crop=crop.resize((target_w,max(320,int(crop.height*target_w/crop.width))))
+                  return idx,row,crop,"ok"
+              except Exception as e:
+                  return idx,row,None,type(e).__name__
+
+          visual=[]
+          results=[]
+          with ThreadPoolExecutor(max_workers=10) as ex:
+              futs=[ex.submit(fetch_one,(i,r)) for i,r in enumerate(rows)]
+              for fut in as_completed(futs):
+                  idx,row,img,status=fut.result()
+                  et=explicit_type(row["admission_raw"])
+                  rec={**row,"visual_row":idx+1,"explicit_type":et,"image_status":status}
+                  results.append(rec)
+                  if not et and img is not None:
+                      visual.append((idx,rec,img))
+
+          visual.sort(key=lambda x:x[0])
+          results.sort(key=lambda x:int(x["visual_row"]))
+
+          try:
+              font=ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",24)
+          except Exception:
+              font=ImageFont.load_default()
+
+          per_sheet=8
+          manifest=[]
+          for start in range(0,len(visual),per_sheet):
+              items=visual[start:start+per_sheet]
+              row_h=520
+              sheet=Image.new("RGB",(1640,row_h*len(items)),"white")
+              d=ImageDraw.Draw(sheet)
+              rownums=[]
+              for j,(idx,rec,img) in enumerate(items):
+                  y=j*row_h
+                  label=f"ROW {idx+1} | MSG {rec['admission_msg']} | RANK {rec['quota_rank']} {rec['quota']}"
+                  d.text((10,y+5),label,fill="black",font=font)
+                  im=img.copy()
+                  im.thumbnail((1620,row_h-48))
+                  sheet.paste(im,(10,y+42))
+                  rownums.append(idx+1)
+              fn=f"sheet-{start//per_sheet+1:03d}.jpg"
+              sheet.save(os.path.join(SHEETS,fn),quality=88,optimize=True)
+              manifest.append({"sheet":fn,"rows":rownums})
+
+          fields=list(results[0].keys()) if results else []
+          with open(os.path.join(OUT,"visual_index.csv"),"w",encoding="utf-8-sig",newline="") as f:
+              if fields:
+                  w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(results)
+
+          summary={
+              "paired_rows":len(rows),
+              "explicit_type":sum(bool(r["explicit_type"]) for r in results),
+              "needs_visual":len(visual),
+              "image_failures":sum(r["image_status"]!="ok" for r in results),
+              "sheets":manifest
+          }
+          with open(os.path.join(OUT,"summary.json"),"w",encoding="utf-8") as f:
+              json.dump(summary,f,ensure_ascii=False,indent=2)
+          print(json.dumps({k:v for k,v in summary.items() if k!="sheets"},ensure_ascii=False),flush=True)
+          PY
+      - name: Commit visual review
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-visual
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add 1404 course-type visual review"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
