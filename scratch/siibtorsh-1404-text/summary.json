@@ -4,6 +4,8 @@
   "rank_posts": 736,
   "admission_posts": 723,
   "paired": 138,
+  "rank_links_found": 157,
+  "direct_link_pairs": 55,
   "numbered_admissions": 684,
   "seq_min": 2,
   "seq_max": 1000,
