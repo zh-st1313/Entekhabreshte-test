@@ -19,20 +19,14 @@ S.headers.update({
 
 CHANNELS = [
     "gozine2", "G2_konkur99", "g2_old", "G2_konkur",
-    "G2_konkur1401", "G2_konkur1402", "G2_konkur1403",
     "gozine2ahwaz", "gozine2neka", "gozine_dorost",
-    "gozine2_sab", "karname_konkur",
 ]
 
 QUERIES = [
-    "#کارنامه_کنکور97", "#کارنامه_کنکور۹۷",
-    "#کارنامه_کنکور98", "#کارنامه_کنکور۹۸",
-    "#کارنامه_کنکور99", "#کارنامه_کنکور۹۹",
-    "#کارنامه_کنکور1400", "#کارنامه_کنکور۱۴۰۰",
-    "#کارنامه_کنکور1401", "#کارنامه_کنکور۱۴۰۱",
-    "#کارنامه_کنکور1402", "#کارنامه_کنکور۱۴۰۲",
-    "#کارنامه_کنکور1403", "#کارنامه_کنکور۱۴۰۳",
-    "#کارنامه_پذیرفته_شدگان", "کارنامه پذیرفته شدگان",
+    "#کارنامه_کنکور97", "#کارنامه_کنکور۹۸",
+    "#کارنامه_کنکور۱۴۰۰", "#کارنامه_کنکور۱۴۰۱",
+    "#کارنامه_کنکور۱۴۰۲", "#کارنامه_کنکور۱۴۰۳",
+    "#کارنامه_پذیرفته_شدگان",
 ]
 
 KNOWN_SHORTS = [
@@ -135,7 +129,7 @@ def parse_message(wrap, channel, query):
         "photo_urls": photos,
     }
 
-def crawl_search(channel, query, max_pages=20):
+def crawl_search(channel, query, max_pages=5):
     url = f"https://t.me/s/{channel}?q={quote(query)}"
     seen_urls = set()
     seen_posts = set()
@@ -166,7 +160,7 @@ def crawl_search(channel, query, max_pages=20):
         time.sleep(0.4)
     return rows
 
-def download_photos(rows, max_downloads=250):
+def download_photos(rows, max_downloads=80):
     n = 0
     manifest = []
     for row in rows:
@@ -256,7 +250,7 @@ def parse_archived_html(text, base_url):
         "interesting_links": sorted(set(links + interesting)),
     }
 
-def archive_probe(captures, max_html=40):
+def archive_probe(captures, max_html=20):
     probes = []
     # Choose spread across time rather than blindly first N.
     if len(captures) > max_html:
