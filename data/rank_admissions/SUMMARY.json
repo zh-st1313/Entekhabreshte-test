@@ -1,20 +1,77 @@
 {
-  "records_before": 73975,
-  "records_after": 73325,
+  "records_before": 74118,
+  "records_after": 73468,
   "duplicates_removed": 650,
   "years": {
-    "1388": {"before":66,"after":66,"duplicates_removed":0},
-    "1389": {"before":71,"after":71,"duplicates_removed":0},
-    "1390": {"before":93,"after":93,"duplicates_removed":0},
-    "1391": {"before":6262,"after":6198,"duplicates_removed":64},
-    "1392": {"before":6523,"after":6441,"duplicates_removed":82},
-    "1393": {"before":7437,"after":7347,"duplicates_removed":90},
-    "1394": {"before":7267,"after":7192,"duplicates_removed":75},
-    "1395": {"before":11261,"after":11190,"duplicates_removed":71},
-    "1396": {"before":11547,"after":11456,"duplicates_removed":91},
-    "1397": {"before":5704,"after":5669,"duplicates_removed":35},
-    "1398": {"before":6228,"after":6178,"duplicates_removed":50},
-    "1399": {"before":6619,"after":6561,"duplicates_removed":58},
-    "1400": {"before":4897,"after":4863,"duplicates_removed":34}
+    "1388": {
+      "before": 66,
+      "after": 66,
+      "duplicates_removed": 0
+    },
+    "1389": {
+      "before": 71,
+      "after": 71,
+      "duplicates_removed": 0
+    },
+    "1390": {
+      "before": 93,
+      "after": 93,
+      "duplicates_removed": 0
+    },
+    "1391": {
+      "before": 6262,
+      "after": 6198,
+      "duplicates_removed": 64
+    },
+    "1392": {
+      "before": 6523,
+      "after": 6441,
+      "duplicates_removed": 82
+    },
+    "1393": {
+      "before": 7437,
+      "after": 7347,
+      "duplicates_removed": 90
+    },
+    "1394": {
+      "before": 7267,
+      "after": 7192,
+      "duplicates_removed": 75
+    },
+    "1395": {
+      "before": 11261,
+      "after": 11190,
+      "duplicates_removed": 71
+    },
+    "1396": {
+      "before": 11547,
+      "after": 11456,
+      "duplicates_removed": 91
+    },
+    "1397": {
+      "before": 5704,
+      "after": 5669,
+      "duplicates_removed": 35
+    },
+    "1398": {
+      "before": 6228,
+      "after": 6178,
+      "duplicates_removed": 50
+    },
+    "1399": {
+      "before": 6619,
+      "after": 6561,
+      "duplicates_removed": 58
+    },
+    "1400": {
+      "before": 4897,
+      "after": 4863,
+      "duplicates_removed": 34
+    },
+    "1404": {
+      "before": 143,
+      "after": 143,
+      "duplicates_removed": 0
+    }
   }
 }
