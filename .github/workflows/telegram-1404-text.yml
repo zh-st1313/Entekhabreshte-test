@@ -1,0 +1,115 @@
+name: Build 1404 text index
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/telegram-1404-text.yml
+
+permissions:
+  contents: write
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+      - run: python -m pip install --quiet requests beautifulsoup4
+      - name: Crawl and pair text
+        run: |
+          python - <<'PY'
+          import requests,re,html,unicodedata,csv,json,os
+          from bs4 import BeautifulSoup
+          from difflib import SequenceMatcher
+          O="scratch/siibtorsh-1404-text"; os.makedirs(O,exist_ok=True)
+          s=requests.Session(); s.headers["User-Agent"]="Mozilla/5.0"
+          tr=str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩","01234567890123456789")
+          def en(x): return (x or "").translate(tr)
+          def norm(x):
+              x=unicodedata.normalize("NFKC",x or "").replace("ي","ی").replace("ك","ک")
+              x=re.sub(r'[\u200c\u200e\u200f\ufeff]',' ',x)
+              x=re.sub(r'\b(سید|سیده)\b',' ',x)
+              return re.sub(r'[^آ-یA-Za-z0-9]','',x).lower()
+          def page(before):
+              rr=s.get(f"https://t.me/s/SiiibTorsh?before={before}",timeout=20); rr.raise_for_status()
+              soup=BeautifulSoup(rr.text,"html.parser"); out=[]
+              for w in soup.select("div.tgme_widget_message_wrap"):
+                  ids=[]
+                  msg=w.select_one("div.tgme_widget_message")
+                  if msg:
+                      m=re.search(r'/(\d+)$',msg.get("data-post",""))
+                      if m: ids.append(int(m.group(1)))
+                  dl=w.select_one("a.tgme_widget_message_date")
+                  if dl:
+                      m=re.search(r'/(\d+)(?:\?.*)?$',dl.get("href",""))
+                      if m: ids.append(int(m.group(1)))
+                  for a in w.select('a[href*="?single"]'):
+                      m=re.search(r'/(\d+)\?single',a.get("href",""))
+                      if m: ids.append(int(m.group(1)))
+                  if not ids: continue
+                  te=w.select_one("div.tgme_widget_message_text")
+                  out.append((max(ids),te.get_text("\n",strip=True) if te else ""))
+              return out
+          msgs={}
+          before=52350; pages=0
+          while before>44500 and pages<500:
+              recs=page(before); pages+=1
+              if not recs: before-=20; continue
+              for i,t in recs: msgs[i]=t
+              mn=min(i for i,_ in recs)
+              before=mn if mn<before else before-20
+              if pages%50==0: print("P",pages,"before",before,"msgs",len(msgs),flush=True)
+          ranks=[]; ads=[]
+          for mid,t in sorted(msgs.items()):
+              if "۱۴۰۴" not in t: continue
+              mname=re.search(r'😍\s*([^\n]+)',t)
+              name=mname.group(1).strip() if mname else ""
+              if not name: continue
+              if ("رتبه برتر سیب ترشی" in t or "رتبه‌برتر سیب‌ترشی" in t):
+                  mr=re.search(r'رتبه\s*[:：]?\s*([۰-۹0-9]+)\s*(منطقه\s*(?:یک|دو|سه|[۱۲۳123])|سهمیه\s*[^\n]+)',t)
+                  if mr:
+                      quota=en(mr.group(2)).replace("منطقه یک","منطقه 1").replace("منطقه دو","منطقه 2").replace("منطقه سه","منطقه 3")
+                      ranks.append(dict(id=mid,name=name,key=norm(name),rank=int(en(mr.group(1))),quota=quota))
+              if "کارنامه نهایی انتخاب رشته" in t:
+                  ma=re.search(r'⭐️\s*قبولی\s*([^\n]+)',t)
+                  if ma:
+                      mn=re.search(r'شماره\s*([۰-۹0-9]+)',t)
+                      ads.append(dict(id=mid,name=name,key=norm(name),admit=ma.group(1).strip(),seq=int(en(mn.group(1))) if mn else None))
+          by={}
+          for r in ranks: by.setdefault(r["key"],[]).append(r)
+          keys=list(by)
+          rows=[]
+          for a in ads:
+              r=None; score=0
+              if a["key"] in by:
+                  r=min(by[a["key"]],key=lambda x:abs(a["id"]-x["id"])); score=1
+              else:
+                  bestk=None
+                  for k in keys:
+                      sc=SequenceMatcher(None,a["key"],k).ratio()
+                      if sc>score: score=sc; bestk=k
+                  if score>=.88: r=min(by[bestk],key=lambda x:abs(a["id"]-x["id"]))
+              rows.append(dict(name=a["name"],quota=r["quota"] if r else "",quota_rank=r["rank"] if r else "",
+                               admission_raw=a["admit"],rank_msg=r["id"] if r else "",admission_msg=a["id"],
+                               sequence=a["seq"] or "",match_score=round(score,3) if r else ""))
+          with open(O+"/staging_text.csv","w",encoding="utf-8-sig",newline="") as f:
+              fs=["name","quota","quota_rank","admission_raw","rank_msg","admission_msg","sequence","match_score"]
+              w=csv.DictWriter(f,fieldnames=fs);w.writeheader();w.writerows(rows)
+          sm={"pages":pages,"messages":len(msgs),"rank_posts":len(ranks),"admission_posts":len(ads),"paired":sum(bool(x["quota_rank"]) for x in rows),
+              "numbered_admissions":sum(x["sequence"]!="" for x in rows),"seq_min":min([x["sequence"] for x in rows if x["sequence"]!=""] or [None]),
+              "seq_max":max([x["sequence"] for x in rows if x["sequence"]!=""] or [None])}
+          open(O+"/summary.json","w",encoding="utf-8").write(json.dumps(sm,ensure_ascii=False,indent=2))
+          print(json.dumps(sm,ensure_ascii=False),flush=True)
+          PY
+      - name: Commit text index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-text
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: add full 1404 text index"
+          git push origin HEAD:extract-sibtorsh-results
