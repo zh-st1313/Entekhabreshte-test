@@ -1,0 +1,120 @@
+name: Build verified 1404 staging
+
+on:
+  push:
+    branches:
+      - extract-sibtorsh-results
+    paths:
+      - .github/workflows/1404-build-verified.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: extract-sibtorsh-results
+
+      - name: Merge rank/admission with visual course review
+        run: |
+          python - <<'PY'
+          import csv,os,json,re
+
+          paired=[]
+          with open("scratch/siibtorsh-1404-safe/paired.csv",encoding="utf-8-sig",newline="") as f:
+              for r in csv.DictReader(f):
+                  if str(r.get("quota_rank","")).strip():
+                      paired.append(r)
+
+          review={}
+          with open("scratch/siibtorsh-1404-course-review/course_type_review.csv",encoding="utf-8-sig",newline="") as f:
+              for r in csv.DictReader(f):
+                  review[int(r["review_id"])]=r
+
+          majors=[
+              "دندانپزشکی","دامپزشکی","فیزیوتراپی","داروسازی","پزشکی",
+              "بینایی سنجی","بینایی‌سنجی","شنوایی شناسی","شنوایی‌شناسی",
+              "علوم آزمایشگاهی","اتاق عمل","هوشبری","پرستاری","مامایی",
+              "کاردرمانی","گفتاردرمانی","رادیولوژی","بهداشت"
+          ]
+
+          def split_admission(s):
+              s=(s or "").strip()
+              s=re.sub(r'\s+',' ',s)
+              for m in majors:
+                  if s.startswith(m):
+                      u=s[len(m):].strip(" ‌-–|")
+                      canon=m.replace("‌"," ")
+                      return canon,u
+              p=s.split(" ",1)
+              return (p[0],p[1] if len(p)>1 else "")
+
+          out=[]
+          review_queue=[]
+          for rid,r in enumerate(paired,1):
+              rv=review.get(rid,{})
+              major,university=split_admission(r["admission_raw"])
+              base={
+                  "year":"1404",
+                  "group":"تجربی",
+                  "quota":r["quota"],
+                  "quota_rank":r["quota_rank"],
+                  "major":major,
+                  "university":university,
+                  "course_type":rv.get("course_type",""),
+                  "semester":rv.get("semester",""),
+                  "name":r["name"],
+                  "rank_msg":r["rank_msg"],
+                  "admission_msg":r["admission_msg"],
+                  "sequence":r["sequence"],
+                  "match_method":r["match_method"],
+                  "course_review_status":rv.get("review_status","")
+              }
+              if rv.get("review_status")=="verified_visual" and rv.get("course_type"):
+                  out.append(base)
+              else:
+                  base["review_note"]=rv.get("note","")
+                  review_queue.append(base)
+
+          os.makedirs("scratch/siibtorsh-1404-final-staging",exist_ok=True)
+          fields=["year","group","quota","quota_rank","major","university","course_type","semester","name","rank_msg","admission_msg","sequence","match_method","course_review_status"]
+          with open("scratch/siibtorsh-1404-final-staging/verified_1404.csv","w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(out)
+
+          qfields=fields+["review_note"]
+          with open("scratch/siibtorsh-1404-final-staging/course_review_queue.csv","w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=qfields);w.writeheader();w.writerows(review_queue)
+
+          # conservative exact duplicate audit inside verified staging
+          seen={}
+          dups=[]
+          for i,r in enumerate(out,2):
+              k=(r["quota"],r["quota_rank"],r["major"],r["university"],r["course_type"],r["semester"])
+              if k in seen:
+                  dups.append({"first_line":seen[k],"duplicate_line":i,"key":k,"name":r["name"]})
+              else:
+                  seen[k]=i
+
+          sm={
+              "safe_rank_admission_pairs":len(paired),
+              "visually_verified_course_records":len(out),
+              "course_review_queue":len(review_queue),
+              "internal_exact_duplicates":len(dups)
+          }
+          json.dump(sm,open("scratch/siibtorsh-1404-final-staging/summary.json","w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          json.dump(dups,open("scratch/siibtorsh-1404-final-staging/internal_duplicates.json","w",encoding="utf-8"),ensure_ascii=False,indent=2)
+          print(json.dumps(sm,ensure_ascii=False))
+          PY
+
+      - name: Commit verified staging
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scratch/siibtorsh-1404-final-staging
+          git diff --cached --quiet && exit 0
+          git commit -m "extract: build visually verified 1404 staging"
+          git pull --rebase origin extract-sibtorsh-results
+          git push origin HEAD:extract-sibtorsh-results
