@@ -1,0 +1,702 @@
+[
+  {
+    "row": 1,
+    "name": "مبینا اکبری",
+    "rank": 1416,
+    "quota": "منطقه 3",
+    "admission": "فیزیوتراپی تهران",
+    "recap_msg": 55131,
+    "final_msg": 10433,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 2,
+    "name": "مبینا واحدیان",
+    "rank": 1645,
+    "quota": "منطقه 1",
+    "admission": "مهندسی برق مشهد",
+    "recap_msg": 55148,
+    "final_msg": 681,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 3,
+    "name": "مهدی نصراله پور",
+    "rank": 304,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی ارومیه",
+    "recap_msg": 55165,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 4,
+    "name": "حسین نعیمی",
+    "rank": 111,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی شیراز",
+    "recap_msg": 55217,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 5,
+    "name": "متین چرخاب ساز زاده",
+    "rank": 169,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی اهواز",
+    "recap_msg": 55283,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 6,
+    "name": "صدرا جمشیدبیگی",
+    "rank": 622,
+    "quota": "منطقه 3",
+    "admission": "پزشکی ایلام",
+    "recap_msg": 55297,
+    "final_msg": 10469,
+    "status": "ok",
+    "size": [
+      320,
+      320
+    ]
+  },
+  {
+    "row": 7,
+    "name": "حمید قادرزاده",
+    "rank": 1354,
+    "quota": "منطقه 3",
+    "admission": "داروسازی ارومیه",
+    "recap_msg": 55309,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 8,
+    "name": "علیرضا غفاری",
+    "rank": 236,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی تهران",
+    "recap_msg": 55330,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 9,
+    "name": "عرفان افضلی",
+    "rank": 414,
+    "quota": "منطقه 2",
+    "admission": "پزشکی ایران",
+    "recap_msg": 55391,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 10,
+    "name": "مینا غلامحسینی",
+    "rank": 201,
+    "quota": "منطقه 2",
+    "admission": "پزشکی تهران",
+    "recap_msg": 55419,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 11,
+    "name": "محمدمهدی بیلندی",
+    "rank": 1599,
+    "quota": "منطقه 3",
+    "admission": "پزشکی مشهد",
+    "recap_msg": 55434,
+    "final_msg": 10473,
+    "status": "ok",
+    "size": [
+      320,
+      181
+    ]
+  },
+  {
+    "row": 12,
+    "name": "محمدرضا میرزابیگی",
+    "rank": 230,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی تهران",
+    "recap_msg": 55447,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 13,
+    "name": "آرتین بهرامی",
+    "rank": 152,
+    "quota": "منطقه 3",
+    "admission": "پزشکی شهیدبهشتی",
+    "recap_msg": 55497,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 14,
+    "name": "نیما صادق زاده",
+    "rank": 90,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی تبریز",
+    "recap_msg": 55521,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 15,
+    "name": "محمد نراقی پور",
+    "rank": 1061,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی رشت",
+    "recap_msg": 55575,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 16,
+    "name": "طه باقرنژاد",
+    "rank": 302,
+    "quota": "منطقه 2",
+    "admission": "پزشکی بابل",
+    "recap_msg": 55640,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 17,
+    "name": "محمد میره کی",
+    "rank": 1416,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی سنندج",
+    "recap_msg": 55651,
+    "final_msg": 9028,
+    "status": "ok",
+    "size": [
+      800,
+      800
+    ]
+  },
+  {
+    "row": 18,
+    "name": "دینا دادفر",
+    "rank": 1443,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی اهواز",
+    "recap_msg": 55664,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 19,
+    "name": "فاطمه کارگربیده",
+    "rank": 1095,
+    "quota": "منطقه 2",
+    "admission": "داروسازی یزد",
+    "recap_msg": 55680,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 20,
+    "name": "محسن محمدی",
+    "rank": 1386,
+    "quota": "منطقه 1",
+    "admission": "پزشکی همدان",
+    "recap_msg": 55729,
+    "final_msg": 7519,
+    "status": "ok",
+    "size": [
+      800,
+      800
+    ]
+  },
+  {
+    "row": 21,
+    "name": "مبینا زکانی",
+    "rank": 1225,
+    "quota": "منطقه 2",
+    "admission": "پزشکی قزوین",
+    "recap_msg": 55745,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 22,
+    "name": "سپیده منصوری",
+    "rank": 391,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی اردبیل",
+    "recap_msg": 55783,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 23,
+    "name": "ایلیا رحیمی",
+    "rank": 1471,
+    "quota": "منطقه 3",
+    "admission": "پزشکی سنندج",
+    "recap_msg": 55803,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 24,
+    "name": "مهسا ستوده",
+    "rank": 1387,
+    "quota": "منطقه 3",
+    "admission": "پزشکی بجنورد",
+    "recap_msg": 55876,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 25,
+    "name": "سید محمدعارف حسینی",
+    "rank": 692,
+    "quota": "منطقه 1",
+    "admission": "دندانپزشکی مشهد",
+    "recap_msg": 55930,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 26,
+    "name": "مهدی بیکدلی",
+    "rank": 639,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی قزوین",
+    "recap_msg": 55967,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 27,
+    "name": "الناز اکبرزاده",
+    "rank": 877,
+    "quota": "منطقه 3",
+    "admission": "پزشکی بابل",
+    "recap_msg": 55985,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 28,
+    "name": "فاطمه معینی",
+    "rank": 1501,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی بیرجند",
+    "recap_msg": 56008,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 29,
+    "name": "محمد گردوئی",
+    "rank": 669,
+    "quota": "منطقه 1",
+    "admission": "پزشکی مشهد",
+    "recap_msg": 56052,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 30,
+    "name": "فاطمه حجار",
+    "rank": 855,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی زنجان",
+    "recap_msg": 56092,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 31,
+    "name": "آندیا ترشکانی",
+    "rank": 471,
+    "quota": "منطقه 3",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56107,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 32,
+    "name": "امیرمحمد افشاری پور",
+    "rank": 912,
+    "quota": "منطقه 3",
+    "admission": "پزشکی کرمان",
+    "recap_msg": 56121,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 33,
+    "name": "کانی گندمی",
+    "rank": 541,
+    "quota": "منطقه 3",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56155,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 34,
+    "name": "محسن حسینی",
+    "rank": 1579,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی اهواز",
+    "recap_msg": 56166,
+    "final_msg": 10420,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 35,
+    "name": "محمد باقی",
+    "rank": 928,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی زاهدان",
+    "recap_msg": 56201,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 36,
+    "name": "بنیامین کرمی",
+    "rank": 914,
+    "quota": "منطقه 1",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56242,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 37,
+    "name": "سیما طاوسی سونج",
+    "rank": 528,
+    "quota": "منطقه 3",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56265,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 38,
+    "name": "رضا حسینیان",
+    "rank": 623,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی قم",
+    "recap_msg": 56304,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 39,
+    "name": "آراس نوری سیاسیاهی",
+    "rank": 845,
+    "quota": "منطقه 3",
+    "admission": "داروسازی‌ اصفهان",
+    "recap_msg": 56324,
+    "final_msg": 48094,
+    "status": "ok",
+    "size": [
+      800,
+      465
+    ]
+  },
+  {
+    "row": 40,
+    "name": "نازنین عظیمی",
+    "rank": 788,
+    "quota": "منطقه 3",
+    "admission": "داروسازی مشهد",
+    "recap_msg": 56335,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 41,
+    "name": "ماردین قادری",
+    "rank": 561,
+    "quota": "منطقه 3",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56353,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 42,
+    "name": "سارا سفیدی",
+    "rank": 877,
+    "quota": "منطقه 3",
+    "admission": "پزشکی رشت",
+    "recap_msg": 56380,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 43,
+    "name": "زهرا نجفی",
+    "rank": 585,
+    "quota": "منطقه 3",
+    "admission": "پزشکی مشهد",
+    "recap_msg": 56408,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 44,
+    "name": "فاطمه فضلی",
+    "rank": 639,
+    "quota": "منطقه 2",
+    "admission": "دندانپزشکی قزوین",
+    "recap_msg": 56435,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 45,
+    "name": "امیررضا خسروزاده",
+    "rank": 1146,
+    "quota": "منطقه 2",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 56460,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 46,
+    "name": "آفرین شینی",
+    "rank": 375,
+    "quota": "منطقه 2",
+    "admission": "پزشکی ایران",
+    "recap_msg": 56499,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 47,
+    "name": "زهرا نجاتی",
+    "rank": 327,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی کرمانشاه",
+    "recap_msg": 56557,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 48,
+    "name": "آرش ایمانی",
+    "rank": 3119,
+    "quota": "منطقه 3",
+    "admission": "داروسازی آزاد تهران",
+    "recap_msg": 56751,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 49,
+    "name": "ماهان چناری",
+    "rank": 334,
+    "quota": "منطقه 3",
+    "admission": "پزشکی اهواز",
+    "recap_msg": 56992,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 50,
+    "name": "میلاد رضیئی",
+    "rank": 1093,
+    "quota": "منطقه 2",
+    "admission": "فیزیوتراپی تهران",
+    "recap_msg": 57049,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 51,
+    "name": "مریم سادات موسوی",
+    "rank": 1287,
+    "quota": "منطقه 2",
+    "admission": "پزشکی کرج",
+    "recap_msg": 57104,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 52,
+    "name": "فروزان فتاحی",
+    "rank": 1082,
+    "quota": "منطقه 3",
+    "admission": "پزشکی کرمانشاه",
+    "recap_msg": 57190,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 53,
+    "name": "امیرحسین رضازاده",
+    "rank": 1357,
+    "quota": "منطقه 3",
+    "admission": "پزشکی کرمانشاه",
+    "recap_msg": 57374,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 54,
+    "name": "تارا غفاری",
+    "rank": 2280,
+    "quota": "منطقه 1",
+    "admission": "پزشکی تبریز",
+    "recap_msg": 57431,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 55,
+    "name": "کامران حسن زاده",
+    "rank": 1869,
+    "quota": "منطقه 3",
+    "admission": "پزشکی ارومیه",
+    "recap_msg": 57593,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 56,
+    "name": "پارسا ایلدرآبادی",
+    "rank": 1261,
+    "quota": "منطقه 2",
+    "admission": "پزشکی مشهد",
+    "recap_msg": 57652,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 57,
+    "name": "روناک میرستاری",
+    "rank": 1209,
+    "quota": "منطقه 3",
+    "admission": "پزشکی رشت",
+    "recap_msg": 57716,
+    "final_msg": null,
+    "status": "final-link-not-found"
+  },
+  {
+    "row": 58,
+    "name": "محمدجواد فریدونی",
+    "rank": 1252,
+    "quota": "منطقه 3",
+    "admission": "پزشکی اراک",
+    "recap_msg": 58629,
+    "final_msg": 8870,
+    "status": "ok",
+    "size": [
+      225,
+      320
+    ]
+  },
+  {
+    "row": 59,
+    "name": "ویانا اسماعیلی",
+    "rank": 2223,
+    "quota": "منطقه 2",
+    "admission": "پزشکی کرمانشاه",
+    "recap_msg": 58939,
+    "final_msg": 48663,
+    "status": "ok",
+    "size": [
+      800,
+      449
+    ]
+  },
+  {
+    "row": 60,
+    "name": "سبا عربشاهی",
+    "rank": 1057,
+    "quota": "منطقه 1",
+    "admission": "پزشکی مشهد",
+    "recap_msg": 58978,
+    "final_msg": 48393,
+    "status": "ok",
+    "size": [
+      800,
+      439
+    ]
+  },
+  {
+    "row": 61,
+    "name": "سنا عموزاده",
+    "rank": 645,
+    "quota": "منطقه 3",
+    "admission": "پزشکی همدان",
+    "recap_msg": 59173,
+    "final_msg": 7537,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 62,
+    "name": "ماهان شبگرد",
+    "rank": 1139,
+    "quota": "منطقه 3",
+    "admission": "پزشکی یزد",
+    "recap_msg": 59655,
+    "final_msg": 7405,
+    "status": "ok",
+    "size": [
+      800,
+      800
+    ]
+  },
+  {
+    "row": 63,
+    "name": "محمدرضا رشیدزاده",
+    "rank": 1036,
+    "quota": "منطقه 3",
+    "admission": "پزشکی اردبیل",
+    "recap_msg": 59797,
+    "final_msg": 9249,
+    "status": "ok",
+    "size": [
+      800,
+      216
+    ]
+  },
+  {
+    "row": 64,
+    "name": "صالح تقوی",
+    "rank": 1841,
+    "quota": "منطقه 1",
+    "admission": "داروسازی بیرجند",
+    "recap_msg": 60155,
+    "final_msg": 7614,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 65,
+    "name": "یونس آقابیگی",
+    "rank": 1200,
+    "quota": "منطقه 3",
+    "admission": "دندانپزشکی آزاد تهران",
+    "recap_msg": 60722,
+    "final_msg": 6751,
+    "status": "final-photo-not-found"
+  },
+  {
+    "row": 66,
+    "name": "پدرام میرزائیان",
+    "rank": 845,
+    "quota": "منطقه 2",
+    "admission": "پزشکی اصفهان",
+    "recap_msg": 60823,
+    "final_msg": 10360,
+    "status": "final-photo-not-found"
+  }
+]
