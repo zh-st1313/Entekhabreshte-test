@@ -1,0 +1,30 @@
+name: VPS toolkit static validation
+on:
+  push:
+    branches:
+      - security/vps-toolkit
+    paths:
+      - security/vps-toolkit/**
+      - .github/workflows/vps-toolkit-ci.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bash syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          for f in security/vps-toolkit/scripts/*.sh; do bash -n "$f"; done
+      - name: Preview installers (must not modify server or scan)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash security/vps-toolkit/scripts/install-audit.sh
+          bash security/vps-toolkit/scripts/install-defense.sh
+          bash security/vps-toolkit/scripts/install-lab.sh
+          bash security/vps-toolkit/scripts/check-local.sh
