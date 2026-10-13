@@ -1,10 +1,11 @@
-name: ZedOne client asset exposure review
+name: ZedOne client asset and auth architecture review
 on:
   push:
     branches:
       - security/vps-toolkit
     paths:
       - security/vps-toolkit/scripts/client-asset-review.py
+      - security/vps-toolkit/scripts/client-auth-review.py
       - .github/workflows/zedone-client-review.yml
   workflow_dispatch:
 
@@ -22,6 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check Python syntax
-        run: python3 -m py_compile security/vps-toolkit/scripts/client-asset-review.py
-      - name: Review up to two same-origin browser assets without logging source
+        run: |
+          python3 -m py_compile security/vps-toolkit/scripts/client-asset-review.py
+          python3 -m py_compile security/vps-toolkit/scripts/client-auth-review.py
+      - name: Review up to two public browser assets
         run: python3 security/vps-toolkit/scripts/client-asset-review.py
+      - name: Review authentication architecture indicators without login
+        run: python3 security/vps-toolkit/scripts/client-auth-review.py
