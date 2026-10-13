@@ -99,7 +99,6 @@ def report():
     raw_cookies = headers.get_all("Set-Cookie") or []
     print("Set-Cookie count:", len(raw_cookies))
     if raw_cookies:
-        print("Cookie flags missing Secure:", sum("secure" not in x.lower().split(";")[1:] for x in [])) if False else None
         print("Cookies missing Secure flag:", sum(not any(x.strip().lower() == "secure" for x in c.split(";")[1:]) for c in raw_cookies))
         print("Cookies missing HttpOnly flag:", sum(not any(x.strip().lower() == "httponly" for x in c.split(";")[1:]) for c in raw_cookies))
         print("Cookies missing SameSite attribute:", sum(not any(x.strip().lower().startswith("samesite=") for x in c.split(";")[1:]) for c in raw_cookies))
