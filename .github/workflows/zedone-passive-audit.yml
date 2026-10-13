@@ -1,0 +1,36 @@
+name: ZedOne passive HTTPS baseline
+on:
+  push:
+    branches:
+      - security/vps-toolkit
+    paths:
+      - security/vps-toolkit/scripts/audit-https.py
+      - .github/workflows/zedone-passive-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zedone-passive-audit
+  cancel-in-progress: true
+
+jobs:
+  observe:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout audit script
+        uses: actions/checkout@v4
+      - name: Validate Python syntax
+        run: python3 -m py_compile security/vps-toolkit/scripts/audit-https.py
+      - name: Inspect authorized domain (one HEAD, DNS and TLS)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 security/vps-toolkit/scripts/audit-https.py \
+            --host zedoneexam.site \
+            --timeout 8 \
+            --output "${RUNNER_TEMP}/zedone-baseline.json"
+      # Do not publish reports as artifacts: this repository is public.
+      # Detailed checks remain ephemeral in RUNNER_TEMP and are not committed.
