@@ -1,0 +1,23 @@
+name: ZedOne minimal public port baseline
+on:
+  push:
+    branches: [security/vps-toolkit]
+    paths:
+      - security/vps-toolkit/scripts/public-port-baseline.py
+      - .github/workflows/zedone-port-baseline.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: zedone-port-baseline
+  cancel-in-progress: true
+jobs:
+  observe-ports:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate script
+        run: python3 -m py_compile security/vps-toolkit/scripts/public-port-baseline.py
+      - name: One TCP connection per public port
+        run: python3 security/vps-toolkit/scripts/public-port-baseline.py
