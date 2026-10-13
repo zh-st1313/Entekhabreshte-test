@@ -1,0 +1,35 @@
+name: ZedOne client asset and auth architecture review
+on:
+  push:
+    branches: [security/vps-toolkit]
+    paths:
+      - security/vps-toolkit/scripts/client-asset-review.py
+      - security/vps-toolkit/scripts/client-auth-review.py
+      - security/vps-toolkit/scripts/supabase-key-hygiene.py
+      - .github/workflows/zedone-client-review.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zedone-client-review
+  cancel-in-progress: true
+
+jobs:
+  inspect-public-client-assets:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Python syntax
+        run: |
+          python3 -m py_compile security/vps-toolkit/scripts/client-asset-review.py
+          python3 -m py_compile security/vps-toolkit/scripts/client-auth-review.py
+          python3 -m py_compile security/vps-toolkit/scripts/supabase-key-hygiene.py
+      - name: Review up to two public browser assets
+        run: python3 security/vps-toolkit/scripts/client-asset-review.py
+      - name: Review authentication architecture indicators without login
+        run: python3 security/vps-toolkit/scripts/client-auth-review.py
+      - name: Look for accidentally published privileged keys without logging their values
+        run: python3 security/vps-toolkit/scripts/supabase-key-hygiene.py

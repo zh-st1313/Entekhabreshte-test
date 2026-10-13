@@ -1,0 +1,25 @@
+name: ZedOne public route and configuration audit
+on:
+  push:
+    branches: [security/vps-toolkit]
+    paths:
+      - security/vps-toolkit/scripts/public-route-audit.py
+      - .github/workflows/zedone-public-routes.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: zedone-public-routes
+  cancel-in-progress: true
+jobs:
+  public-observation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Python syntax
+        run: python3 -m py_compile security/vps-toolkit/scripts/public-route-audit.py
+      - name: Audit website public entry points without fuzzing
+        run: python3 security/vps-toolkit/scripts/public-route-audit.py
+      # Only aggregate boolean metrics are printed; never store any site source,
+      # credentials, discovered endpoint names, or user responses as artifacts.

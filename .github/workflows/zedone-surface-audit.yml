@@ -1,0 +1,32 @@
+name: ZedOne bounded web surface audit
+on:
+  push:
+    branches:
+      - security/vps-toolkit
+    paths:
+      - security/vps-toolkit/scripts/surface-baseline.py
+      - .github/workflows/zedone-surface-audit.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: zedone-surface-audit
+  cancel-in-progress: true
+
+jobs:
+  assess:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout audit script
+        uses: actions/checkout@v4
+      - name: Python syntax check
+        run: python3 -m py_compile security/vps-toolkit/scripts/surface-baseline.py
+      - name: Assess public HTTPS surface with bounded requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 security/vps-toolkit/scripts/surface-baseline.py
+      # Never upload source, credentials, cookies, or content as artifacts.
